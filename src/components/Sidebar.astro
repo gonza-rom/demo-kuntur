@@ -7,41 +7,54 @@ export interface Props {
 const { role = 'comercio', currentPage = '', comercioName = 'Cafetería Mitre' } = Astro.props;
 
 const comercioLinks = [
-  { href: '/dashboard', label: 'Dashboard', icon: 'chart' },
-  { href: '/validar', label: 'Validar Socio', icon: 'check', badge: 'Nuevo' },
-  { href: '/historial', label: 'Historial', icon: 'list' },
-  { href: '/mis-beneficios', label: 'Mis Beneficios', icon: 'gift' },
+  { href: '/dashboard',     label: 'Dashboard',     icon: 'ti-chart-bar' },
+  { href: '/validar',       label: 'Validar Socio', icon: 'ti-circle-check', badge: 'Nuevo' },
+  { href: '/historial',     label: 'Historial',     icon: 'ti-list' },
+  { href: '/mis-beneficios',label: 'Mis Beneficios',icon: 'ti-gift' },
 ];
 
 const adminLinks = [
-  { href: '/admin', label: 'Analytics', icon: 'chart' },
-  { href: '/admin/comercios', label: 'Comercios', icon: 'store' },
-  { href: '/admin/socios', label: 'Socios', icon: 'users', count: '1284' },
-  { href: '/admin/validaciones', label: 'Validaciones', icon: 'check' },
-  { href: '/admin/beneficios', label: 'Beneficios', icon: 'gift' },
+  { href: '/admin',               label: 'Analytics',    icon: 'ti-chart-bar' },
+  { href: '/admin/comercios',     label: 'Comercios',    icon: 'ti-building-store' },
+  { href: '/admin/socios',        label: 'Socios',       icon: 'ti-users', count: '1284' },
+  { href: '/admin/validaciones',  label: 'Validaciones', icon: 'ti-circle-check' },
+  { href: '/admin/beneficios',    label: 'Beneficios',   icon: 'ti-gift' },
 ];
 
 const links = role === 'admin' ? adminLinks : comercioLinks;
+const initials = comercioName.split(' ').map((w: string) => w[0]).join('').slice(0, 2);
 ---
 
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"
+/>
+
 <aside class="fixed top-16 left-0 bottom-0 w-[220px] bg-[#0c0f0e] border-r border-white/[0.06] flex flex-col z-40 overflow-y-auto">
-  
+
   <!-- Header -->
   <div class="p-4 border-b border-white/[0.06]">
     <div class="flex items-center gap-3">
       <div class={`w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-display font-bold text-white shrink-0 ${role === 'admin' ? 'bg-rose-500/80' : 'bg-brand-500/80'}`}>
-        {role === 'admin' ? 'KT' : comercioName.split(' ').map((w: string) => w[0]).join('').slice(0,2)}
+        {role === 'admin' ? 'KT' : initials}
       </div>
       <div class="min-w-0">
-        <p class="text-[13px] font-medium text-white truncate">{role === 'admin' ? 'Kuntur Training' : comercioName}</p>
-        <p class="text-[11px] text-white/40">{role === 'admin' ? 'Super Admin' : 'Comercio adherido'}</p>
+        <p class="text-[13px] font-medium text-white truncate">
+          {role === 'admin' ? 'Kuntur Training' : comercioName}
+        </p>
+        <p class="text-[11px] text-white/40">
+          {role === 'admin' ? 'Super Admin' : 'Comercio adherido'}
+        </p>
       </div>
     </div>
+
     {role === 'admin' && (
-      <div class="mt-3 px-2 py-1 rounded-md bg-rose-500/10 border border-rose-500/20 text-center">
+      <div class="mt-3 px-2 py-1 rounded-md bg-rose-500/10 border border-rose-500/20 flex items-center justify-center gap-1.5 text-center">
+        <i class="ti ti-bolt text-rose-400 text-[13px]" aria-hidden="true"></i>
         <span class="text-[11px] font-bold text-rose-400 tracking-wider uppercase">Admin</span>
       </div>
     )}
+
     {role === 'comercio' && (
       <div class="mt-3 px-2 py-1 rounded-md bg-brand-500/10 border border-brand-500/20 flex items-center justify-center gap-2">
         <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
@@ -52,7 +65,12 @@ const links = role === 'admin' ? adminLinks : comercioLinks;
 
   <!-- Nav -->
   <nav class="flex-1 p-3 space-y-0.5">
-    {role === 'admin' && <p class="text-[10px] font-bold text-white/25 uppercase tracking-widest px-2 pb-2 pt-1">Principal</p>}
+    {role === 'admin' && (
+      <p class="text-[10px] font-bold text-white/25 uppercase tracking-widest px-2 pb-2 pt-1">
+        Principal
+      </p>
+    )}
+
     {links.map(link => (
       <a
         href={link.href}
@@ -62,39 +80,50 @@ const links = role === 'admin' ? adminLinks : comercioLinks;
             : 'text-white/45 hover:text-white/90 hover:bg-white/[0.04]'
           }`}
       >
-        <!-- Icon -->
-        {link.icon === 'chart' && <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="3" width="4" height="18"/><rect x="10" y="8" width="4" height="13"/><rect x="2" y="13" width="4" height="8"/></svg>}
-        {link.icon === 'check' && <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
-        {link.icon === 'list' && <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>}
-        {link.icon === 'gift' && <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>}
-        {link.icon === 'store' && <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>}
-        {link.icon === 'users' && <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>}
+        <i class={`ti ${link.icon} text-[16px] shrink-0`} aria-hidden="true"></i>
 
         <span class="flex-1">{link.label}</span>
 
         {link.badge && (
-          <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-brand-500/20 text-brand-400 border border-brand-500/25">{link.badge}</span>
+          <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-brand-500/20 text-brand-400 border border-brand-500/25">
+            {link.badge}
+          </span>
         )}
         {link.count && (
-          <span class="text-[11px] px-2 py-0.5 rounded-full bg-white/[0.06] text-white/35">{link.count}</span>
+          <span class="text-[11px] px-2 py-0.5 rounded-full bg-white/[0.06] text-white/35">
+            {link.count}
+          </span>
         )}
       </a>
     ))}
 
+    <!-- Cuenta -->
     <div class="pt-4 mt-2 border-t border-white/[0.05] space-y-0.5">
-      <p class="text-[10px] font-bold text-white/25 uppercase tracking-widest px-2 pb-2">Cuenta</p>
-      <a href="/configuracion" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium text-white/45 hover:text-white/90 hover:bg-white/[0.04] transition-all duration-150">
-        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <p class="text-[10px] font-bold text-white/25 uppercase tracking-widest px-2 pb-2">
+        Cuenta
+      </p>
+
+      <a
+        href="/configuracion"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium text-white/45 hover:text-white/90 hover:bg-white/[0.04] transition-all duration-150"
+      >
+        <i class="ti ti-settings text-[16px] shrink-0" aria-hidden="true"></i>
         Configuración
       </a>
-      <a href="/login" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium text-white/45 hover:text-white/90 hover:bg-white/[0.04] transition-all duration-150">
-        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+
+      <a
+        href="/login"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium text-white/45 hover:text-white/90 hover:bg-white/[0.04] transition-all duration-150"
+      >
+        <i class="ti ti-logout text-[16px] shrink-0" aria-hidden="true"></i>
         Cerrar sesión
       </a>
     </div>
   </nav>
 
+  <!-- Footer -->
   <div class="p-4 border-t border-white/[0.06]">
     <p class="text-[10px] text-white/20 text-center">Devhub · Kuntur Benefits v1.0</p>
   </div>
+
 </aside>
