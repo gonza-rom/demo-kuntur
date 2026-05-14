@@ -1,0 +1,62 @@
+---
+export interface Props {
+  currentPage?: string;
+}
+const { currentPage = '' } = Astro.props;
+
+const links = [
+  { href: '/', label: 'Inicio' },
+  { href: '/beneficios', label: 'Beneficios' },
+  { href: '/comercios', label: 'Comercios' },
+  { href: '/seguridad', label: 'Seguridad' },
+];
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06] bg-[#080a09]/90 backdrop-blur-xl">
+  <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+    
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-3 shrink-0">
+      <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center shadow-lg shadow-brand-500/30">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14,2 14,8 20,8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10,9 9,9 8,9"/>
+        </svg>
+      </div>
+      <span class="font-display font-700 text-[15px] tracking-tight">
+        Kuntur <span class="text-brand-400">Benefits</span>
+      </span>
+    </a>
+
+    <!-- Nav links desktop -->
+    <div class="hidden md:flex items-center gap-1">
+      {links.map(link => (
+        <a
+          href={link.href}
+          class={`px-4 py-2 rounded-lg text-[13.5px] font-medium transition-all duration-150
+            ${currentPage === link.href
+              ? 'text-brand-300 bg-brand-500/10'
+              : 'text-white/50 hover:text-white/90 hover:bg-white/[0.05]'
+            }`}
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+
+    <!-- Right actions -->
+    <div class="flex items-center gap-3">
+      <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-[12px] font-medium">
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
+        1,284 socios activos
+      </div>
+      <a href="/login" class="px-4 py-2 rounded-lg border border-white/[0.10] text-white/70 text-[13px] font-medium hover:bg-white/[0.05] hover:text-white transition-all duration-150">
+        Panel comercios
+        <svg class="inline ml-1 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </nav>
+</header>

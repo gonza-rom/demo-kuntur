@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+---
+
+<BaseLayout title="Admin Analytics — Kuntur Benefits">
+  <Sidebar role="admin" currentPage="/admin" />
+
+  <main class="ml-[220px] pt-16 min-h-screen">
+    <div class="p-8">
+
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h1 class="font-display font-700 text-[22px] text-white">Analytics Global</h1>
+          <p class="text-[13px] text-white/40 mt-0.5">Vista completa del ecosistema Kuntur Benefits</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <select class="bg-white/[0.04] border border-white/[0.08] text-white/60 text-[13px] px-3 py-2.5 rounded-xl outline-none">
+            <option>Últimos 30 días</option>
+            <option>Última semana</option>
+            <option>Este año</option>
+          </select>
+          <button class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-500 text-white text-[13px] font-medium hover:bg-brand-400 transition-all shadow-lg shadow-brand-500/20">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exportar reporte
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-4 gap-4 mb-7">
+        {[
+          { label: 'Socios activos', value: '1,284', sub: '↑ +43 este mes', color: 'text-brand-400' },
+          { label: 'Comercios adheridos', value: '47', sub: '↑ +5 este mes', color: 'text-blue-400' },
+          { label: 'Validaciones mensuales', value: '3,891', sub: '↑ +18% vs. mes anterior', color: 'text-violet-400' },
+          { label: 'Beneficios aplicados', value: '2,673', sub: '68.7% tasa de conversión', color: 'text-amber-400' },
+        ].map(s => (
+          <div class="bg-[#0c0f0e] border border-white/[0.06] rounded-2xl p-5 hover:border-white/[0.10] transition-all hover:-translate-y-0.5">
+            <p class="text-[11px] text-white/35 uppercase tracking-wider mb-3">{s.label}</p>
+            <p class={`font-display font-700 text-[30px] leading-none ${s.color}`}>{s.value}</p>
+            <p class="text-[12px] text-brand-400/60 mt-2">{s.sub}</p>
+          </div>
+        ))}
+      </div>
+
+      <!-- Charts -->
+      <div class="grid grid-cols-[1fr_280px] gap-5 mb-7">
+        <!-- Bar chart -->
+        <div class="bg-[#0c0f0e] border border-white/[0.06] rounded-2xl p-6">
+          <p class="font-display font-600 text-[14px] text-white mb-1">Actividad semanal — Validaciones</p>
+          <p class="text-[12px] text-white/35 mb-5">Total de validaciones por día de la semana</p>
+          <div class="flex items-end gap-3 h-32">
+            {[
+              { day: 'Lun', h: 45 }, { day: 'Mar', h: 62 }, { day: 'Mié', h: 38 },
+              { day: 'Jue', h: 78 }, { day: 'Vie', h: 85 }, { day: 'Sáb', h: 100 }, { day: 'Dom', h: 72 }
+            ].map(b => (
+              <div class="flex-1 flex flex-col items-center gap-2">
+                <div class="w-full rounded-t-lg bg-brand-500/20 hover:bg-brand-500/45 transition-colors duration-200 cursor-pointer" style={`height: ${b.h}%`}></div>
+                <span class={`text-[10.5px] ${b.day === 'Sáb' ? 'text-white font-600' : 'text-white/30'}`}>{b.day}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Benefits distribution -->
+        <div class="bg-[#0c0f0e] border border-white/[0.06] rounded-2xl p-6">
+          <p class="font-display font-600 text-[14px] text-white mb-1">Beneficios más usados</p>
+          <p class="text-[12px] text-white/35 mb-5">Por categoría de comercio</p>
+          <div class="space-y-3.5">
+            {[
+              { label: 'Cafetería', pct: 72, color: 'bg-brand-500' },
+              { label: 'Barbería', pct: 54, color: 'bg-blue-500' },
+              { label: 'Nutrición', pct: 41, color: 'bg-violet-500' },
+              { label: 'Deportes', pct: 35, color: 'bg-amber-500' },
+              { label: 'Otros', pct: 22, color: 'bg-white/20' },
+            ].map(b => (
+              <div class="flex items-center gap-3">
+                <span class="text-[12px] text-white/50 w-16 shrink-0">{b.label}</span>
+                <div class="flex-1 h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
+                  <div class={`h-full rounded-full ${b.color}`} style={`width: ${b.pct}%`}></div>
+                </div>
+                <span class="text-[11px] text-white/35 w-8 text-right shrink-0">{b.pct}%</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Top comercios table -->
+      <div class="bg-[#0c0f0e] border border-white/[0.06] rounded-2xl overflow-hidden">
+        <div class="px-6 py-4 border-b border-white/[0.06]">
+          <p class="font-display font-600 text-[14px] text-white">Top comercios por validaciones</p>
+          <p class="text-[12px] text-white/35 mt-0.5">Ranking del mes — beneficios aplicados</p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-[13px]">
+            <thead>
+              <tr class="border-b border-white/[0.04]">
+                {['#', 'Comercio', 'Rubro', 'Validaciones', 'Beneficios', 'Tasa', 'Estado'].map(h => (
+                  <th class="text-left px-5 py-3 text-[11px] font-bold text-white/25 uppercase tracking-wider">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { rank: '🥇', nombre: 'Cafetería del Centro', rubro: 'Gastronomía', val: 891, ben: 672, tasa: 75.4, estado: 'Activo' },
+                { rank: '🥈', nombre: 'Barber Club Elite', rubro: 'Estética', val: 654, ben: 489, tasa: 74.8, estado: 'Activo' },
+                { rank: '🥉', nombre: 'NutriFit Consultoría', rubro: 'Salud', val: 422, ben: 298, tasa: 70.6, estado: 'Activo' },
+                { rank: '4', nombre: 'SportWear Store', rubro: 'Deportes', val: 380, ben: 241, tasa: 63.4, estado: 'Activo' },
+                { rank: '5', nombre: 'Farmacia Vital', rubro: 'Salud', val: 245, ben: 178, tasa: 72.7, estado: 'Pendiente' },
+              ].map(row => (
+                <tr class="border-b border-white/[0.03] hover:bg-white/[0.015] transition-colors">
+                  <td class="px-5 py-4 text-[14px]">{row.rank}</td>
+                  <td class="px-5 py-4 font-medium text-white/80">{row.nombre}</td>
+                  <td class="px-5 py-4">
+                    <span class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-white/[0.05] text-white/40 border border-white/[0.06]">{row.rubro}</span>
+                  </td>
+                  <td class="px-5 py-4 font-display font-700 text-white/90">{row.val.toLocaleString()}</td>
+                  <td class="px-5 py-4 text-white/50">{row.ben.toLocaleString()}</td>
+                  <td class="px-5 py-4">
+                    <span class={`font-bold text-[13px] ${row.tasa >= 70 ? 'text-brand-400' : 'text-amber-400'}`}>{row.tasa}%</span>
+                  </td>
+                  <td class="px-5 py-4">
+                    <span class={`text-[11px] font-bold px-2.5 py-1 rounded-full border
+                      ${row.estado === 'Activo' ? 'bg-brand-500/10 text-brand-400 border-brand-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'}`}>
+                      {row.estado}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</BaseLayout>

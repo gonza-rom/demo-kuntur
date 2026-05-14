@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Login Comercios — Kuntur Benefits">
+  <div class="min-h-screen flex items-center justify-center bg-[#080a09] px-6 relative overflow-hidden">
+    
+    <!-- BG glow -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-brand-500/[0.05] blur-3xl pointer-events-none"></div>
+
+    <div class="w-full max-w-sm relative z-10">
+      
+      <!-- Logo -->
+      <div class="flex items-center gap-3 mb-8 justify-center">
+        <div class="w-9 h-9 rounded-xl bg-brand-500 flex items-center justify-center shadow-lg shadow-brand-500/30">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        </div>
+        <span class="font-display font-700 text-[18px] text-white">Kuntur <span class="text-brand-400">Benefits</span></span>
+      </div>
+
+      <!-- Card -->
+      <div class="bg-[#0c0f0e] border border-white/[0.08] rounded-2xl p-8">
+        <h1 class="font-display font-700 text-[20px] text-white mb-1">Bienvenido de vuelta</h1>
+        <p class="text-[13px] text-white/40 mb-7">Ingresá con tu cuenta de comercio adherido</p>
+
+        <div class="space-y-4">
+          <div>
+            <label class="text-[12px] font-medium text-white/50 block mb-2">Email del comercio</label>
+            <input
+              type="email"
+              value="cafeteria.mitre@gmail.com"
+              class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-[14px] text-white placeholder:text-white/25 outline-none focus:border-brand-500/50 focus:bg-brand-500/[0.04] transition-all duration-200"
+            />
+          </div>
+          <div>
+            <label class="text-[12px] font-medium text-white/50 block mb-2">Contraseña</label>
+            <div class="relative">
+              <input
+                type="password"
+                value="password123"
+                id="pass-input"
+                class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-[14px] text-white placeholder:text-white/25 outline-none focus:border-brand-500/50 focus:bg-brand-500/[0.04] transition-all duration-200 pr-11"
+              />
+              <button id="toggle-pass" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors">
+                <svg id="eye-icon" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <label class="flex items-center gap-2 text-[13px] text-white/40 cursor-pointer">
+              <input type="checkbox" checked class="accent-brand-500 rounded" />
+              Recordar sesión
+            </label>
+            <a href="#" class="text-[13px] text-brand-400 hover:text-brand-300 transition-colors">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <a href="/dashboard" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-brand-500 text-white font-display font-600 text-[14px] hover:bg-brand-400 transition-all duration-200 shadow-lg shadow-brand-500/20 hover:-translate-y-0.5 mt-2">
+            Ingresar al panel
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+
+        <div class="mt-6 pt-5 border-t border-white/[0.06] text-center">
+          <p class="text-[12px] text-white/30 mb-3">¿No tenés cuenta? Contactá a Kuntur Training para unirte.</p>
+          <a href="/" class="text-[13px] text-white/40 hover:text-white/70 transition-colors">
+            ← Volver al inicio
+          </a>
+        </div>
+      </div>
+
+      <p class="text-center text-[11px] text-white/20 mt-5">Desarrollado por <span class="text-brand-400/70 font-medium">Devhub</span> · Kuntur Benefits v1.0</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const toggleBtn = document.getElementById('toggle-pass');
+  const passInput = document.getElementById('pass-input') as HTMLInputElement;
+  toggleBtn?.addEventListener('click', () => {
+    passInput.type = passInput.type === 'password' ? 'text' : 'password';
+  });
+</script>

@@ -1,0 +1,241 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+---
+
+<BaseLayout title="Validar Socio — Kuntur Benefits">
+  <Sidebar role="comercio" currentPage="/validar" comercioName="Cafetería Mitre" />
+
+  <main class="ml-[220px] pt-16 min-h-screen">
+    <div class="p-8">
+
+      <div class="mb-8">
+        <h1 class="font-display font-700 text-[22px] text-white">Validar Socio</h1>
+        <p class="text-[13px] text-white/40 mt-0.5">Ingresá el DNI del socio para verificar su estado y habilitar beneficios</p>
+      </div>
+
+      <div class="grid grid-cols-[1fr_300px] gap-6">
+
+        <!-- Validation card -->
+        <div>
+          <div class="bg-[#0c0f0e] border border-white/[0.06] rounded-2xl p-6">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="w-9 h-9 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center">
+                <svg class="w-4 h-4 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </div>
+              <div>
+                <p class="font-display font-600 text-[15px] text-white">Verificación de Socio</p>
+                <p class="text-[12px] text-white/35">El socio debe presentar su DNI físico</p>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="text-[12px] font-medium text-white/50 block mb-2">Número de DNI</label>
+              <div class="flex gap-3">
+                <input
+                  id="dni-input"
+                  type="text"
+                  placeholder="Ej: 32.456.789"
+                  maxlength="11"
+                  class="flex-1 bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-[14px] text-white placeholder:text-white/25 outline-none focus:border-brand-500/50 focus:bg-brand-500/[0.03] transition-all duration-200 font-mono tracking-wider"
+                />
+                <button id="clear-btn" class="px-3 py-3 rounded-xl border border-white/[0.08] text-white/30 hover:text-white/60 hover:bg-white/[0.04] transition-all">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <button id="validate-btn" class="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-brand-500 text-white font-display font-600 text-[14px] hover:bg-brand-400 transition-all duration-200 shadow-lg shadow-brand-500/20 hover:-translate-y-0.5 mb-5">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Validar Socio
+            </button>
+
+            <!-- Quick test DNIs -->
+            <div>
+              <p class="text-[12px] text-white/25 mb-3">DNIs de prueba:</p>
+              <div class="flex gap-2 flex-wrap">
+                {[
+                  { dni: '32456789', label: '32.456.789 (Activo)' },
+                  { dni: '41789012', label: '41.789.012 (Inactivo)' },
+                  { dni: '35654321', label: '35.654.321 (Activo)' },
+                ].map(t => (
+                  <button
+                    class="quick-dni text-[12px] px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06] text-white/40 hover:text-white/70 hover:border-brand-500/30 transition-all duration-150"
+                    data-dni={t.dni}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <!-- Result -->
+            <div id="result" class="mt-5"></div>
+
+            <!-- Privacy note -->
+            <div class="mt-5 flex gap-3 items-start bg-white/[0.02] border border-white/[0.05] rounded-xl p-4">
+              <svg class="w-4 h-4 text-white/25 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <p class="text-[12px] text-white/30 leading-relaxed">El comercio valida visualmente el <strong class="text-white/50">DNI físico</strong>. El sistema solo confirma el estado de membresía — no almacena datos biométricos ni personales sensibles.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <div class="space-y-4">
+          <!-- Protocol -->
+          <div class="bg-[#0c0f0e] border border-white/[0.06] rounded-2xl p-5">
+            <p class="font-display font-600 text-[14px] text-white mb-4">Protocolo de validación</p>
+            <ol class="space-y-3">
+              {[
+                'El socio presenta su DNI físico al empleado',
+                'El empleado ingresa el número de DNI en el sistema',
+                'El sistema muestra el estado del socio y beneficio habilitado',
+                'Se aplica el descuento y queda registrado automáticamente',
+              ].map((step, i) => (
+                <li class="flex gap-3">
+                  <div class="w-5 h-5 rounded-full bg-brand-500/15 border border-brand-500/25 flex items-center justify-center text-[10px] font-bold text-brand-400 shrink-0 mt-0.5">{i + 1}</div>
+                  <p class="text-[13px] text-white/50 leading-relaxed">{step}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <!-- Day stats -->
+          <div class="bg-[#0c0f0e] border border-white/[0.06] rounded-2xl p-5">
+            <p class="font-display font-600 text-[14px] text-white mb-4">Estadísticas del día</p>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-white/[0.03] rounded-xl p-3 text-center">
+                <p class="font-display font-700 text-[24px] text-brand-400">24</p>
+                <p class="text-[11px] text-white/30 mt-1">Validaciones hoy</p>
+              </div>
+              <div class="bg-white/[0.03] rounded-xl p-3 text-center">
+                <p class="font-display font-700 text-[24px] text-blue-400">21</p>
+                <p class="text-[11px] text-white/30 mt-1">Beneficios aplicados</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Status -->
+          <div class="bg-[#0c0f0e] border border-white/[0.06] rounded-2xl p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
+              <span class="text-[12px] font-medium text-brand-400">Sistema operativo</span>
+            </div>
+            <p class="text-[12px] text-white/30 leading-relaxed">Base de datos sincronizada con Kuntur Training en tiempo real. Toda modificación de membresía se refleja instantáneamente.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<script>
+  const SOCIOS: Record<string, { activo: boolean; nombre: string; plan: string; vence: string }> = {
+    '32456789': { activo: true,  nombre: 'Juan Pérez',   plan: 'Premium',  vence: '15/06/2026' },
+    '35654321': { activo: true,  nombre: 'Ana Giménez',  plan: 'Premium',  vence: '30/08/2026' },
+    '28123456': { activo: true,  nombre: 'María López',  plan: 'Standard', vence: '28/07/2026' },
+    '30987654': { activo: true,  nombre: 'Pablo Torres', plan: 'Standard', vence: '20/06/2026' },
+    '41789012': { activo: false, nombre: 'Carlos Ruiz',  plan: '—',        vence: '—' },
+  };
+
+  const dniInput = document.getElementById('dni-input') as HTMLInputElement;
+  const resultDiv = document.getElementById('result')!;
+
+  function clearResult() { resultDiv.innerHTML = ''; }
+
+  function formatDNI(raw: string) {
+    return raw.replace(/(\d{2})(\d{3})(\d{3})/, '$1.$2.$3');
+  }
+
+  function validate() {
+    const raw = dniInput.value.replace(/\D/g, '');
+    if (raw.length < 7) {
+      resultDiv.innerHTML = `
+        <div class="flex items-center gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+          <svg class="w-5 h-5 text-amber-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <p class="text-[13px] text-white/50">Ingresá un DNI válido (mínimo 7 dígitos)</p>
+        </div>`;
+      return;
+    }
+
+    resultDiv.innerHTML = `
+      <div class="flex items-center gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+        <div class="w-4 h-4 border-2 border-brand-500 border-t-transparent rounded-full animate-spin shrink-0"></div>
+        <p class="text-[13px] text-white/50">Verificando membresía...</p>
+      </div>`;
+
+    setTimeout(() => {
+      const s = SOCIOS[raw];
+      if (s && s.activo) {
+        resultDiv.innerHTML = `
+          <div class="rounded-2xl border border-brand-500/25 bg-brand-500/[0.05] p-5">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-9 h-9 rounded-xl bg-brand-500/20 flex items-center justify-center">
+                <svg class="w-5 h-5 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="flex-1">
+                <p class="font-display font-700 text-[15px] text-brand-400">Socio Activo</p>
+                <p class="text-[12px] text-white/40">Membresía vigente y al día</p>
+              </div>
+              <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">${s.plan}</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3 mb-4">
+              ${[
+                ['Nombre', s.nombre],
+                ['Plan', s.plan],
+                ['DNI', formatDNI(raw)],
+                ['Vence', s.vence],
+              ].map(([label, value]) => `
+                <div class="bg-white/[0.04] rounded-xl p-3">
+                  <p class="text-[10px] text-white/30 uppercase tracking-wider mb-1">${label}</p>
+                  <p class="text-[13.5px] font-medium text-white">${value}</p>
+                </div>
+              `).join('')}
+            </div>
+            <div class="bg-brand-500/10 border border-brand-500/20 rounded-xl p-4 flex items-center justify-between">
+              <div>
+                <p class="text-[11px] text-white/40 mb-1">Beneficio habilitado</p>
+                <p class="font-display font-800 text-[28px] text-brand-400 leading-none">20% OFF</p>
+                <p class="text-[12px] text-white/40 mt-1">En consumo de cafetería</p>
+              </div>
+              <svg class="w-10 h-10 text-brand-500/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+          </div>`;
+      } else {
+        resultDiv.innerHTML = `
+          <div class="rounded-2xl border border-rose-500/20 bg-rose-500/[0.05] p-5">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-9 h-9 rounded-xl bg-rose-500/15 flex items-center justify-center">
+                <svg class="w-5 h-5 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              <div>
+                <p class="font-display font-700 text-[15px] text-rose-400">Socio Inactivo</p>
+                <p class="text-[12px] text-white/40">Membresía vencida o no registrada</p>
+              </div>
+            </div>
+            <div class="bg-white/[0.03] rounded-xl p-4">
+              <p class="text-[13.5px] text-white/50 leading-relaxed">Este socio no cuenta con una membresía activa. <strong class="text-white/70">No se puede aplicar ningún beneficio.</strong></p>
+              <p class="text-[12px] text-white/30 mt-2">Para activar su membresía, el socio debe dirigirse a Kuntur Training.</p>
+            </div>
+          </div>`;
+      }
+    }, 800);
+  }
+
+  document.getElementById('validate-btn')?.addEventListener('click', validate);
+  document.getElementById('clear-btn')?.addEventListener('click', () => { dniInput.value = ''; clearResult(); dniInput.focus(); });
+  dniInput?.addEventListener('keydown', e => { if (e.key === 'Enter') validate(); });
+
+  document.querySelectorAll('.quick-dni').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const raw = (btn as HTMLElement).dataset.dni || '';
+      dniInput.value = formatDNI(raw);
+      setTimeout(validate, 100);
+    });
+  });
+
+  function formatDNI(raw: string) {
+    return raw.replace(/(\d{2})(\d{3})(\d{3})/, '$1.$2.$3');
+  }
+</script>
