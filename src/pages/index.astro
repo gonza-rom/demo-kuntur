@@ -1,0 +1,218 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+---
+
+<BaseLayout title="Kuntur Benefits — Ecosistema de beneficios para socios">
+  <Navbar currentPage="/" />
+
+  <main class="pt-16">
+
+    <!-- HERO -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
+      <!-- BG grid -->
+      <div class="absolute inset-0 z-0" style="background-image: linear-gradient(rgba(26,159,125,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(26,159,125,0.04) 1px, transparent 1px); background-size: 64px 64px; mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 20%, transparent 80%);"></div>
+      <!-- Glow -->
+      <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-brand-500/[0.07] blur-3xl pointer-events-none z-0"></div>
+
+      <div class="relative z-10 text-center max-w-4xl mx-auto">
+
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-[12px] font-medium mb-8 animate-fade-up">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
+          Sistema activo para socios Kuntur Training
+        </div>
+
+        <h1 class="font-display font-800 text-[clamp(36px,6vw,72px)] leading-[1.04] tracking-[-2px] text-white mb-6 animate-fade-up animate-delay-100">
+          El ecosistema de<br/>
+          <span class="text-brand-400">beneficios exclusivos</span><br/>
+          para socios activos
+        </h1>
+
+        <p class="text-[17px] text-white/50 leading-relaxed max-w-[520px] mx-auto mb-10 animate-fade-up animate-delay-200">
+          Kuntur Benefits conecta a los socios activos de Kuntur Training con comercios adheridos, validando su membresía en tiempo real y desbloqueando beneficios exclusivos.
+        </p>
+
+        <div class="flex items-center justify-center gap-4 flex-wrap animate-fade-up animate-delay-300">
+          <a href="/beneficios" class="flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-500 text-white font-display font-600 text-[14px] hover:bg-brand-400 transition-all duration-200 shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 hover:-translate-y-0.5">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Ver Beneficios para Socios
+          </a>
+          <a href="/admin" class="flex items-center gap-2 px-6 py-3 rounded-xl border border-white/[0.10] text-white/70 font-display font-600 text-[14px] hover:bg-white/[0.05] hover:text-white transition-all duration-200">
+            Dashboard Admin
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+
+        <!-- Mockup stats -->
+        <div class="mt-20 grid grid-cols-3 gap-4 max-w-2xl mx-auto animate-fade-up animate-delay-400">
+          {[
+            { value: '1,284', label: 'Socios activos', color: 'text-brand-400' },
+            { value: '47', label: 'Comercios adheridos', color: 'text-blue-400' },
+            { value: '3,891', label: 'Validaciones mensuales', color: 'text-brand-400' },
+          ].map(stat => (
+            <div class="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-5 text-left hover:border-white/[0.10] transition-colors duration-200">
+              <p class="text-[11px] text-white/35 uppercase tracking-wider mb-2">{stat.label}</p>
+              <p class={`font-display font-700 text-3xl ${stat.color}`}>{stat.value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="py-24 px-6 bg-white/[0.02] border-y border-white/[0.06]">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-14">
+          <p class="text-brand-400 text-[11px] font-bold uppercase tracking-widest mb-3">El proceso</p>
+          <h2 class="font-display font-700 text-[36px] text-white tracking-tight">Cómo funciona Kuntur Benefits</h2>
+          <p class="text-white/45 text-[16px] mt-3 max-w-md mx-auto">Un sistema simple, seguro y eficiente para validar beneficios en segundos.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          {[
+            { num: '01', title: 'El socio visita el comercio', text: 'El socio activo se presenta en el comercio adherido y solicita su beneficio exclusivo mostrando su DNI físico.' },
+            { num: '02', title: 'El comercio valida el DNI', text: 'El empleado ingresa el número de DNI en el sistema. En segundos recibe confirmación del estado de membresía.' },
+            { num: '03', title: 'Se aplica el beneficio', text: 'Si el socio está activo y al día, el sistema muestra el beneficio habilitado y registra la transacción automáticamente.' },
+          ].map(step => (
+            <div class="bg-[#0c0f0e] border border-white/[0.06] rounded-2xl p-7 hover:border-white/[0.10] transition-all duration-200 hover:-translate-y-0.5">
+              <div class="font-display font-800 text-[11px] text-brand-500/70 tracking-widest uppercase mb-5">{step.num}</div>
+              <h3 class="font-display font-600 text-[16px] text-white mb-3">{step.title}</h3>
+              <p class="text-[14px] text-white/45 leading-relaxed">{step.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- BENEFITS GRID -->
+    <section class="py-24 px-6">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-14">
+          <p class="text-brand-400 text-[11px] font-bold uppercase tracking-widest mb-3">Para todos</p>
+          <h2 class="font-display font-700 text-[36px] text-white tracking-tight">Beneficios para socios y comercios</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-[#0c0f0e] border border-white/[0.06] border-l-2 border-l-brand-500 rounded-2xl p-8">
+            <div class="w-11 h-11 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-5">
+              <svg class="w-5 h-5 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <h3 class="font-display font-700 text-[18px] text-white mb-2">Para los socios de Kuntur</h3>
+            <p class="text-[13px] text-white/40 mb-6">Acceso exclusivo a descuentos y ventajas por ser miembro activo</p>
+            <ul class="space-y-3">
+              {[
+                'Descuentos exclusivos en comercios adheridos de la ciudad',
+                'Beneficios acumulables según plan de membresía',
+                'Acceso instantáneo solo presentando el DNI',
+                'Red en crecimiento constante de comercios asociados',
+                'Validación sin necesidad de app ni tarjeta extra',
+              ].map(item => (
+                <li class="flex items-start gap-3 text-[14px] text-white/60">
+                  <svg class="w-4 h-4 text-brand-400 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="bg-[#0c0f0e] border border-white/[0.06] border-l-2 border-l-blue-500 rounded-2xl p-8">
+            <div class="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-5">
+              <svg class="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <h3 class="font-display font-700 text-[18px] text-white mb-2">Para los comercios adheridos</h3>
+            <p class="text-[13px] text-white/40 mb-6">Mayor tráfico, fidelización y visibilidad con bajo costo operativo</p>
+            <ul class="space-y-3">
+              {[
+                'Captación de nuevos clientes de alto valor',
+                'Panel de control intuitivo para validaciones',
+                'Estadísticas de uso y comportamiento de clientes',
+                'Inclusión en el directorio oficial de Kuntur Benefits',
+                'Soporte técnico de Devhub disponible',
+              ].map(item => (
+                <li class="flex items-start gap-3 text-[14px] text-white/60">
+                  <svg class="w-4 h-4 text-blue-400 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="py-24 px-6 bg-white/[0.02] border-y border-white/[0.06]">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-14">
+          <p class="text-brand-400 text-[11px] font-bold uppercase tracking-widest mb-3">Plataforma</p>
+          <h2 class="font-display font-700 text-[36px] text-white tracking-tight">Tecnología diseñada para escalar</h2>
+          <p class="text-white/45 text-[16px] mt-3">Construida por Devhub con las mejores prácticas de la industria.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-5">
+          {[
+            { icon: 'zap', title: 'Validación instantánea', text: 'Respuesta en menos de 300ms. El comercio obtiene la información exacta del estado del socio sin demoras.', color: 'brand' },
+            { icon: 'lock', title: 'Privacidad por diseño', text: 'Los comercios solo ven lo estrictamente necesario: estado activo, nombre y beneficio. Sin acceso a datos sensibles.', color: 'green' },
+            { icon: 'bar', title: 'Analytics en tiempo real', text: 'Dashboard completo para el equipo de Kuntur: métricas, validaciones, comercios más activos y tendencias.', color: 'blue' },
+            { icon: 'mobile', title: '100% responsive', text: 'Funciona desde cualquier dispositivo. Los empleados validan desde el celular del local sin instalar nada.', color: 'amber' },
+            { icon: 'store', title: 'Red de comercios', text: 'Directorio público de comercios adheridos. Los socios encuentran fácilmente dónde usar sus beneficios.', color: 'violet' },
+            { icon: 'rocket', title: 'Escalable desde el día 1', text: 'Arquitectura preparada para crecer: desde 10 hasta 10.000 socios y decenas de comercios sin fricción.', color: 'cyan' },
+          ].map(f => (
+            <div class="bg-[#0c0f0e] border border-white/[0.06] rounded-2xl p-6 hover:border-white/[0.10] transition-all duration-200 hover:-translate-y-0.5">
+              <div class={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 
+                ${f.color === 'brand' ? 'bg-brand-500/10' : ''}
+                ${f.color === 'green' ? 'bg-green-500/10' : ''}
+                ${f.color === 'blue' ? 'bg-blue-500/10' : ''}
+                ${f.color === 'amber' ? 'bg-amber-500/10' : ''}
+                ${f.color === 'violet' ? 'bg-violet-500/10' : ''}
+                ${f.color === 'cyan' ? 'bg-cyan-500/10' : ''}
+              `}>
+                {f.icon === 'zap' && <svg class="w-5 h-5 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>}
+                {f.icon === 'lock' && <svg class="w-5 h-5 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>}
+                {f.icon === 'bar' && <svg class="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="3" width="4" height="18"/><rect x="10" y="8" width="4" height="13"/><rect x="2" y="13" width="4" height="8"/></svg>}
+                {f.icon === 'mobile' && <svg class="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>}
+                {f.icon === 'store' && <svg class="w-5 h-5 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>}
+                {f.icon === 'rocket' && <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>}
+              </div>
+              <h3 class="font-display font-600 text-[15px] text-white mb-2">{f.title}</h3>
+              <p class="text-[13px] text-white/45 leading-relaxed">{f.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-24 px-6">
+      <div class="max-w-2xl mx-auto text-center">
+        <p class="text-brand-400 text-[11px] font-bold uppercase tracking-widest mb-4">¿Listo para comenzar?</p>
+        <h2 class="font-display font-700 text-[36px] text-white tracking-tight mb-4">Transformá los beneficios de ser socio Kuntur</h2>
+        <p class="text-white/45 text-[16px] mb-10">Somos Devhub y construimos el ecosistema que conecta a tu comunidad con los mejores comercios de la ciudad.</p>
+        <div class="flex items-center justify-center gap-4 flex-wrap">
+          <a href="/beneficios" class="flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-500 text-white font-display font-600 text-[14px] hover:bg-brand-400 transition-all duration-200 shadow-lg shadow-brand-500/25 hover:-translate-y-0.5">
+            Ver Beneficios para Socios
+          </a>
+          <a href="/login" class="flex items-center gap-2 px-6 py-3 rounded-xl border border-white/[0.10] text-white/70 font-display font-600 text-[14px] hover:bg-white/[0.05] hover:text-white transition-all duration-200">
+            Acceder al sistema
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/[0.06] py-10 px-6">
+      <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-3">
+          <div class="w-7 h-7 rounded-lg bg-brand-500 flex items-center justify-center">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+          </div>
+          <span class="font-display font-700 text-[14px]">Kuntur <span class="text-brand-400">Benefits</span></span>
+        </div>
+        <div class="flex gap-6">
+          {['Privacidad', 'Términos', 'Contacto', 'Soporte'].map(l => (
+            <a href="#" class="text-[12px] text-white/30 hover:text-white/60 transition-colors">{l}</a>
+          ))}
+        </div>
+        <p class="text-[12px] text-white/25">© 2025 — Desarrollado por <span class="text-brand-400 font-medium">Devhub</span></p>
+      </div>
+    </footer>
+  </main>
+</BaseLayout>
