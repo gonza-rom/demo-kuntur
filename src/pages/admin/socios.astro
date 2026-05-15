@@ -1,0 +1,295 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+---
+
+<BaseLayout title="Socios — Admin Kuntur Benefits" currentPage="/admin/socios">
+  <Sidebar role="admin" currentPage="/admin/socios" />
+
+  <style is:global>
+    :root {
+      --bg:#080a09;--bg2:#0c0f0e;--bg3:#111412;--bg4:#161a18;
+      --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.10);
+      --brand:#1a9f7d;--brand2:#22c9a0;
+      --brand-dim:rgba(26,159,125,0.10);
+      --danger:#e8192c;--danger-dim:rgba(232,25,44,0.10);
+      --amber:#f59e0b;--amber-dim:rgba(245,158,11,0.10);
+      --blue:#3b82f6;--blue-dim:rgba(59,130,246,0.10);
+      --text:#f0f4f2;--text2:#7a8c85;--text3:#4a5c54;
+      --sans:'Syne',sans-serif;--body:'DM Sans',sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; }
+
+    .admin-main {
+      margin-left: 220px;
+      padding: 32px 36px;
+      min-height: calc(100vh - 64px);
+      background: var(--bg);
+      font-family: var(--body);
+      color: var(--text);
+    }
+
+    /* Top bar */
+    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+    .page-title { font-family: var(--sans); font-size: 22px; font-weight: 700; color: white; }
+    .page-sub { font-size: 13px; color: var(--text2); margin-top: 3px; }
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+
+    /* Demo banner */
+    .demo-banner { display: flex; align-items: center; gap: 10px; background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.2); border-radius: 10px; padding: 10px 14px; margin-bottom: 24px; font-size: 12px; color: var(--amber); }
+
+    /* Stats row */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+    .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .stat-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+    .stat-value { font-family: var(--sans); font-size: 26px; font-weight: 700; line-height: 1; }
+    .stat-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+
+    /* Toolbar */
+    .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
+    .toolbar-left { display: flex; align-items: center; gap: 8px; }
+    .search-wrap { position: relative; }
+    .search-wrap i { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 15px; color: var(--text3); pointer-events: none; }
+    .search-input { background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px; padding: 8px 14px 8px 32px; color: var(--text); font-size: 13px; outline: none; width: 240px; font-family: var(--body); transition: border-color .15s; }
+    .search-input:focus { border-color: var(--brand); }
+    .search-input::placeholder { color: var(--text3); }
+
+    .filter-btn { display: flex; align-items: center; gap: 6px; padding: 8px 13px; border-radius: 8px; border: 1px solid var(--border2); font-size: 12px; font-weight: 500; color: var(--text2); background: var(--bg3); transition: all .15s; }
+    .filter-btn:hover { color: var(--text); border-color: var(--brand); }
+    .filter-btn.active { background: var(--brand-dim); color: var(--brand2); border-color: rgba(26,159,125,.25); }
+
+    .btn-primary { display: flex; align-items: center; gap: 6px; padding: 8px 15px; border-radius: 8px; background: var(--brand); color: white; font-family: var(--sans); font-size: 13px; font-weight: 600; transition: all .15s; }
+    .btn-primary:hover { background: var(--brand2); transform: translateY(-1px); }
+
+    /* Table */
+    .table-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th { text-align: left; padding: 12px 16px; font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid var(--border); background: var(--bg2); white-space: nowrap; }
+    tbody td { padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,.04); vertical-align: middle; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(255,255,255,.02); }
+
+    /* Avatar */
+    .avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--sans); font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .socio-cell { display: flex; align-items: center; gap: 10px; }
+    .socio-name { font-weight: 500; color: white; font-size: 13px; }
+    .socio-email { font-size: 11px; color: var(--text3); margin-top: 1px; }
+
+    /* Badges */
+    .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; letter-spacing: .3px; text-transform: uppercase; white-space: nowrap; }
+    .b-green { background: rgba(26,159,125,.12); color: var(--brand2); border: 1px solid rgba(26,159,125,.25); }
+    .b-red { background: var(--danger-dim); color: #ff8090; border: 1px solid rgba(232,25,44,.2); }
+    .b-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,158,11,.2); }
+    .b-blue { background: var(--blue-dim); color: #60a5fa; border: 1px solid rgba(59,130,246,.2); }
+    .b-gray { background: var(--bg4); color: var(--text3); border: 1px solid var(--border); }
+    .dot-pulse { width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: pulse-anim 1.8s infinite; display: inline-block; }
+    @keyframes pulse-anim { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* Action buttons */
+    .action-btn { font-size: 11px; color: var(--text2); padding: 4px 9px; border: 1px solid var(--border); border-radius: 6px; transition: all .15s; display: inline-flex; align-items: center; gap: 4px; }
+    .action-btn:hover { border-color: var(--brand); color: var(--brand2); }
+    .action-btn i { font-size: 12px; }
+
+    /* Pagination */
+    .pagination { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-top: 1px solid var(--border); }
+    .pag-info { font-size: 12px; color: var(--text3); }
+    .pag-btns { display: flex; gap: 4px; }
+    .pag-btn { width: 30px; height: 30px; border-radius: 7px; border: 1px solid var(--border2); font-size: 12px; color: var(--text2); display: flex; align-items: center; justify-content: center; transition: all .15s; }
+    .pag-btn:hover { border-color: var(--brand); color: var(--brand2); }
+    .pag-btn.active { background: var(--brand-dim); border-color: rgba(26,159,125,.3); color: var(--brand2); font-weight: 700; }
+  </style>
+
+  <main class="admin-main">
+
+    <div class="demo-banner">
+      <i class="ti ti-flask"></i>
+      <div><strong>Modo demo</strong> — Datos ficticios. Sin conexión a backend real.</div>
+    </div>
+
+    <div class="topbar">
+      <div>
+        <div class="page-title">Socios</div>
+        <div class="page-sub">Gestión de 1,284 socios activos de Kuntur Training</div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-primary">
+          <i class="ti ti-user-plus"></i>Nuevo socio
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div>
+          <div class="stat-label">Total socios</div>
+          <div class="stat-value" style="color:var(--brand2)">1,284</div>
+        </div>
+        <div class="stat-icon" style="background:var(--brand-dim);color:var(--brand2)">
+          <i class="ti ti-users"></i>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div>
+          <div class="stat-label">Activos</div>
+          <div class="stat-value" style="color:#4ade80">1,091</div>
+        </div>
+        <div class="stat-icon" style="background:rgba(74,222,128,.1);color:#4ade80">
+          <i class="ti ti-circle-check"></i>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div>
+          <div class="stat-label">Por vencer</div>
+          <div class="stat-value" style="color:var(--amber)">87</div>
+        </div>
+        <div class="stat-icon" style="background:var(--amber-dim);color:var(--amber)">
+          <i class="ti ti-clock"></i>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div>
+          <div class="stat-label">Inactivos</div>
+          <div class="stat-value" style="color:#ff8090">106</div>
+        </div>
+        <div class="stat-icon" style="background:var(--danger-dim);color:#ff8090">
+          <i class="ti ti-circle-x"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <div class="search-wrap">
+          <i class="ti ti-search"></i>
+          <input class="search-input" id="search-socios" placeholder="Buscar por nombre o DNI..." oninput="filterSocios()" />
+        </div>
+        <button class="filter-btn active" onclick="setFilter('todos', this)">Todos</button>
+        <button class="filter-btn" onclick="setFilter('activo', this)">Activos</button>
+        <button class="filter-btn" onclick="setFilter('por-vencer', this)">Por vencer</button>
+        <button class="filter-btn" onclick="setFilter('inactivo', this)">Inactivos</button>
+      </div>
+      <div style="font-size:12px;color:var(--text3)">Mostrando <span id="count-label">8</span> resultados</div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Socio</th>
+            <th>DNI</th>
+            <th>Plan</th>
+            <th>Estado</th>
+            <th>Alta</th>
+            <th>Vencimiento</th>
+            <th>Validaciones</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="socios-body"></tbody>
+      </table>
+      <div class="pagination">
+        <div class="pag-info">Página 1 de 161 · 1,284 socios</div>
+        <div class="pag-btns">
+          <button class="pag-btn"><i class="ti ti-chevron-left" style="font-size:13px"></i></button>
+          <button class="pag-btn active">1</button>
+          <button class="pag-btn">2</button>
+          <button class="pag-btn">3</button>
+          <button class="pag-btn">...</button>
+          <button class="pag-btn">161</button>
+          <button class="pag-btn"><i class="ti ti-chevron-right" style="font-size:13px"></i></button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</BaseLayout>
+
+<script is:inline>
+  const SOCIOS = [
+    { nombre:'Juan Pérez',       av:'JP', ac:'teal',  email:'juan.perez@gmail.com',      dni:'32.456.789', plan:'Premium',  estado:'activo',     alta:'15/06/2024', vence:'15/06/2026', vals:47 },
+    { nombre:'Ana Giménez',      av:'AG', ac:'teal',  email:'ana.gimenez@gmail.com',      dni:'35.654.321', plan:'Premium',  estado:'activo',     alta:'01/09/2024', vence:'30/08/2026', vals:38 },
+    { nombre:'María López',      av:'ML', ac:'teal',  email:'maria.lopez@gmail.com',       dni:'28.123.456', plan:'Standard', estado:'activo',     alta:'28/07/2024', vence:'28/07/2026', vals:29 },
+    { nombre:'Pablo Torres',     av:'PT', ac:'amber', email:'pablo.torres@gmail.com',      dni:'30.987.654', plan:'Standard', estado:'por-vencer', alta:'20/06/2024', vence:'20/06/2026', vals:22 },
+    { nombre:'Carlos Ruiz',      av:'CR', ac:'red',   email:'carlos.ruiz@gmail.com',       dni:'41.789.012', plan:'—',        estado:'inactivo',   alta:'01/01/2025', vence:'01/01/2026', vals:3  },
+    { nombre:'Lucía Fernández',  av:'LF', ac:'teal',  email:'lucia.fernandez@gmail.com',   dni:'25.334.455', plan:'Premium',  estado:'activo',     alta:'10/09/2024', vence:'10/09/2026', vals:54 },
+    { nombre:'Martín Soria',     av:'MS', ac:'teal',  email:'martin.soria@gmail.com',      dni:'37.221.100', plan:'Standard', estado:'activo',     alta:'05/07/2024', vence:'05/07/2026', vals:18 },
+    { nombre:'Valentina Castro', av:'VC', ac:'red',   email:'valentina.castro@gmail.com',  dni:'44.556.677', plan:'Premium',  estado:'inactivo',   alta:'15/03/2025', vence:'15/03/2026', vals:11 },
+  ];
+
+  const AV_COLORS = {
+    teal:  { bg:'rgba(26,159,125,.12)', color:'#22c9a0' },
+    amber: { bg:'rgba(245,158,11,.10)', color:'#f59e0b' },
+    red:   { bg:'rgba(232,25,44,.10)',  color:'#ff8090' },
+  };
+
+  function estadoBadge(e) {
+    if (e === 'activo')     return '<span class="badge b-green"><span class="dot-pulse"></span>Activo</span>';
+    if (e === 'inactivo')   return '<span class="badge b-red"><i class="ti ti-circle-x"></i>Inactivo</span>';
+    if (e === 'por-vencer') return '<span class="badge b-amber"><i class="ti ti-clock"></i>Por vencer</span>';
+    return '<span class="badge b-gray">' + e + '</span>';
+  }
+
+  function planBadge(p) {
+    if (p === 'Premium')  return '<span class="badge b-blue"><i class="ti ti-star"></i>Premium</span>';
+    if (p === 'Standard') return '<span class="badge b-gray">Standard</span>';
+    return '<span style="color:var(--text3)">—</span>';
+  }
+
+  let currentFilter = 'todos';
+
+  function render(data) {
+    const tbody = document.getElementById('socios-body');
+    document.getElementById('count-label').textContent = data.length;
+    tbody.innerHTML = data.map(s => {
+      const av = AV_COLORS[s.ac] || AV_COLORS.teal;
+      return `<tr>
+        <td>
+          <div class="socio-cell">
+            <div class="avatar" style="background:${av.bg};color:${av.color}">${s.av}</div>
+            <div>
+              <div class="socio-name">${s.nombre}</div>
+              <div class="socio-email">${s.email}</div>
+            </div>
+          </div>
+        </td>
+        <td style="font-family:monospace;color:var(--text2);font-size:12px">${s.dni}</td>
+        <td>${planBadge(s.plan)}</td>
+        <td>${estadoBadge(s.estado)}</td>
+        <td style="color:var(--text3);font-size:12px">${s.alta}</td>
+        <td style="color:var(--text2);font-size:12px">${s.vence}</td>
+        <td style="font-family:var(--sans);font-weight:600;color:white">${s.vals}</td>
+        <td>
+          <div style="display:flex;gap:5px">
+            <button class="action-btn"><i class="ti ti-eye"></i>Ver</button>
+            <button class="action-btn"><i class="ti ti-edit"></i>Editar</button>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  function getFiltered() {
+    const q = document.getElementById('search-socios').value.toLowerCase();
+    return SOCIOS.filter(s => {
+      const matchFilter = currentFilter === 'todos' || s.estado === currentFilter;
+      const matchQ = !q || s.nombre.toLowerCase().includes(q) || s.dni.includes(q);
+      return matchFilter && matchQ;
+    });
+  }
+
+  function filterSocios() { render(getFiltered()); }
+
+  function setFilter(f, btn) {
+    currentFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render(getFiltered());
+  }
+
+  document.addEventListener('DOMContentLoaded', () => render(SOCIOS));
+</script>

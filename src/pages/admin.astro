@@ -1,314 +1,123 @@
 ---
-// admin.astro — Kuntur Benefits · Panel Administrador · Demo local
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
 ---
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Admin — Kuntur Benefits</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"/>
-  <style>
+
+<BaseLayout title="Admin — Kuntur Benefits" currentPage="/admin">
+  <Sidebar role="admin" currentPage="/admin" />
+
+  <style is:global>
     :root {
-      --bg:        #080809;
-      --bg2:       #0f0f11;
-      --bg3:       #141417;
-      --bg4:       #1a1a1e;
-      --border:    rgba(255,255,255,0.06);
-      --border2:   rgba(255,255,255,0.10);
-      --brand:     #25a887;
-      --brand2:    #2dd4aa;
-      --brand-dim: rgba(37,168,135,0.10);
-      --brand-glow:rgba(37,168,135,0.25);
-      --danger:    #e8192c;
-      --danger-dim:rgba(232,25,44,0.10);
-      --amber:     #f59e0b;
-      --amber-dim: rgba(245,158,11,0.10);
-      --blue:      #3b82f6;
-      --blue-dim:  rgba(59,130,246,0.10);
-      --violet:    #8b5cf6;
-      --text:      #f0f0f5;
-      --text2:     #8888a0;
-      --text3:     #55556a;
-      --sans:      'Syne', sans-serif;
-      --body:      'DM Sans', sans-serif;
+      --bg:#080a09;--bg2:#0c0f0e;--bg3:#111412;--bg4:#161a18;
+      --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.10);
+      --brand:#1a9f7d;--brand2:#22c9a0;
+      --brand-dim:rgba(26,159,125,0.10);--brand-glow:rgba(26,159,125,0.25);
+      --danger:#e8192c;--danger-dim:rgba(232,25,44,0.10);
+      --amber:#f59e0b;--amber-dim:rgba(245,158,11,0.10);
+      --blue:#3b82f6;--blue-dim:rgba(59,130,246,0.10);
+      --violet:#8b5cf6;
+      --text:#f0f4f2;--text2:#7a8c85;--text3:#4a5c54;
+      --sans:'Syne',sans-serif;--body:'DM Sans',sans-serif;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 14px; line-height: 1.6; min-height: 100vh; }
-    a { color: inherit; text-decoration: none; }
-    button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    a{color:inherit;text-decoration:none}
+    button{cursor:pointer;border:none;background:none;font:inherit;color:inherit}
 
-    /* ── Layout ── */
-    .layout { display: flex; min-height: 100vh; }
+    .admin-main{margin-left:220px;padding:32px 36px;min-height:calc(100vh - 64px);background:var(--bg);font-family:var(--body);color:var(--text)}
 
-    /* ── Sidebar ── */
-    .sidebar {
-      width: 230px; flex-shrink: 0;
-      background: var(--bg2); border-right: 1px solid var(--border);
-      display: flex; flex-direction: column;
-      padding: 24px 14px;
-      position: sticky; top: 0; height: 100vh; overflow-y: auto;
-    }
-    .sidebar-brand { display: flex; align-items: center; gap: 10px; padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 14px; }
-    .brand-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--danger); display: flex; align-items: center; justify-content: center; font-family: var(--sans); font-weight: 800; font-size: 14px; color: white; flex-shrink: 0; }
-    .brand-name { font-family: var(--sans); font-weight: 700; font-size: 13px; color: var(--text); }
-    .brand-sub  { font-size: 10px; color: var(--text3); }
+    /* Demo banner */
+    .demo-banner{display:flex;align-items:center;gap:10px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:10px 14px;margin-bottom:22px;font-size:12px;color:var(--amber)}
 
-    .admin-badge {
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-      padding: 5px 8px; border-radius: 6px; margin-bottom: 14px;
-      background: var(--danger-dim); border: 1px solid rgba(232,25,44,.2);
-      font-family: var(--sans); font-size: 11px; font-weight: 700;
-      color: var(--danger); letter-spacing: 1px;
-    }
-    .admin-badge i { font-size: 14px; }
+    /* Topbar */
+    .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+    .page-title{font-family:var(--sans);font-size:22px;font-weight:700;color:white}
+    .page-sub{font-size:13px;color:var(--text2);margin-top:3px}
+    .topbar-actions{display:flex;gap:8px;align-items:center}
+    .btn-outline{padding:8px 14px;border-radius:8px;border:1px solid var(--border2);color:var(--text2);font-size:13px;font-weight:500;transition:all .15s;display:flex;align-items:center;gap:6px}
+    .btn-outline:hover{background:var(--bg3);color:var(--text)}
+    .btn-primary{padding:8px 16px;border-radius:8px;background:var(--brand);color:white;font-family:var(--sans);font-size:13px;font-weight:600;transition:all .15s;display:flex;align-items:center;gap:6px}
+    .btn-primary:hover{background:var(--brand2);transform:translateY(-1px)}
 
-    .nav-section { font-size: 10px; font-weight: 700; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; padding: 0 10px; margin: 12px 0 6px; }
-    .nav-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 9px 10px; border-radius: 8px;
-      font-size: 13px; font-weight: 500; color: var(--text2);
-      margin-bottom: 2px; transition: all .15s;
-      border: 1px solid transparent; cursor: pointer;
-    }
-    .nav-item i { font-size: 16px; flex-shrink: 0; }
-    .nav-item:hover { background: var(--bg3); color: var(--text); }
-    .nav-item.active { background: var(--brand-dim); color: var(--brand2); border-color: rgba(37,168,135,.15); }
-    .nav-count { margin-left: auto; font-size: 10px; background: var(--bg4); border: 1px solid var(--border); padding: 1px 7px; border-radius: 10px; color: var(--text3); }
-    .sidebar-spacer { flex: 1; }
+    /* KPIs */
+    .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+    .kpi-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px;transition:all .2s}
+    .kpi-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+    .kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .kpi-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+    .kpi-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+    .kpi-value{font-family:var(--sans);font-size:30px;font-weight:700;line-height:1;margin-bottom:8px}
+    .kpi-delta{font-size:12px}
+    .delta-up{color:var(--brand2)}
+    .delta-warn{color:var(--amber)}
+    .progress{height:5px;background:var(--bg4);border-radius:3px;overflow:hidden;margin-top:10px}
+    .progress-bar{height:100%;border-radius:3px}
 
-    .user-row {
-      display: flex; align-items: center; gap: 10px;
-      padding: 12px 8px; border-top: 1px solid var(--border);
-    }
-    .user-av {
-      width: 32px; height: 32px; border-radius: 50%;
-      background: var(--danger-dim); border: 1px solid rgba(232,25,44,.2);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--sans); font-size: 11px; font-weight: 700;
-      color: var(--danger); flex-shrink: 0;
-    }
-    .sidebar-footer { font-size: 10px; color: var(--text3); text-align: center; padding-top: 10px; border-top: 1px solid var(--border); }
-    .sidebar-footer span { color: var(--brand2); font-weight: 600; }
+    /* Charts */
+    .charts-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:20px}
+    .card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px}
+    .card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
+    .card-title{font-family:var(--sans);font-size:14px;font-weight:600;color:white}
+    .card-sub{font-size:12px;color:var(--text3);margin-top:3px}
+    .bar-chart{display:flex;align-items:flex-end;gap:6px;height:110px}
+    .bar-col-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px}
+    .bar-col{width:100%;border-radius:4px 4px 0 0;min-height:4px;transition:opacity .2s}
+    .bar-col:hover{opacity:.8}
+    .bar-lbl{font-size:10px;color:var(--text3)}
+    .donut-list{display:flex;flex-direction:column;gap:10px}
+    .donut-row{display:flex;align-items:center;gap:8px}
+    .donut-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .donut-name{flex:1;font-size:13px;color:var(--text)}
+    .donut-pct{font-size:12px;font-weight:600;color:var(--text2);min-width:34px;text-align:right}
+    .donut-bar-wrap{flex:2;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden}
+    .donut-fill{height:100%;border-radius:2px}
 
-    /* ── Main ── */
-    .main { flex: 1; padding: 32px 36px; min-height: 100vh; overflow: hidden; }
+    /* Tabs */
+    .tabs-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+    .tabs{display:flex;gap:2px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:4px}
+    .tab{padding:7px 14px;border-radius:7px;font-size:13px;font-weight:500;color:var(--text2);transition:all .15s}
+    .tab:hover{color:var(--text)}
+    .tab.active{background:var(--bg2);color:white;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+    .search-wrap{position:relative}
+    .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--text3);pointer-events:none}
+    .search-input{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:8px 14px 8px 32px;color:var(--text);font-size:13px;outline:none;width:220px;transition:border-color .15s;font-family:var(--body)}
+    .search-input:focus{border-color:var(--brand)}
+    .search-input::placeholder{color:var(--text3)}
 
-    /* ── Demo banner ── */
-    .demo-banner {
-      display: flex; align-items: center; gap: 10px;
-      background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.2);
-      border-radius: 10px; padding: 10px 14px; margin-bottom: 22px;
-      font-size: 12px; color: var(--amber);
-    }
-    .demo-banner i { font-size: 16px; flex-shrink: 0; }
-
-    /* ── Top bar ── */
-    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
-    .page-title { font-family: var(--sans); font-size: 22px; font-weight: 700; color: white; }
-    .page-sub   { font-size: 13px; color: var(--text2); margin-top: 3px; }
-    .topbar-actions { display: flex; gap: 8px; align-items: center; }
-
-    .btn-outline {
-      padding: 8px 14px; border-radius: 8px;
-      border: 1px solid var(--border2); color: var(--text2);
-      font-size: 13px; font-weight: 500; transition: all .15s;
-      display: flex; align-items: center; gap: 6px;
-    }
-    .btn-outline i { font-size: 15px; }
-    .btn-outline:hover { background: var(--bg3); color: var(--text); }
-    .btn-primary {
-      padding: 8px 16px; border-radius: 8px;
-      background: var(--brand); color: white;
-      font-family: var(--sans); font-size: 13px; font-weight: 600;
-      transition: all .15s; display: flex; align-items: center; gap: 6px;
-    }
-    .btn-primary i { font-size: 15px; }
-    .btn-primary:hover { background: var(--brand2); transform: translateY(-1px); }
-
-    /* ── KPI grid ── */
-    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
-    .kpi-card {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 14px; padding: 20px; transition: all .2s;
-    }
-    .kpi-card:hover { border-color: var(--border2); transform: translateY(-1px); }
-    .kpi-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-    .kpi-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; }
-    .kpi-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-    .kpi-value { font-family: var(--sans); font-size: 30px; font-weight: 700; line-height: 1; margin-bottom: 8px; }
-    .kpi-delta { font-size: 12px; display: flex; align-items: center; gap: 4px; }
-    .kpi-delta i { font-size: 13px; }
-    .delta-up   { color: var(--brand2); }
-    .delta-down { color: var(--danger); }
-    .delta-warn { color: var(--amber); }
-
-    /* ── Charts row ── */
-    .charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 20px; }
-    .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
-    .card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
-    .card-title  { font-family: var(--sans); font-size: 14px; font-weight: 600; color: white; }
-    .card-sub    { font-size: 12px; color: var(--text3); margin-top: 3px; }
-
-    /* Bar chart */
-    .bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 110px; }
-    .bar-col-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; }
-    .bar-col { width: 100%; border-radius: 4px 4px 0 0; min-height: 4px; transition: opacity .2s; }
-    .bar-col:hover { opacity: .8; }
-    .bar-lbl { font-size: 10px; color: var(--text3); }
-
-    /* Donut list */
-    .donut-list { display: flex; flex-direction: column; gap: 10px; }
-    .donut-row  { display: flex; align-items: center; gap: 8px; }
-    .donut-dot  { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .donut-name { flex: 1; font-size: 13px; color: var(--text); }
-    .donut-pct  { font-size: 12px; font-weight: 600; color: var(--text2); min-width: 34px; text-align: right; }
-    .donut-bar-wrap { flex: 2; height: 4px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
-    .donut-fill { height: 100%; border-radius: 2px; }
-
-    /* ── Tabs ── */
-    .tabs-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
-    .tabs { display: flex; gap: 2px; background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 4px; }
-    .tab {
-      padding: 7px 14px; border-radius: 7px;
-      font-size: 13px; font-weight: 500; color: var(--text2);
-      transition: all .15s; display: flex; align-items: center; gap: 6px;
-    }
-    .tab i { font-size: 14px; }
-    .tab:hover { color: var(--text); }
-    .tab.active { background: var(--bg2); color: white; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
-
-    /* ── Search ── */
-    .search-wrap { position: relative; display: flex; align-items: center; }
-    .search-wrap > i { position: absolute; left: 10px; font-size: 15px; color: var(--text3); pointer-events: none; }
-    .search-input {
-      background: var(--bg3); border: 1px solid var(--border2);
-      border-radius: 8px; padding: 8px 14px 8px 32px; color: var(--text);
-      font-size: 13px; outline: none; width: 220px;
-      transition: border-color .15s;
-    }
-    .search-input:focus { border-color: var(--brand); }
-    .search-input::placeholder { color: var(--text3); }
-
-    /* ── Tables ── */
-    .table-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid var(--border); }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    thead th { text-align: left; padding: 12px 16px; font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid var(--border); background: var(--bg2); }
-    tbody td { padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,.04); }
-    tbody tr:last-child td { border-bottom: none; }
-    tbody tr:hover td { background: rgba(255,255,255,.02); }
+    /* Table */
+    .table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    thead th{text-align:left;padding:12px 16px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:var(--bg2)}
+    tbody td{padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.04)}
+    tbody tr:last-child td{border-bottom:none}
+    tbody tr:hover td{background:rgba(255,255,255,.02)}
 
     /* Badges */
-    .badge {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-size: 10px; font-weight: 700; padding: 3px 9px;
-      border-radius: 20px; letter-spacing: .3px; text-transform: uppercase;
-    }
-    .badge i { font-size: 11px; }
-    .b-green  { background: rgba(37,168,135,.12); color: var(--brand2); border: 1px solid rgba(37,168,135,.25); }
-    .b-red    { background: var(--danger-dim); color: #ff8090; border: 1px solid rgba(232,25,44,.2); }
-    .b-amber  { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,158,11,.2); }
-    .b-blue   { background: var(--blue-dim); color: #60a5fa; border: 1px solid rgba(59,130,246,.2); }
-    .b-gray   { background: var(--bg4); color: var(--text3); border: 1px solid var(--border); }
-    .b-violet { background: rgba(139,92,246,.1); color: #a78bfa; border: 1px solid rgba(139,92,246,.2); }
+    .badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
+    .b-green{background:rgba(26,159,125,.12);color:var(--brand2);border:1px solid rgba(26,159,125,.25)}
+    .b-red{background:var(--danger-dim);color:#ff8090;border:1px solid rgba(232,25,44,.2)}
+    .b-amber{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+    .b-blue{background:var(--blue-dim);color:#60a5fa;border:1px solid rgba(59,130,246,.2)}
+    .b-gray{background:var(--bg4);color:var(--text3);border:1px solid var(--border)}
+    .dot-pulse{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 1.8s infinite;display:inline-block}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+    .avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-size:10px;font-weight:700;flex-shrink:0}
+    .action-btn{font-size:11px;color:var(--text2);padding:4px 9px;border:1px solid var(--border);border-radius:6px;transition:all .15s;display:inline-flex;align-items:center;gap:4px}
+    .action-btn:hover{border-color:var(--brand);color:var(--brand2)}
 
-    .dot-pulse { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse 1.8s infinite; display: inline-block; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    /* Tab panels */
+    #socios-panel,#comercios-panel,#validaciones-panel{display:none}
+    #socios-panel.active,#comercios-panel.active,#validaciones-panel.active{display:block}
 
-    .avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--sans); font-size: 10px; font-weight: 700; flex-shrink: 0; }
-
-    /* ── Tab panels ── */
-    #socios-panel, #comercios-panel, #validaciones-panel { display: none; }
-    #socios-panel.active, #comercios-panel.active, #validaciones-panel.active { display: block; }
-
-    /* ── Progress bar ── */
-    .progress { height: 5px; background: var(--bg4); border-radius: 3px; overflow: hidden; margin-top: 4px; }
-    .progress-bar { height: 100%; border-radius: 3px; }
-
-    /* ── Action button ── */
-    .action-btn {
-      font-size: 12px; color: var(--text2); padding: 4px 10px;
-      border: 1px solid var(--border); border-radius: 6px;
-      transition: all .15s; display: inline-flex; align-items: center; gap: 5px;
-    }
-    .action-btn i { font-size: 13px; }
-    .action-btn:hover { border-color: var(--brand); color: var(--brand2); }
-
-    @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
-    .fade-in { animation: fadeIn .3s ease; }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    .fade-in{animation:fadeIn .3s ease}
   </style>
-</head>
-<body>
-<div class="layout">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-brand">
-      <div class="brand-icon">K</div>
-      <div>
-        <div class="brand-name">Kuntur Training</div>
-        <div class="brand-sub">Panel Administrativo</div>
-      </div>
-    </div>
+  <main class="admin-main">
 
-    <div class="admin-badge">
-      <i class="ti ti-bolt" aria-hidden="true"></i>ADMIN
-    </div>
-
-    <div class="nav-section">Analytics</div>
-    <a href="/admin" class="nav-item active">
-      <i class="ti ti-chart-bar" aria-hidden="true"></i>Dashboard
-    </a>
-
-    <div class="nav-section">Gestión</div>
-    <a href="#" class="nav-item" onclick="switchTab('socios');setNavActive(this);return false;">
-      <i class="ti ti-users" aria-hidden="true"></i>Socios<span class="nav-count">8</span>
-    </a>
-    <a href="#" class="nav-item" onclick="switchTab('comercios');setNavActive(this);return false;">
-      <i class="ti ti-building-store" aria-hidden="true"></i>Comercios<span class="nav-count">6</span>
-    </a>
-    <a href="#" class="nav-item" onclick="switchTab('validaciones');setNavActive(this);return false;">
-      <i class="ti ti-circle-check" aria-hidden="true"></i>Validaciones
-    </a>
-    <a href="#" class="nav-item">
-      <i class="ti ti-gift" aria-hidden="true"></i>Beneficios
-    </a>
-
-    <div class="nav-section">Sistema</div>
-    <a href="#" class="nav-item">
-      <i class="ti ti-settings" aria-hidden="true"></i>Configuración
-    </a>
-    <a href="/validar" class="nav-item">
-      <i class="ti ti-scan" aria-hidden="true"></i>Validar Socio
-    </a>
-    <a href="#" class="nav-item">
-      <i class="ti ti-logout" aria-hidden="true"></i>Cerrar sesión
-    </a>
-
-    <div class="sidebar-spacer"></div>
-
-    <div class="user-row">
-      <div class="user-av">KT</div>
-      <div>
-        <div style="font-size:12px;font-weight:600;color:white;">Admin Kuntur</div>
-        <div style="font-size:10px;color:var(--text3);">Super Administrador</div>
-      </div>
-    </div>
-    <div class="sidebar-footer">Devhub · <span>Kuntur Benefits</span> v1.0</div>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- Demo banner -->
     <div class="demo-banner">
-      <i class="ti ti-flask" aria-hidden="true"></i>
-      <div><strong>Modo demo</strong> — Todos los datos son ficticios. Sin conexión a backend.</div>
+      🧪 <div><strong>Modo demo</strong> — Todos los datos son ficticios. Sin conexión a backend.</div>
     </div>
 
-    <!-- Top bar -->
     <div class="topbar">
       <div>
         <div class="page-title">Analytics Global</div>
@@ -320,12 +129,8 @@
           <option>Última semana</option>
           <option>Este año</option>
         </select>
-        <button class="btn-outline">
-          <i class="ti ti-download" aria-hidden="true"></i>Exportar
-        </button>
-        <button class="btn-primary">
-          <i class="ti ti-plus" aria-hidden="true"></i>Nuevo comercio
-        </button>
+        <button class="btn-outline">📥 Exportar</button>
+        <button class="btn-primary">+ Nuevo comercio</button>
       </div>
     </div>
 
@@ -334,54 +139,38 @@
       <div class="kpi-card">
         <div class="kpi-top">
           <div class="kpi-label">Socios activos</div>
-          <div class="kpi-icon" style="background:var(--brand-dim);color:var(--brand2);">
-            <i class="ti ti-users" aria-hidden="true"></i>
-          </div>
+          <div class="kpi-icon" style="background:var(--brand-dim);color:var(--brand2)">👥</div>
         </div>
-        <div class="kpi-value" style="color:var(--brand2);" id="kpi-socios">0</div>
-        <div class="kpi-delta delta-up">
-          <i class="ti ti-trending-up" aria-hidden="true"></i>+43 este mes
-        </div>
-        <div class="progress" style="margin-top:10px;"><div class="progress-bar" style="width:82%;background:var(--brand);"></div></div>
+        <div class="kpi-value" style="color:var(--brand2)" id="kpi-socios">0</div>
+        <div class="kpi-delta delta-up">↑ +43 este mes</div>
+        <div class="progress"><div class="progress-bar" style="width:82%;background:var(--brand)"></div></div>
       </div>
       <div class="kpi-card">
         <div class="kpi-top">
           <div class="kpi-label">Comercios adheridos</div>
-          <div class="kpi-icon" style="background:var(--blue-dim);color:#60a5fa;">
-            <i class="ti ti-building-store" aria-hidden="true"></i>
-          </div>
+          <div class="kpi-icon" style="background:var(--blue-dim);color:#60a5fa">🏪</div>
         </div>
-        <div class="kpi-value" style="color:#60a5fa;" id="kpi-comercios">0</div>
-        <div class="kpi-delta delta-up">
-          <i class="ti ti-trending-up" aria-hidden="true"></i>+2 este mes
-        </div>
-        <div class="progress" style="margin-top:10px;"><div class="progress-bar" style="width:60%;background:var(--blue);"></div></div>
+        <div class="kpi-value" style="color:#60a5fa" id="kpi-comercios">0</div>
+        <div class="kpi-delta delta-up">↑ +2 este mes</div>
+        <div class="progress"><div class="progress-bar" style="width:60%;background:var(--blue)"></div></div>
       </div>
       <div class="kpi-card">
         <div class="kpi-top">
           <div class="kpi-label">Validaciones del mes</div>
-          <div class="kpi-icon" style="background:rgba(139,92,246,.1);color:#c084fc;">
-            <i class="ti ti-circle-check" aria-hidden="true"></i>
-          </div>
+          <div class="kpi-icon" style="background:rgba(139,92,246,.1);color:#c084fc">✅</div>
         </div>
-        <div class="kpi-value" style="color:#c084fc;" id="kpi-val">0</div>
-        <div class="kpi-delta delta-up">
-          <i class="ti ti-trending-up" aria-hidden="true"></i>+18% vs mes anterior
-        </div>
-        <div class="progress" style="margin-top:10px;"><div class="progress-bar" style="width:73%;background:var(--violet);"></div></div>
+        <div class="kpi-value" style="color:#c084fc" id="kpi-val">0</div>
+        <div class="kpi-delta delta-up">↑ +18% vs mes anterior</div>
+        <div class="progress"><div class="progress-bar" style="width:73%;background:var(--violet)"></div></div>
       </div>
       <div class="kpi-card">
         <div class="kpi-top">
           <div class="kpi-label">Tasa de conversión</div>
-          <div class="kpi-icon" style="background:var(--amber-dim);color:var(--amber);">
-            <i class="ti ti-percentage" aria-hidden="true"></i>
-          </div>
+          <div class="kpi-icon" style="background:var(--amber-dim);color:var(--amber)">📊</div>
         </div>
-        <div class="kpi-value" style="color:var(--amber);" id="kpi-tasa">0%</div>
-        <div class="kpi-delta delta-warn">
-          <i class="ti ti-minus" aria-hidden="true"></i>Estable vs mes anterior
-        </div>
-        <div class="progress" style="margin-top:10px;"><div class="progress-bar" style="width:68%;background:var(--amber);"></div></div>
+        <div class="kpi-value" style="color:var(--amber)" id="kpi-tasa">0%</div>
+        <div class="kpi-delta delta-warn">= Estable vs mes anterior</div>
+        <div class="progress"><div class="progress-bar" style="width:68%;background:var(--amber)"></div></div>
       </div>
     </div>
 
@@ -393,9 +182,7 @@
             <div class="card-title">Validaciones por día</div>
             <div class="card-sub">Últimos 7 días · todas las sucursales</div>
           </div>
-          <span class="badge b-green">
-            <i class="ti ti-trending-up" aria-hidden="true"></i>+18%
-          </span>
+          <span class="badge b-green">↑ +18%</span>
         </div>
         <div class="bar-chart" id="bar-chart"></div>
       </div>
@@ -411,83 +198,51 @@
     </div>
 
     <!-- Tabs + Tables -->
-    <div class="card" style="padding:20px;">
+    <div class="card" style="padding:20px">
       <div class="tabs-row">
         <div class="tabs" id="main-tabs">
-          <button class="tab active" onclick="switchTab('ranking')">
-            <i class="ti ti-trophy" aria-hidden="true"></i>Top Comercios
-          </button>
-          <button class="tab" onclick="switchTab('socios')">
-            <i class="ti ti-users" aria-hidden="true"></i>Socios
-          </button>
-          <button class="tab" onclick="switchTab('comercios')">
-            <i class="ti ti-building-store" aria-hidden="true"></i>Comercios
-          </button>
-          <button class="tab" onclick="switchTab('validaciones')">
-            <i class="ti ti-circle-check" aria-hidden="true"></i>Últimas Validaciones
-          </button>
+          <button class="tab active" onclick="switchTab('ranking')">🏆 Top Comercios</button>
+          <button class="tab" onclick="switchTab('socios')">👥 Socios</button>
+          <button class="tab" onclick="switchTab('comercios')">🏪 Comercios</button>
+          <button class="tab" onclick="switchTab('validaciones')">✅ Validaciones</button>
         </div>
         <div class="search-wrap">
-          <i class="ti ti-search" aria-hidden="true"></i>
+          <span class="search-icon">🔍</span>
           <input class="search-input" id="search-input" placeholder="Buscar..." oninput="filterTable()" />
         </div>
       </div>
 
-      <!-- Tab: Ranking comercios -->
       <div id="ranking-panel" class="active fade-in">
         <div class="table-wrap">
-          <table id="ranking-table">
-            <thead>
-              <tr>
-                <th>#</th><th>Comercio</th><th>Rubro</th>
-                <th>Validaciones</th><th>Beneficios</th><th>Tasa</th><th>Estado</th>
-              </tr>
-            </thead>
+          <table>
+            <thead><tr><th>#</th><th>Comercio</th><th>Rubro</th><th>Validaciones</th><th>Beneficios</th><th>Tasa</th><th>Estado</th></tr></thead>
             <tbody id="ranking-body"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- Tab: Socios -->
       <div id="socios-panel" class="fade-in">
         <div class="table-wrap">
-          <table id="socios-table">
-            <thead>
-              <tr>
-                <th>Socio</th><th>DNI</th><th>Plan</th>
-                <th>Estado</th><th>Vencimiento</th><th>Alta</th>
-              </tr>
-            </thead>
+          <table>
+            <thead><tr><th>Socio</th><th>DNI</th><th>Plan</th><th>Estado</th><th>Vencimiento</th><th>Alta</th></tr></thead>
             <tbody id="socios-body"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- Tab: Comercios -->
       <div id="comercios-panel" class="fade-in">
         <div class="table-wrap">
-          <table id="comercios-table">
-            <thead>
-              <tr>
-                <th>Comercio</th><th>Rubro</th><th>Beneficio</th>
-                <th>Validaciones</th><th>Tasa</th><th>Estado</th><th>Acciones</th>
-              </tr>
-            </thead>
+          <table>
+            <thead><tr><th>Comercio</th><th>Rubro</th><th>Beneficio</th><th>Validaciones</th><th>Tasa</th><th>Estado</th><th>Acciones</th></tr></thead>
             <tbody id="comercios-body"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- Tab: Validaciones -->
       <div id="validaciones-panel" class="fade-in">
         <div class="table-wrap">
-          <table id="validaciones-table">
-            <thead>
-              <tr>
-                <th>Socio</th><th>DNI</th><th>Comercio</th>
-                <th>Resultado</th><th>Plan</th><th>Hora</th><th>Beneficio</th>
-              </tr>
-            </thead>
+          <table>
+            <thead><tr><th>Socio</th><th>DNI</th><th>Comercio</th><th>Resultado</th><th>Plan</th><th>Hora</th><th>Beneficio</th></tr></thead>
             <tbody id="validaciones-body"></tbody>
           </table>
         </div>
@@ -495,261 +250,213 @@
     </div>
 
   </main>
-</div>
+</BaseLayout>
 
-<script>
-// ═══════════════════════════════════════════════
-// DEMO DATA
-// ═══════════════════════════════════════════════
+<script is:inline>
+// ── DATA ──────────────────────────────────────────
 const SOCIOS = [
-  { nombre:'Juan Pérez',       avatar:'JP', ac:'teal',  dni:'32.456.789', plan:'Premium',  estado:'activo',     vence:'15/06/2026', alta:'15/06/2024' },
-  { nombre:'Ana Giménez',      avatar:'AG', ac:'teal',  dni:'35.654.321', plan:'Premium',  estado:'activo',     vence:'30/08/2026', alta:'01/09/2024' },
-  { nombre:'María López',      avatar:'ML', ac:'teal',  dni:'28.123.456', plan:'Standard', estado:'activo',     vence:'28/07/2026', alta:'28/07/2024' },
-  { nombre:'Pablo Torres',     avatar:'PT', ac:'amber', dni:'30.987.654', plan:'Standard', estado:'por-vencer', vence:'20/06/2026', alta:'20/06/2024' },
-  { nombre:'Carlos Ruiz',      avatar:'CR', ac:'red',   dni:'41.789.012', plan:'—',        estado:'inactivo',   vence:'01/01/2026', alta:'01/01/2025' },
-  { nombre:'Lucía Fernández',  avatar:'LF', ac:'teal',  dni:'25.334.455', plan:'Premium',  estado:'activo',     vence:'10/09/2026', alta:'10/09/2024' },
-  { nombre:'Martín Soria',     avatar:'MS', ac:'teal',  dni:'37.221.100', plan:'Standard', estado:'activo',     vence:'05/07/2026', alta:'05/07/2024' },
-  { nombre:'Valentina Castro', avatar:'VC', ac:'red',   dni:'44.556.677', plan:'Premium',  estado:'inactivo',   vence:'15/03/2026', alta:'15/03/2025' },
+  { nombre:'Juan Pérez',       av:'JP', ac:'teal',  dni:'32.456.789', plan:'Premium',  estado:'activo',     vence:'15/06/2026', alta:'15/06/2024' },
+  { nombre:'Ana Giménez',      av:'AG', ac:'teal',  dni:'35.654.321', plan:'Premium',  estado:'activo',     vence:'30/08/2026', alta:'01/09/2024' },
+  { nombre:'María López',      av:'ML', ac:'teal',  dni:'28.123.456', plan:'Standard', estado:'activo',     vence:'28/07/2026', alta:'28/07/2024' },
+  { nombre:'Pablo Torres',     av:'PT', ac:'amber', dni:'30.987.654', plan:'Standard', estado:'por-vencer', vence:'20/06/2026', alta:'20/06/2024' },
+  { nombre:'Carlos Ruiz',      av:'CR', ac:'red',   dni:'41.789.012', plan:'—',        estado:'inactivo',   vence:'01/01/2026', alta:'01/01/2025' },
+  { nombre:'Lucía Fernández',  av:'LF', ac:'teal',  dni:'25.334.455', plan:'Premium',  estado:'activo',     vence:'10/09/2026', alta:'10/09/2024' },
+  { nombre:'Martín Soria',     av:'MS', ac:'teal',  dni:'37.221.100', plan:'Standard', estado:'activo',     vence:'05/07/2026', alta:'05/07/2024' },
+  { nombre:'Valentina Castro', av:'VC', ac:'red',   dni:'44.556.677', plan:'Premium',  estado:'inactivo',   vence:'15/03/2026', alta:'15/03/2025' },
 ];
 
 const COMERCIOS = [
-  { icon:'ti-coffee',  nombre:'Cafetería del Centro', rubro:'Gastronomía',  beneficio:'20% OFF',   validaciones:891, benefAplicados:672, estado:'activo' },
-  { icon:'ti-scissors',nombre:'Barbería Elite',        rubro:'Estética',     beneficio:'15% OFF',   validaciones:654, benefAplicados:489, estado:'activo' },
-  { icon:'ti-salad',   nombre:'NutriBalance',           rubro:'Nutrición',    beneficio:'1ª gratis', validaciones:422, benefAplicados:298, estado:'activo' },
-  { icon:'ti-shirt',   nombre:'SportWear Store',        rubro:'Indumentaria', beneficio:'10% OFF',   validaciones:380, benefAplicados:241, estado:'activo' },
-  { icon:'ti-pill',    nombre:'Farmacia Vital',          rubro:'Salud',        beneficio:'8% OFF',    validaciones:245, benefAplicados:178, estado:'pendiente' },
-  { icon:'ti-barbell', nombre:'ProSuplementos',          rubro:'Suplementos',  beneficio:'18% OFF',   validaciones:312, benefAplicados:224, estado:'activo' },
+  { emoji:'☕', nombre:'Cafetería del Centro', rubro:'Gastronomía',  beneficio:'20% OFF', vals:891, benefApl:672, estado:'activo' },
+  { emoji:'✂️', nombre:'Barbería Elite',        rubro:'Estética',     beneficio:'15% OFF', vals:654, benefApl:489, estado:'activo' },
+  { emoji:'🥗', nombre:'NutriBalance',          rubro:'Nutrición',    beneficio:'1ª gratis',vals:422, benefApl:298, estado:'activo' },
+  { emoji:'👕', nombre:'SportWear Store',       rubro:'Indumentaria', beneficio:'10% OFF', vals:380, benefApl:241, estado:'activo' },
+  { emoji:'💊', nombre:'Farmacia Vital',         rubro:'Salud',        beneficio:'8% OFF',  vals:245, benefApl:178, estado:'pendiente' },
+  { emoji:'💪', nombre:'ProSuplementos',         rubro:'Suplementos',  beneficio:'18% OFF', vals:312, benefApl:224, estado:'activo' },
 ];
 
 const VALIDACIONES = [
-  { nombre:'Juan Pérez',       avatar:'JP', ac:'teal',  dni:'32.456.789', comercio:'Cafetería del Centro', resultado:'exitoso',   plan:'Premium',  hora:'10:23', beneficio:'20% OFF' },
-  { nombre:'María López',      avatar:'ML', ac:'teal',  dni:'28.123.456', comercio:'Cafetería del Centro', resultado:'exitoso',   plan:'Standard', hora:'09:48', beneficio:'20% OFF' },
-  { nombre:'Carlos Ruiz',      avatar:'CR', ac:'red',   dni:'41.789.012', comercio:'Cafetería del Centro', resultado:'rechazado', plan:'—',        hora:'09:31', beneficio:'—' },
-  { nombre:'Ana Giménez',      avatar:'AG', ac:'teal',  dni:'35.654.321', comercio:'Barbería Elite',       resultado:'exitoso',   plan:'Premium',  hora:'09:12', beneficio:'15% OFF' },
-  { nombre:'Pablo Torres',     avatar:'PT', ac:'amber', dni:'30.987.654', comercio:'SportWear Store',      resultado:'exitoso',   plan:'Standard', hora:'08:55', beneficio:'10% OFF' },
-  { nombre:'Lucía Fernández',  avatar:'LF', ac:'teal',  dni:'25.334.455', comercio:'NutriBalance',         resultado:'exitoso',   plan:'Premium',  hora:'08:30', beneficio:'1ª gratis' },
-  { nombre:'Valentina Castro', avatar:'VC', ac:'red',   dni:'44.556.677', comercio:'ProSuplementos',       resultado:'rechazado', plan:'—',        hora:'08:12', beneficio:'—' },
-  { nombre:'Martín Soria',     avatar:'MS', ac:'teal',  dni:'37.221.100', comercio:'Farmacia Vital',       resultado:'exitoso',   plan:'Standard', hora:'07:58', beneficio:'8% OFF' },
+  { nombre:'Juan Pérez',      av:'JP', ac:'teal',  dni:'32.456.789', comercio:'Cafetería del Centro', res:'exitoso',   plan:'Premium',  hora:'10:23', beneficio:'20% OFF' },
+  { nombre:'María López',     av:'ML', ac:'teal',  dni:'28.123.456', comercio:'Cafetería del Centro', res:'exitoso',   plan:'Standard', hora:'09:48', beneficio:'20% OFF' },
+  { nombre:'Carlos Ruiz',     av:'CR', ac:'red',   dni:'41.789.012', comercio:'Cafetería del Centro', res:'rechazado', plan:'—',        hora:'09:31', beneficio:'—' },
+  { nombre:'Ana Giménez',     av:'AG', ac:'teal',  dni:'35.654.321', comercio:'Barbería Elite',       res:'exitoso',   plan:'Premium',  hora:'09:12', beneficio:'15% OFF' },
+  { nombre:'Pablo Torres',    av:'PT', ac:'amber', dni:'30.987.654', comercio:'SportWear Store',      res:'exitoso',   plan:'Standard', hora:'08:55', beneficio:'10% OFF' },
+  { nombre:'Lucía Fernández', av:'LF', ac:'teal',  dni:'25.334.455', comercio:'NutriBalance',         res:'exitoso',   plan:'Premium',  hora:'08:30', beneficio:'1ª gratis' },
+  { nombre:'Martín Soria',    av:'MS', ac:'teal',  dni:'37.221.100', comercio:'Farmacia Vital',       res:'exitoso',   plan:'Standard', hora:'07:58', beneficio:'8% OFF' },
+  { nombre:'Valentina Castro',av:'VC', ac:'red',   dni:'44.556.677', comercio:'ProSuplementos',       res:'rechazado', plan:'—',        hora:'07:30', beneficio:'—' },
 ];
 
 const CHART_DATA = [
-  { dia:'Lun', val:38 }, { dia:'Mar', val:52 }, { dia:'Mié', val:31 },
-  { dia:'Jue', val:67 }, { dia:'Vie', val:74 }, { dia:'Sáb', val:91 }, { dia:'Dom', val:62 },
+  { dia:'Lun',val:38 },{ dia:'Mar',val:52 },{ dia:'Mié',val:31 },
+  { dia:'Jue',val:67 },{ dia:'Vie',val:74 },{ dia:'Sáb',val:91 },{ dia:'Hoy',val:24 },
 ];
 
 const CATEGORIAS = [
   { nombre:'Gastronomía',  pct:72, color:'var(--brand)' },
   { nombre:'Barbería',     pct:54, color:'var(--blue)' },
-  { nombre:'Nutrición',    pct:41, color:'#34d399' },
+  { nombre:'Nutrición',    pct:41, color:'#4ade80' },
   { nombre:'Indumentaria', pct:35, color:'var(--amber)' },
   { nombre:'Salud',        pct:28, color:'#c084fc' },
 ];
 
-// Mapa de colores para avatares según ac (color category)
 const AV_COLORS = {
-  teal:  { bg: 'rgba(37,168,135,.12)',  text: 'var(--brand2)' },
-  amber: { bg: 'rgba(245,158,11,.10)',  text: 'var(--amber)' },
-  red:   { bg: 'rgba(232,25,44,.10)',   text: '#ff8090' },
+  teal:  { bg:'rgba(26,159,125,.12)', color:'#22c9a0' },
+  amber: { bg:'rgba(245,158,11,.10)', color:'#f59e0b' },
+  red:   { bg:'rgba(232,25,44,.10)',  color:'#ff8090' },
 };
-function avStyle(ac) {
-  const s = AV_COLORS[ac] || AV_COLORS.teal;
-  return `background:${s.bg};color:${s.text};`;
+
+// ── HELPERS ───────────────────────────────────────
+function estadoBadge(e) {
+  if (e === 'activo')     return '<span class="badge b-green"><span class="dot-pulse"></span>Activo</span>';
+  if (e === 'inactivo')   return '<span class="badge b-red">Inactivo</span>';
+  if (e === 'por-vencer') return '<span class="badge b-amber">Por vencer</span>';
+  if (e === 'pendiente')  return '<span class="badge b-amber">Pendiente</span>';
+  return '<span class="badge b-gray">' + e + '</span>';
 }
 
-// ═══════════════════════════════════════════════
-// KPI COUNT-UP ANIMATION
-// ═══════════════════════════════════════════════
-function countUp(id, target, suffix = '', duration = 1000) {
-  const el = document.getElementById(id);
+function planBadge(p) {
+  if (p === 'Premium')  return '<span class="badge b-blue">Premium</span>';
+  if (p === 'Standard') return '<span class="badge b-gray">Standard</span>';
+  return '<span style="color:var(--text3)">—</span>';
+}
+
+function countUp(id, target, suffix, duration) {
+  var el = document.getElementById(id);
   if (!el) return;
-  let start = 0;
-  const step = target / (duration / 16);
-  const t = setInterval(() => {
+  var start = 0; var step = target / (duration / 16);
+  var t = setInterval(function() {
     start = Math.min(start + step, target);
-    el.textContent = Math.round(start).toLocaleString() + suffix;
+    el.textContent = Math.round(start).toLocaleString() + (suffix || '');
     if (start >= target) clearInterval(t);
   }, 16);
 }
 
-// ═══════════════════════════════════════════════
-// BAR CHART
-// ═══════════════════════════════════════════════
+// ── CHARTS ────────────────────────────────────────
 function renderBarChart() {
-  const max = Math.max(...CHART_DATA.map(d => d.val));
-  document.getElementById('bar-chart').innerHTML = CHART_DATA.map(d => `
-    <div class="bar-col-wrap">
-      <div class="bar-col" style="height:${(d.val / max) * 100}%;background:${d.dia === 'Sáb' ? 'var(--brand)' : 'rgba(37,168,135,.45)'};"></div>
-      <div class="bar-lbl" style="${d.dia === 'Sáb' ? 'color:var(--brand2);font-weight:700;' : ''}">${d.dia}</div>
-    </div>`).join('');
+  var max = Math.max.apply(null, CHART_DATA.map(function(d) { return d.val; }));
+  document.getElementById('bar-chart').innerHTML = CHART_DATA.map(function(d) {
+    var isToday = d.dia === 'Hoy';
+    return '<div class="bar-col-wrap">' +
+      '<div class="bar-col" style="height:' + Math.round((d.val/max)*100) + '%;background:' + (isToday ? 'var(--brand)' : 'rgba(26,159,125,.35)') + '"></div>' +
+      '<div class="bar-lbl" style="' + (isToday ? 'color:var(--brand2);font-weight:600' : '') + '">' + d.dia + '</div>' +
+    '</div>';
+  }).join('');
 }
 
-// ═══════════════════════════════════════════════
-// DONUT LIST
-// ═══════════════════════════════════════════════
 function renderDonut() {
-  document.getElementById('donut-list').innerHTML = CATEGORIAS.map(c => `
-    <div class="donut-row">
-      <div class="donut-dot" style="background:${c.color};"></div>
-      <div class="donut-name">${c.nombre}</div>
-      <div class="donut-bar-wrap"><div class="donut-fill" style="width:${c.pct}%;background:${c.color};"></div></div>
-      <div class="donut-pct">${c.pct}%</div>
-    </div>`).join('');
+  document.getElementById('donut-list').innerHTML = CATEGORIAS.map(function(c) {
+    return '<div class="donut-row">' +
+      '<div class="donut-dot" style="background:' + c.color + '"></div>' +
+      '<div class="donut-name">' + c.nombre + '</div>' +
+      '<div class="donut-bar-wrap"><div class="donut-fill" style="width:' + c.pct + '%;background:' + c.color + '"></div></div>' +
+      '<div class="donut-pct">' + c.pct + '%</div>' +
+    '</div>';
+  }).join('');
 }
 
-// ═══════════════════════════════════════════════
-// BADGE HELPERS
-// ═══════════════════════════════════════════════
-function estadoBadge(e) {
-  if (e === 'activo')     return '<span class="badge b-green"><span class="dot-pulse" style="color:var(--brand2);"></span>Activo</span>';
-  if (e === 'inactivo')   return '<span class="badge b-red"><i class="ti ti-circle-x" aria-hidden="true"></i>Inactivo</span>';
-  if (e === 'por-vencer') return '<span class="badge b-amber"><i class="ti ti-clock" aria-hidden="true"></i>Por vencer</span>';
-  if (e === 'pendiente')  return '<span class="badge b-amber"><i class="ti ti-clock" aria-hidden="true"></i>Pendiente</span>';
-  return `<span class="badge b-gray">${e}</span>`;
-}
-
-function planBadge(p) {
-  if (p === 'Premium')  return '<span class="badge b-blue"><i class="ti ti-star" aria-hidden="true"></i>Premium</span>';
-  if (p === 'Standard') return '<span class="badge b-gray">Standard</span>';
-  return `<span style="color:var(--text3);">—</span>`;
-}
-
-// ═══════════════════════════════════════════════
-// RENDER TABLES
-// ═══════════════════════════════════════════════
+// ── TABLES ────────────────────────────────────────
 function renderRanking() {
-  const medals = ['🥇', '🥈', '🥉'];
-  document.getElementById('ranking-body').innerHTML = COMERCIOS.map((c, i) => {
-    const tasa = Math.round((c.benefAplicados / c.validaciones) * 100);
-    return `<tr>
-      <td style="font-size:17px;">${medals[i] ?? `<span style="color:var(--text3);font-weight:600;">${i + 1}</span>`}</td>
-      <td>
-        <div style="display:flex;align-items:center;gap:9px;">
-          <i class="ti ${c.icon}" style="font-size:18px;color:var(--text2);" aria-hidden="true"></i>
-          <span style="font-weight:600;color:white;">${c.nombre}</span>
-        </div>
-      </td>
-      <td><span class="badge b-gray">${c.rubro}</span></td>
-      <td style="font-family:'Syne',sans-serif;font-weight:700;color:white;">${c.validaciones.toLocaleString()}</td>
-      <td style="color:var(--text2);">${c.benefAplicados.toLocaleString()}</td>
-      <td style="font-weight:600;color:${tasa > 70 ? 'var(--brand2)' : 'var(--amber)'};">${tasa}%</td>
-      <td>${estadoBadge(c.estado)}</td>
-    </tr>`;
+  var medals = ['🥇','🥈','🥉'];
+  document.getElementById('ranking-body').innerHTML = COMERCIOS.map(function(c, i) {
+    var tasa = Math.round((c.benefApl / c.vals) * 100);
+    return '<tr>' +
+      '<td style="font-size:16px">' + (medals[i] || '<span style="color:var(--text3);font-weight:600">' + (i+1) + '</span>') + '</td>' +
+      '<td style="font-weight:600;color:white">' + c.emoji + ' ' + c.nombre + '</td>' +
+      '<td><span class="badge b-gray">' + c.rubro + '</span></td>' +
+      '<td style="font-family:var(--sans);font-weight:700;color:white">' + c.vals.toLocaleString() + '</td>' +
+      '<td style="color:var(--text2)">' + c.benefApl.toLocaleString() + '</td>' +
+      '<td style="font-weight:600;color:' + (tasa > 70 ? 'var(--brand2)' : 'var(--amber)') + '">' + tasa + '%</td>' +
+      '<td>' + estadoBadge(c.estado) + '</td>' +
+    '</tr>';
   }).join('');
 }
 
 function renderSocios() {
-  document.getElementById('socios-body').innerHTML = SOCIOS.map(s => `
-    <tr>
-      <td>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="avatar" style="${avStyle(s.ac)}">${s.avatar}</div>
-          <span style="font-weight:500;color:white;">${s.nombre}</span>
-        </div>
-      </td>
-      <td style="font-family:monospace;color:var(--text2);">${s.dni}</td>
-      <td>${planBadge(s.plan)}</td>
-      <td>${estadoBadge(s.estado)}</td>
-      <td style="color:var(--text2);">${s.vence}</td>
-      <td style="color:var(--text3);">${s.alta}</td>
-    </tr>`).join('');
+  document.getElementById('socios-body').innerHTML = SOCIOS.map(function(s) {
+    var av = AV_COLORS[s.ac] || AV_COLORS.teal;
+    return '<tr>' +
+      '<td><div style="display:flex;align-items:center;gap:9px">' +
+        '<div class="avatar" style="background:' + av.bg + ';color:' + av.color + '">' + s.av + '</div>' +
+        '<span style="font-weight:500;color:white">' + s.nombre + '</span>' +
+      '</div></td>' +
+      '<td style="font-family:monospace;color:var(--text2);font-size:12px">' + s.dni + '</td>' +
+      '<td>' + planBadge(s.plan) + '</td>' +
+      '<td>' + estadoBadge(s.estado) + '</td>' +
+      '<td style="color:var(--text2);font-size:12px">' + s.vence + '</td>' +
+      '<td style="color:var(--text3);font-size:12px">' + s.alta + '</td>' +
+    '</tr>';
+  }).join('');
 }
 
 function renderComercios() {
-  document.getElementById('comercios-body').innerHTML = COMERCIOS.map(c => {
-    const tasa = Math.round((c.benefAplicados / c.validaciones) * 100);
-    return `<tr>
-      <td>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <i class="ti ${c.icon}" style="font-size:18px;color:var(--text2);" aria-hidden="true"></i>
-          <span style="font-weight:600;color:white;">${c.nombre}</span>
-        </div>
-      </td>
-      <td style="color:var(--text2);">${c.rubro}</td>
-      <td><span class="badge b-green">${c.beneficio}</span></td>
-      <td style="font-weight:600;color:white;">${c.validaciones.toLocaleString()}</td>
-      <td style="color:${tasa > 70 ? 'var(--brand2)' : 'var(--amber)'};">${tasa}%</td>
-      <td>${estadoBadge(c.estado)}</td>
-      <td>
-        <button class="action-btn">
-          <i class="ti ti-edit" aria-hidden="true"></i>Editar
-        </button>
-      </td>
-    </tr>`;
+  document.getElementById('comercios-body').innerHTML = COMERCIOS.map(function(c) {
+    var tasa = Math.round((c.benefApl / c.vals) * 100);
+    return '<tr>' +
+      '<td style="font-weight:600;color:white">' + c.emoji + ' ' + c.nombre + '</td>' +
+      '<td style="color:var(--text2)">' + c.rubro + '</td>' +
+      '<td><span class="badge b-green">' + c.beneficio + '</span></td>' +
+      '<td style="font-weight:600;color:white">' + c.vals.toLocaleString() + '</td>' +
+      '<td style="color:' + (tasa > 70 ? 'var(--brand2)' : 'var(--amber)') + ';font-weight:600">' + tasa + '%</td>' +
+      '<td>' + estadoBadge(c.estado) + '</td>' +
+      '<td><div style="display:flex;gap:5px">' +
+        '<button class="action-btn">Ver</button>' +
+        '<button class="action-btn">Editar</button>' +
+      '</div></td>' +
+    '</tr>';
   }).join('');
 }
 
 function renderValidaciones() {
-  document.getElementById('validaciones-body').innerHTML = VALIDACIONES.map(v => `
-    <tr>
-      <td>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div class="avatar" style="${avStyle(v.ac)}">${v.avatar}</div>
-          <span style="font-weight:500;color:white;">${v.nombre}</span>
-        </div>
-      </td>
-      <td style="font-family:monospace;color:var(--text2);">${v.dni}</td>
-      <td style="color:var(--text2);">${v.comercio}</td>
-      <td>${v.resultado === 'exitoso'
-        ? '<span class="badge b-green"><i class="ti ti-check" aria-hidden="true"></i>Exitoso</span>'
-        : '<span class="badge b-red"><i class="ti ti-x" aria-hidden="true"></i>Rechazado</span>'
-      }</td>
-      <td>${planBadge(v.plan)}</td>
-      <td style="color:var(--text3);">${v.hora}</td>
-      <td style="color:${v.beneficio !== '—' ? 'var(--brand2)' : 'var(--text3)'};">${v.beneficio}</td>
-    </tr>`).join('');
+  document.getElementById('validaciones-body').innerHTML = VALIDACIONES.map(function(v) {
+    var av = AV_COLORS[v.ac] || AV_COLORS.teal;
+    return '<tr>' +
+      '<td><div style="display:flex;align-items:center;gap:8px">' +
+        '<div class="avatar" style="background:' + av.bg + ';color:' + av.color + '">' + v.av + '</div>' +
+        '<span style="font-weight:500;color:white">' + v.nombre + '</span>' +
+      '</div></td>' +
+      '<td style="font-family:monospace;color:var(--text2);font-size:12px">' + v.dni + '</td>' +
+      '<td style="color:var(--text2)">' + v.comercio + '</td>' +
+      '<td>' + (v.res === 'exitoso' ? '<span class="badge b-green"><span class="dot-pulse"></span>Exitoso</span>' : '<span class="badge b-red">❌ Rechazado</span>') + '</td>' +
+      '<td>' + planBadge(v.plan) + '</td>' +
+      '<td style="font-family:monospace;color:var(--text3);font-size:12px">' + v.hora + '</td>' +
+      '<td style="color:' + (v.beneficio !== '—' ? 'var(--brand2)' : 'var(--text3)') + ';font-weight:600">' + v.beneficio + '</td>' +
+    '</tr>';
+  }).join('');
 }
 
-// ═══════════════════════════════════════════════
-// TABS
-// ═══════════════════════════════════════════════
-let currentTab = 'ranking';
-const panels = ['ranking', 'socios', 'comercios', 'validaciones'];
+// ── TABS ──────────────────────────────────────────
+var currentTab = 'ranking';
+var panels = ['ranking','socios','comercios','validaciones'];
 
 function switchTab(tab) {
   currentTab = tab;
-  panels.forEach(p => {
-    const el = document.getElementById(p + '-panel');
+  panels.forEach(function(p) {
+    var el = document.getElementById(p + '-panel');
     if (el) el.classList.toggle('active', p === tab);
   });
-  document.querySelectorAll('#main-tabs .tab').forEach(btn => {
-    const t = btn.textContent.toLowerCase();
-    const active =
-      (tab === 'ranking'      && t.includes('top'))      ||
-      (tab === 'socios'       && t.includes('socios'))   ||
-      (tab === 'comercios'    && t.includes('comercios'))||
-      (tab === 'validaciones' && t.includes('validac'));
-    btn.classList.toggle('active', active);
+  document.querySelectorAll('#main-tabs .tab').forEach(function(btn, i) {
+    var map = ['ranking','socios','comercios','validaciones'];
+    btn.classList.toggle('active', map[i] === tab);
   });
   document.getElementById('search-input').value = '';
   filterTable();
 }
 
-function setNavActive(el) {
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  el.classList.add('active');
-}
-
-// ═══════════════════════════════════════════════
-// SEARCH / FILTER
-// ═══════════════════════════════════════════════
+// ── SEARCH ────────────────────────────────────────
 function filterTable() {
-  const q = document.getElementById('search-input').value.toLowerCase();
-  const panel = document.getElementById(currentTab + '-panel');
+  var q = document.getElementById('search-input').value.toLowerCase();
+  var panel = document.getElementById(currentTab + '-panel');
   if (!panel) return;
-  panel.querySelectorAll('tbody tr').forEach(row => {
+  panel.querySelectorAll('tbody tr').forEach(function(row) {
     row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
   });
 }
 
-// ═══════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
-  countUp('kpi-socios',    1284);
-  countUp('kpi-comercios', 47);
-  countUp('kpi-val',       3891);
-  setTimeout(() => countUp('kpi-tasa', 68, '%'), 200);
-
+// ── INIT ──────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  countUp('kpi-socios',   1284, '',  1000);
+  countUp('kpi-comercios', 47,  '',  800);
+  countUp('kpi-val',      3891, '',  1200);
+  setTimeout(function() { countUp('kpi-tasa', 68, '%', 800); }, 200);
   renderBarChart();
   renderDonut();
   renderRanking();
@@ -758,5 +465,3 @@ document.addEventListener('DOMContentLoaded', () => {
   renderValidaciones();
 });
 </script>
-</body>
-</html>

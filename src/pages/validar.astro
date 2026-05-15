@@ -1,410 +1,650 @@
-!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Validar Socio — Kuntur Benefits</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
-  <style>
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+---
+
+<BaseLayout title="Validar Socio — Cafetería Mitre · Kuntur Benefits" currentPage="/validar">
+  <Sidebar role="comercio" currentPage="/validar" comercioName="Cafetería Mitre" />
+
+  <style is:global>
     :root {
-      --bg:#080809;--bg2:#0f0f11;--bg3:#141417;--bg4:#1a1a1e;
-      --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.10);
-      --brand:#25a887;--brand2:#2dd4aa;
-      --brand-dim:rgba(37,168,135,0.10);--brand-glow:rgba(37,168,135,0.25);
-      --danger:#e8192c;--danger-dim:rgba(232,25,44,0.10);
-      --amber:#f59e0b;--amber-dim:rgba(245,158,11,0.10);
-      --text:#f0f0f5;--text2:#8888a0;--text3:#55556a;
-      --sans:'Syne',sans-serif;--body:'DM Sans',sans-serif;
+      --bg:       #080a09;
+      --bg2:      #0c0f0e;
+      --bg3:      #111412;
+      --bg4:      #161a18;
+      --border:   rgba(255,255,255,0.06);
+      --border2:  rgba(255,255,255,0.10);
+      --brand:    #24967D;
+      --brand2:   #2db896;
+      --brand-dim:  rgba(36,150,125,0.10);
+      --brand-glow: rgba(36,150,125,0.25);
+      --danger:     #e8192c;
+      --danger-dim: rgba(232,25,44,0.10);
+      --amber:      #f59e0b;
+      --amber-dim:  rgba(245,158,11,0.10);
+      --blue:       #3b82f6;
+      --blue-dim:   rgba(59,130,246,0.10);
+      --text:  #f0f4f2;
+      --text2: #7a8c85;
+      --text3: #4a5c54;
+      --sans: 'Space Grotesk', 'Inter', sans-serif;
+      --body: 'Inter', sans-serif;
     }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:14px;line-height:1.6;min-height:100vh}
-    a{color:inherit;text-decoration:none}
-    button{cursor:pointer;border:none;background:none;font:inherit;color:inherit}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a      { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; }
 
-    .layout{display:flex;min-height:100vh}
+    /* ── Animations ── */
+    @keyframes fadeIn  { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeUp  { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes pulse   { 0%,100% { opacity:1; } 50% { opacity:.35; } }
+    @keyframes spin    { to { transform:rotate(360deg); } }
 
-    /* Sidebar */
-    .sidebar{width:220px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:24px 14px;position:fixed;top:0;left:0;bottom:0;z-index:10}
-    .sidebar-brand{display:flex;align-items:center;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:20px}
-    .brand-icon{width:32px;height:32px;border-radius:8px;background:var(--brand);display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:800;font-size:14px;color:white;box-shadow:0 0 12px var(--brand-glow)}
-    .brand-name{font-family:var(--sans);font-weight:700;font-size:14px}
-    .brand-sub{font-size:11px;color:var(--text3)}
-    .nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text2);margin-bottom:2px;transition:all .15s;text-decoration:none}
-    .nav-item:hover{background:var(--bg3);color:var(--text)}
-    .nav-item.active{background:var(--brand-dim);color:var(--brand2);border:1px solid rgba(37,168,135,0.15)}
-    .sidebar-spacer{flex:1}
-    .sidebar-footer{font-size:10px;color:var(--text3);text-align:center;padding-top:14px;border-top:1px solid var(--border)}
-    .sidebar-footer span{color:var(--brand2);font-weight:600}
-
-    /* Main */
-    .main{margin-left:220px;padding:36px;min-height:100vh}
-    .page-title{font-family:var(--sans);font-size:22px;font-weight:700;color:white}
-    .page-sub{font-size:13px;color:var(--text2);margin-top:4px;margin-bottom:28px}
-    .grid-2{display:grid;grid-template-columns:1fr 320px;gap:20px}
-
-    /* Cards */
-    .card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px}
-    .side-cards{display:flex;flex-direction:column;gap:14px}
-
-    /* Demo banner */
-    .demo-banner{display:flex;align-items:center;gap:10px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:10px 14px;margin-bottom:24px;font-size:12px;color:var(--amber)}
-
-    /* Card header */
-    .card-icon{width:38px;height:38px;border-radius:10px;background:var(--brand-dim);border:1px solid rgba(37,168,135,.2);display:flex;align-items:center;justify-content:center;font-size:18px}
-    .card-title{font-family:var(--sans);font-size:15px;font-weight:600;color:white;margin-bottom:0}
-
-    /* Input */
-    .input-label{font-size:12px;font-weight:500;color:var(--text2);display:block;margin-bottom:8px;margin-top:20px}
-    .input-row{display:flex;gap:8px;margin-bottom:14px}
-    .dni-input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:12px 16px;font-size:15px;font-family:monospace;color:white;outline:none;letter-spacing:2px;transition:border-color .2s,box-shadow .2s}
-    .dni-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(37,168,135,0.12)}
-    .dni-input::placeholder{color:var(--text3);letter-spacing:0;font-family:var(--body);font-size:13px}
-    .btn-clear{width:46px;height:46px;border-radius:10px;border:1px solid var(--border2);color:var(--text3);display:flex;align-items:center;justify-content:center;transition:all .15s;font-size:15px}
-    .btn-clear:hover{background:var(--bg3);color:var(--text2)}
-    .btn-validate{width:100%;padding:13px;background:var(--brand);color:white;border-radius:10px;font-family:var(--sans);font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;box-shadow:0 4px 16px var(--brand-glow);margin-bottom:20px}
-    .btn-validate:hover{background:var(--brand2);transform:translateY(-1px)}
-
-    /* Quick DNIs */
-    .quick-label{font-size:11px;color:var(--text3);margin-bottom:8px}
-    .quick-grid{display:flex;flex-direction:column;gap:6px}
-    .quick-btn{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);font-size:12px;color:var(--text2);transition:all .15s;text-align:left}
-    .quick-btn:hover{border-color:var(--brand);color:white;background:var(--bg4)}
-    .qdni{font-family:monospace;font-size:13px;color:var(--text)}
-    .qbadge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.3px;flex-shrink:0}
-    .qb-ok{background:rgba(37,168,135,.15);color:var(--brand2)}
-    .qb-warn{background:var(--amber-dim);color:var(--amber)}
-    .qb-err{background:var(--danger-dim);color:#ff8090}
-
-    /* Result area */
-    #result-area{margin-top:20px}
+    /* ── Badges ── */
+    .badge { display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap; }
+    .b-green  { background:rgba(36,150,125,.12);  color:var(--brand2); border:1px solid rgba(36,150,125,.25); }
+    .b-red    { background:var(--danger-dim);      color:#ff8090;       border:1px solid rgba(232,25,44,.2); }
+    .b-amber  { background:var(--amber-dim);       color:var(--amber);  border:1px solid rgba(245,158,11,.2); }
+    .b-blue   { background:var(--blue-dim);        color:#60a5fa;       border:1px solid rgba(59,130,246,.2); }
+    .b-gray   { background:var(--bg4);             color:var(--text3);  border:1px solid var(--border); }
+    .dot-pulse { width:5px;height:5px;border-radius:50%;background:currentColor;animation:pulse 1.8s infinite;display:inline-block; }
 
     /* Loading */
-    .r-loading{display:flex;align-items:center;gap:12px;padding:16px;border-radius:12px;background:var(--bg3);border:1px solid var(--border)}
-    .spinner{width:18px;height:18px;border-radius:50%;border:2px solid rgba(37,168,135,.3);border-top-color:var(--brand);animation:spin .7s linear infinite;flex-shrink:0}
-    @keyframes spin{to{transform:rotate(360deg)}}
+    .r-loading {
+      display:flex;align-items:center;gap:12px;
+      padding:16px;border-radius:12px;
+      background:var(--bg3);border:1px solid var(--border);
+    }
+    .spinner {
+      width:18px;height:18px;border-radius:50%;
+      border:2px solid rgba(36,150,125,.3);border-top-color:var(--brand);
+      animation:spin .7s linear infinite;flex-shrink:0;
+    }
 
     /* Success */
-    .r-success{border-radius:16px;border:1px solid rgba(37,168,135,.3);background:rgba(37,168,135,.06);overflow:hidden;animation:fadeUp .4s ease}
-    .r-success-head{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid rgba(37,168,135,.12)}
-    .r-success-icon{width:40px;height:40px;border-radius:10px;background:rgba(37,168,135,.15);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-    .r-status{font-family:var(--sans);font-weight:700;font-size:15px;color:var(--brand2)}
-    .r-sub{font-size:12px;color:var(--text3)}
-    .plan-pill{margin-left:auto;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;background:rgba(59,130,246,.12);color:#60a5fa;border:1px solid rgba(59,130,246,.2);flex-shrink:0}
-    .r-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:16px 20px}
-    .r-field{background:rgba(255,255,255,.03);border-radius:8px;padding:10px 12px}
-    .r-field-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-    .r-field-value{font-size:13px;font-weight:600;color:white}
-    .r-benefit{margin:0 20px 20px;padding:16px 18px;background:rgba(37,168,135,.1);border:1px solid rgba(37,168,135,.22);border-radius:12px;display:flex;align-items:center;justify-content:space-between}
-    .r-benefit-label{font-size:11px;color:var(--text3);margin-bottom:4px}
-    .r-benefit-amount{font-family:var(--sans);font-size:32px;font-weight:800;color:var(--brand2);line-height:1}
-    .r-benefit-desc{font-size:11px;color:var(--text2);margin-top:4px}
-    .r-warn-strip{margin:0 20px 12px;padding:8px 12px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:8px;font-size:12px;color:var(--amber);display:flex;align-items:center;gap:8px}
+    .r-success {
+      border-radius:16px;border:1px solid rgba(36,150,125,.3);
+      background:rgba(36,150,125,.06);overflow:hidden;
+      animation:fadeUp .4s ease;
+    }
+    .r-success-head {
+      display:flex;align-items:center;gap:12px;
+      padding:18px 20px;border-bottom:1px solid rgba(36,150,125,.12);
+    }
+    .r-success-icon {
+      width:40px;height:40px;border-radius:10px;
+      background:rgba(36,150,125,.15);
+      display:flex;align-items:center;justify-content:center;
+      font-size:20px;flex-shrink:0;
+    }
+    .r-status { font-family:var(--sans);font-weight:700;font-size:15px;color:var(--brand2); }
+    .r-sub    { font-size:12px;color:var(--text3);margin-top:2px; }
+
+    .plan-pill {
+      margin-left:auto;font-size:11px;font-weight:700;
+      padding:4px 10px;border-radius:20px;
+      background:var(--blue-dim);color:#60a5fa;
+      border:1px solid rgba(59,130,246,.2);flex-shrink:0;
+    }
+
+    .r-grid {
+      display:grid;grid-template-columns:1fr 1fr;gap:8px;
+      padding:16px 20px;
+    }
+    .r-field { background:rgba(255,255,255,.03);border-radius:8px;padding:10px 12px; }
+    .r-field-label { font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px; }
+    .r-field-value { font-size:13px;font-weight:600;color:white; }
+
+    /* Warn strip */
+    .r-warn-strip {
+      margin:0 20px 12px;padding:8px 12px;
+      background:var(--amber-dim);border:1px solid rgba(245,158,11,.25);
+      border-radius:8px;font-size:12px;color:var(--amber);
+      display:flex;align-items:center;gap:8px;
+    }
+
+    /* Benefit row */
+    .r-benefit {
+      margin:0 20px 20px;padding:16px 18px;
+      background:rgba(36,150,125,.1);border:1px solid rgba(36,150,125,.22);
+      border-radius:12px;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .r-benefit-label  { font-size:11px;color:var(--text3);margin-bottom:4px; }
+    .r-benefit-amount { font-family:var(--sans);font-size:32px;font-weight:800;color:var(--brand2);line-height:1; }
+    .r-benefit-desc   { font-size:11px;color:var(--text2);margin-top:4px; }
 
     /* Error */
-    .r-error{border-radius:16px;border:1px solid rgba(232,25,44,.25);background:rgba(232,25,44,.05);overflow:hidden;animation:fadeUp .4s ease}
-    .r-error-head{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid rgba(232,25,44,.12)}
-    .r-error-icon{width:40px;height:40px;border-radius:10px;background:rgba(232,25,44,.12);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-    .r-error-status{font-family:var(--sans);font-weight:700;font-size:15px;color:#ff6b7a}
-    .r-error-body{padding:16px 20px}
-    .r-error-msg{font-size:13px;color:var(--text2);line-height:1.6}
-    .r-error-hint{font-size:12px;color:var(--text3);margin-top:8px}
+    .r-error {
+      border-radius:16px;border:1px solid rgba(232,25,44,.25);
+      background:rgba(232,25,44,.05);overflow:hidden;
+      animation:fadeUp .4s ease;
+    }
+    .r-error-head {
+      display:flex;align-items:center;gap:12px;
+      padding:18px 20px;border-bottom:1px solid rgba(232,25,44,.12);
+    }
+    .r-error-icon {
+      width:40px;height:40px;border-radius:10px;
+      background:rgba(232,25,44,.12);
+      display:flex;align-items:center;justify-content:center;
+      font-size:20px;flex-shrink:0;
+    }
+    .r-error-status { font-family:var(--sans);font-weight:700;font-size:15px;color:#ff8090; }
+    .r-error-body   { padding:16px 20px; }
+    .r-error-msg    { font-size:13px;color:var(--text2);line-height:1.6; }
+    .r-error-hint   { font-size:12px;color:var(--text3);margin-top:8px; }
 
-    /* Warn */
-    .r-warn-box{display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:12px;background:var(--amber-dim);border:1px solid rgba(245,158,11,.25);animation:fadeUp .3s ease;font-size:13px;color:var(--amber)}
+    /* Warn box (input error) */
+    .r-warn-box {
+      display:flex;align-items:center;gap:10px;
+      padding:14px 16px;border-radius:12px;
+      background:var(--amber-dim);border:1px solid rgba(245,158,11,.25);
+      animation:fadeUp .3s ease;font-size:13px;color:var(--amber);
+    }
 
-    /* Privacy */
-    .sep{height:1px;background:var(--border);margin:20px 0}
-    .privacy{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:12px;color:var(--text3);line-height:1.55}
-
-    /* Side cards */
-    .card-title-sm{font-family:var(--sans);font-size:14px;font-weight:600;color:white;margin-bottom:4px}
-    .card-sub-sm{font-size:12px;color:var(--text3);margin-bottom:16px}
-    .proto-list{list-style:none;display:flex;flex-direction:column;gap:10px}
-    .proto-item{display:flex;gap:12px;align-items:flex-start}
-    .proto-num{width:22px;height:22px;border-radius:50%;flex-shrink:0;background:var(--brand-dim);border:1px solid rgba(37,168,135,.25);display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-size:10px;font-weight:700;color:var(--brand2);margin-top:2px}
-    .proto-txt{font-size:13px;color:var(--text2);line-height:1.5}
-    .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .stat-box{background:var(--bg3);border-radius:10px;padding:12px;text-align:center}
-    .stat-val{font-family:var(--sans);font-size:24px;font-weight:700}
-    .stat-lbl{font-size:11px;color:var(--text3);margin-top:3px}
-    .sys-dot{width:6px;height:6px;border-radius:50%;background:var(--brand2);animation:pulse 1.8s infinite;display:inline-block}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
-    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   </style>
-</head>
-<body>
-<div class="layout">
 
-  <aside class="sidebar">
-    <div class="sidebar-brand">
-      <div class="brand-icon">K</div>
-      <div>
-        <div class="brand-name">Cafetería Mitre</div>
-        <div class="brand-sub">Comercio adherido</div>
-      </div>
-    </div>
-    <a href="/dashboard" class="nav-item">📊 Dashboard</a>
-    <a href="/validar"   class="nav-item active">✅ Validar Socio</a>
-    <a href="#"          class="nav-item">📋 Historial</a>
-    <a href="#"          class="nav-item">🎁 Mis Beneficios</a>
-    <a href="#"          class="nav-item">📈 Estadísticas</a>
-    <div style="height:1px;background:var(--border);margin:14px 0"></div>
-    <a href="#"          class="nav-item">⚙️ Configuración</a>
-    <a href="/login"     class="nav-item">🚪 Cerrar sesión</a>
-    <div class="sidebar-spacer"></div>
-    <div style="display:flex;align-items:center;gap:10px;padding:12px 8px;border-top:1px solid var(--border)">
-      <div style="width:32px;height:32px;border-radius:50%;background:var(--brand-dim);border:1px solid rgba(37,168,135,.2);display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-size:11px;font-weight:700;color:var(--brand2)">CM</div>
-      <div>
-        <div style="font-size:12px;font-weight:600;color:white">Cafetería Mitre</div>
-        <div style="font-size:10px;color:var(--text3)">Plan Estándar</div>
-      </div>
-    </div>
-    <div class="sidebar-footer">Devhub · <span>Kuntur Benefits</span> v1.0</div>
-  </aside>
+  <style>
+    /* ── Layout ── */
+    .dash-main {
+      margin-left: 220px;
+      padding: 36px;
+      min-height: calc(100vh - 64px);
+      background: var(--bg);
+      font-family: var(--body);
+      color: var(--text);
+    }
 
-  <main class="main">
+    /* ── Demo banner ── */
+    .demo-banner {
+      display:flex;align-items:center;gap:10px;
+      background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.18);
+      border-radius:10px;padding:10px 14px;margin-bottom:24px;
+      font-size:12px;color:var(--amber);
+    }
+
+    /* ── Page header ── */
+    .topbar { display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px; }
+    .page-title { font-family:var(--sans);font-size:22px;font-weight:700;color:white; }
+    .page-sub   { font-size:13px;color:var(--text2);margin-top:3px; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display:flex;align-items:center;gap:7px;padding:9px 16px;
+      border-radius:9px;background:var(--brand);color:white;
+      font-family:var(--sans);font-size:13px;font-weight:600;
+      transition:all .15s;box-shadow:0 4px 14px var(--brand-glow);
+    }
+    .btn-primary:hover { background:var(--brand2);transform:translateY(-1px); }
+    .btn-secondary {
+      display:flex;align-items:center;gap:7px;padding:9px 16px;
+      border-radius:9px;border:1px solid var(--border2);color:var(--text2);
+      font-size:13px;font-weight:500;transition:all .15s;
+    }
+    .btn-secondary:hover { background:var(--bg3);color:white; }
+
+    /* ── Main grid ── */
+    .validar-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 16px;
+    }
+
+    /* ── Cards ── */
+    .card {
+      background:var(--bg2);border:1px solid var(--border);border-radius:16px;
+      padding:22px 24px;transition:border-color .2s;
+    }
+    .card-title { font-family:var(--sans);font-size:14px;font-weight:600;color:white; }
+    .card-sub   { font-size:12px;color:var(--text2);margin-top:2px; }
+
+    /* ── Input area ── */
+    .card-icon {
+      width:38px;height:38px;border-radius:10px;
+      background:var(--brand-dim);border:1px solid rgba(36,150,125,.2);
+      display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+    }
+    .input-label { font-size:12px;font-weight:500;color:var(--text2);display:block;margin-bottom:8px;margin-top:20px; }
+    .input-row   { display:flex;gap:8px;margin-bottom:14px; }
+
+    .dni-input {
+      flex:1;background:var(--bg3);border:1px solid var(--border2);
+      border-radius:10px;padding:12px 16px;
+      font-size:16px;font-family:monospace;color:white;
+      outline:none;letter-spacing:2px;
+      transition:border-color .2s, box-shadow .2s;
+    }
+    .dni-input:focus { border-color:var(--brand);box-shadow:0 0 0 3px rgba(36,150,125,.12); }
+    .dni-input::placeholder { color:var(--text3);letter-spacing:0;font-family:var(--body);font-size:13px; }
+
+    .btn-clear {
+      width:46px;height:46px;border-radius:10px;
+      border:1px solid var(--border2);color:var(--text3);
+      display:flex;align-items:center;justify-content:center;
+      transition:all .15s;font-size:15px;flex-shrink:0;
+    }
+    .btn-clear:hover { background:var(--bg3);color:var(--text2); }
+
+    .btn-validate {
+      width:100%;padding:12px;
+      background:var(--brand);color:white;
+      border-radius:10px;
+      font-family:var(--sans);font-size:13px;font-weight:600;
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      transition:all .2s;box-shadow:0 4px 14px var(--brand-glow);
+      margin-bottom:20px;
+    }
+    .btn-validate:hover { background:var(--brand2);transform:translateY(-1px); }
+
+    /* ── Quick DNIs ── */
+    .quick-label { font-size:11px;color:var(--text3);margin-bottom:8px;font-weight:500;text-transform:uppercase;letter-spacing:.4px; }
+    .quick-grid  { display:flex;flex-direction:column;gap:6px; }
+    .quick-btn {
+      display:flex;align-items:center;justify-content:space-between;
+      padding:9px 13px;border-radius:9px;
+      border:1px solid var(--border);background:var(--bg3);
+      font-size:12px;color:var(--text2);transition:all .15s;text-align:left;
+    }
+    .quick-btn:hover { border-color:var(--brand);color:white;background:var(--bg4); }
+    .qdni  { font-family:monospace;font-size:12.5px;color:var(--text); }
+    .qmeta { color:var(--text2);margin-left:8px; }
+
+    .qbadge { font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.3px;flex-shrink:0; }
+    .qb-ok   { background:rgba(36,150,125,.12);color:var(--brand2); }
+    .qb-warn { background:var(--amber-dim);color:var(--amber); }
+    .qb-err  { background:var(--danger-dim);color:#ff8090; }
+
+    /* ── Result area ── */
+    #result-area { margin-top:20px; }
+
+    
+    /* ── Separator ── */
+    .sep { height:1px;background:var(--border);margin:20px 0; }
+
+    /* ── Privacy note ── */
+    .privacy {
+      display:flex;gap:10px;align-items:flex-start;
+      background:rgba(255,255,255,.02);border:1px solid var(--border);
+      border-radius:10px;padding:14px;
+      font-size:12px;color:var(--text3);line-height:1.55;
+    }
+
+    /* ── Side cards ── */
+    .side-col { display:flex;flex-direction:column;gap:14px; }
+
+    /* Protocol list */
+    .proto-list { list-style:none;display:flex;flex-direction:column;gap:10px; }
+    .proto-item { display:flex;gap:12px;align-items:flex-start; }
+    .proto-num  {
+      width:22px;height:22px;border-radius:50%;flex-shrink:0;
+      background:var(--brand-dim);border:1px solid rgba(36,150,125,.25);
+      display:flex;align-items:center;justify-content:center;
+      font-family:var(--sans);font-size:10px;font-weight:700;color:var(--brand2);margin-top:2px;
+    }
+    .proto-txt { font-size:13px;color:var(--text2);line-height:1.5; }
+
+    /* Stat grid */
+    .stat-grid { display:grid;grid-template-columns:1fr 1fr;gap:8px; }
+    .stat-box  { background:var(--bg3);border-radius:10px;padding:12px;text-align:center; }
+    .stat-val  { font-family:var(--sans);font-size:24px;font-weight:700;line-height:1; }
+    .stat-lbl  { font-size:11px;color:var(--text3);margin-top:4px; }
+
+    /* System status dot */
+    .sys-dot {
+      width:6px;height:6px;border-radius:50%;
+      background:var(--brand2);animation:pulse 1.8s infinite;display:inline-block;
+    }
+
+    /* Benefit active mini box */
+    .benefit-mini {
+      margin-top:12px;padding:12px 14px;
+      background:var(--bg3);border-radius:10px;
+    }
+    .benefit-mini-label { font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px; }
+    .benefit-mini-val   { font-family:var(--sans);font-size:22px;font-weight:800;color:var(--brand2);line-height:1; }
+    .benefit-mini-desc  { font-size:11px;color:var(--text2);margin-top:4px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .dash-main     { margin-left:0;padding:20px; }
+      .validar-grid  { grid-template-columns:1fr; }
+    }
+  </style>
+
+  <main class="dash-main">
+
+    <!-- Demo banner -->
     <div class="demo-banner">
-      <span>🧪</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       <div><strong>Modo demo</strong> — Datos ficticios. Usá los DNIs de prueba para ver el flujo completo.</div>
     </div>
 
-    <div class="page-title">Validar Socio</div>
-    <div class="page-sub">Ingresá el DNI del socio para verificar su estado y habilitar el beneficio</div>
-
-    <div class="grid-2">
-
-      <!-- LEFT -->
+    <!-- Header -->
+    <div class="topbar">
       <div>
-        <div class="card">
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
-            <div class="card-icon">🔍</div>
-            <div>
-              <div class="card-title">Verificación de Socio</div>
-              <div style="font-size:12px;color:var(--text3)">El socio debe presentar su DNI físico</div>
-            </div>
+        <div class="page-title">Validar Socio</div>
+        <div class="page-sub">Ingresá el DNI del socio para verificar su estado y habilitar el beneficio</div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <a href="/dashboard" class="btn-secondary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Dashboard
+        </a>
+        <button class="btn-secondary" id="btnExportar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Exportar
+        </button>
+      </div>
+    </div>
+
+    <!-- Main grid -->
+    <div class="validar-grid">
+
+      <!-- LEFT: Validador -->
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;">
+          <div class="card-icon">🔍</div>
+          <div>
+            <div class="card-title">Verificación de Socio</div>
+            <div class="card-sub">El socio debe presentar su DNI físico</div>
           </div>
+        </div>
 
-          <label class="input-label" for="dniInput">Número de DNI</label>
-          <div class="input-row">
-            <input id="dniInput" type="text" class="dni-input" placeholder="Ej: 32.456.789" maxlength="8" autocomplete="off" />
-            <button class="btn-clear" id="btnClear" title="Limpiar">✕</button>
-          </div>
+        <label class="input-label" for="dniInput">Número de DNI</label>
+        <div class="input-row">
+          <input
+            id="dniInput"
+            type="text"
+            class="dni-input"
+            placeholder="Ej: 32.456.789"
+            maxlength="8"
+            autocomplete="off"
+            inputmode="numeric"
+          />
+          <button class="btn-clear" id="btnClear" title="Limpiar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
 
-          <button class="btn-validate" id="btnValidar">✅ Validar Socio</button>
+        <button class="btn-validate" id="btnValidar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Validar Socio
+        </button>
 
-          <div class="quick-label">DNIs de prueba — hacé clic para cargar y validar:</div>
-          <div class="quick-grid">
-            <button class="quick-btn" data-dni="32456789">
-              <span><span class="qdni">32.456.789</span><span style="margin-left:8px;color:var(--text2)">Juan Pérez · Premium</span></span>
-              <span class="qbadge qb-ok">Activo</span>
-            </button>
-            <button class="quick-btn" data-dni="35654321">
-              <span><span class="qdni">35.654.321</span><span style="margin-left:8px;color:var(--text2)">Ana Giménez · Premium</span></span>
-              <span class="qbadge qb-ok">Activo</span>
-            </button>
-            <button class="quick-btn" data-dni="28123456">
-              <span><span class="qdni">28.123.456</span><span style="margin-left:8px;color:var(--text2)">María López · Standard</span></span>
-              <span class="qbadge qb-ok">Activo</span>
-            </button>
-            <button class="quick-btn" data-dni="30987654">
-              <span><span class="qdni">30.987.654</span><span style="margin-left:8px;color:var(--text2)">Pablo Torres · Standard</span></span>
-              <span class="qbadge qb-warn">Por vencer</span>
-            </button>
-            <button class="quick-btn" data-dni="41789012">
-              <span><span class="qdni">41.789.012</span><span style="margin-left:8px;color:var(--text2)">Carlos Ruiz</span></span>
-              <span class="qbadge qb-err">Inactivo ❌</span>
-            </button>
-            <button class="quick-btn" data-dni="99999999">
-              <span><span class="qdni">99.999.999</span><span style="margin-left:8px;color:var(--text2)">Sin registro</span></span>
-              <span class="qbadge qb-err">No existe ❌</span>
-            </button>
-          </div>
+        <!-- Quick test DNIs -->
+        <div class="quick-label">DNIs de prueba</div>
+        <div class="quick-grid">
+          <button class="quick-btn" data-dni="32456789">
+            <span><span class="qdni">32.456.789</span><span class="qmeta">Juan Pérez · Premium</span></span>
+            <span class="qbadge qb-ok">Activo</span>
+          </button>
+          <button class="quick-btn" data-dni="35654321">
+            <span><span class="qdni">35.654.321</span><span class="qmeta">Ana Giménez · Premium</span></span>
+            <span class="qbadge qb-ok">Activo</span>
+          </button>
+          <button class="quick-btn" data-dni="28123456">
+            <span><span class="qdni">28.123.456</span><span class="qmeta">María López · Standard</span></span>
+            <span class="qbadge qb-ok">Activo</span>
+          </button>
+          <button class="quick-btn" data-dni="30987654">
+            <span><span class="qdni">30.987.654</span><span class="qmeta">Pablo Torres · Standard</span></span>
+            <span class="qbadge qb-warn">Por vencer</span>
+          </button>
+          <button class="quick-btn" data-dni="41789012">
+            <span><span class="qdni">41.789.012</span><span class="qmeta">Carlos Ruiz</span></span>
+            <span class="qbadge qb-err">Inactivo</span>
+          </button>
+          <button class="quick-btn" data-dni="99999999">
+            <span><span class="qdni">99.999.999</span><span class="qmeta">Sin registro</span></span>
+            <span class="qbadge qb-err">No existe</span>
+          </button>
+        </div>
 
-          <div id="result-area"></div>
+        <!-- Result -->
+        <div id="result-area"></div>
 
-          <div class="sep"></div>
-          <div class="privacy">
-            <span style="font-size:16px;flex-shrink:0">🔒</span>
-            <p>El comercio valida visualmente el <strong style="color:var(--text2)">DNI físico</strong>. El sistema solo confirma el estado de membresía — no almacena datos biométricos ni información sensible.</p>
-          </div>
+        <div class="sep"></div>
+
+        <!-- Privacy note -->
+        <div class="privacy">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--brand2);margin-top:1px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <p>El comercio valida visualmente el <strong style="color:var(--text2);">DNI físico</strong>. El sistema solo confirma el estado de membresía — no almacena datos biométricos ni información sensible.</p>
         </div>
       </div>
 
-      <!-- RIGHT -->
-      <div class="side-cards">
+      <!-- RIGHT: Side cards -->
+      <div class="side-col">
+
+        <!-- Protocol -->
         <div class="card">
-          <div class="card-title-sm">📋 Protocolo de validación</div>
-          <div class="card-sub-sm">Seguí estos pasos en cada atención</div>
+          <div class="card-title" style="margin-bottom:2px;">📋 Protocolo de validación</div>
+          <div class="card-sub" style="margin-bottom:16px;">Seguí estos pasos en cada atención</div>
           <ol class="proto-list">
-            <li class="proto-item"><div class="proto-num">1</div><div class="proto-txt">El socio presenta su <strong style="color:var(--text)">DNI físico</strong> al empleado</div></li>
-            <li class="proto-item"><div class="proto-num">2</div><div class="proto-txt">El empleado ingresa el número en el campo de arriba</div></li>
-            <li class="proto-item"><div class="proto-num">3</div><div class="proto-txt">El sistema muestra el estado y el beneficio habilitado</div></li>
-            <li class="proto-item"><div class="proto-num">4</div><div class="proto-txt">Se aplica el descuento y queda registrado automáticamente</div></li>
+            <li class="proto-item">
+              <div class="proto-num">1</div>
+              <div class="proto-txt">El socio presenta su <strong style="color:var(--text);">DNI físico</strong> al empleado del local</div>
+            </li>
+            <li class="proto-item">
+              <div class="proto-num">2</div>
+              <div class="proto-txt">El empleado ingresa el número en el campo de la izquierda</div>
+            </li>
+            <li class="proto-item">
+              <div class="proto-num">3</div>
+              <div class="proto-txt">El sistema muestra el estado del socio y el beneficio habilitado</div>
+            </li>
+            <li class="proto-item">
+              <div class="proto-num">4</div>
+              <div class="proto-txt">Se aplica el descuento — la transacción queda registrada automáticamente</div>
+            </li>
           </ol>
         </div>
 
+        <!-- Stats del día -->
         <div class="card">
-          <div class="card-title-sm">📊 Estadísticas del día</div>
-          <div class="card-sub-sm" style="margin-bottom:14px">Lunes 9 de junio, 2025</div>
+          <div class="card-title" style="margin-bottom:2px;">📊 Estadísticas del día</div>
+          <div class="card-sub" style="margin-bottom:14px;">Jueves 14 de mayo, 2026</div>
           <div class="stat-grid">
-            <div class="stat-box"><div class="stat-val" style="color:var(--brand2)">24</div><div class="stat-lbl">Validaciones hoy</div></div>
-            <div class="stat-box"><div class="stat-val" style="color:#60a5fa">21</div><div class="stat-lbl">Beneficios aplicados</div></div>
-            <div class="stat-box"><div class="stat-val" style="color:var(--amber)">2</div><div class="stat-lbl">Rechazados</div></div>
-            <div class="stat-box"><div class="stat-val" style="color:#c084fc">87%</div><div class="stat-lbl">Tasa de éxito</div></div>
+            <div class="stat-box">
+              <div class="stat-val" style="color:var(--brand2);">24</div>
+              <div class="stat-lbl">Validaciones hoy</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val" style="color:#60a5fa;">21</div>
+              <div class="stat-lbl">Beneficios aplicados</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val" style="color:#ff8090;">2</div>
+              <div class="stat-lbl">Rechazados</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val" style="color:#c084fc;">87%</div>
+              <div class="stat-lbl">Tasa de éxito</div>
+            </div>
           </div>
         </div>
 
+        <!-- System status -->
         <div class="card">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-            <div class="sys-dot"></div>
-            <span style="font-size:12px;font-weight:600;color:var(--brand2)">Sistema operativo</span>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <span class="sys-dot"></span>
+            <span style="font-size:12px;font-weight:600;color:var(--brand2);">Sistema operativo</span>
+            <span class="badge b-green" style="margin-left:auto;padding:2px 8px;">En línea</span>
           </div>
-          <p style="font-size:12px;color:var(--text3);line-height:1.6">Base de datos sincronizada con Kuntur Training en tiempo real.</p>
-          <div style="margin-top:12px;padding:10px;background:var(--bg3);border-radius:8px">
-            <div style="font-size:10px;color:var(--text3);margin-bottom:6px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Beneficio activo</div>
-            <div style="font-family:var(--sans);font-size:22px;font-weight:800;color:var(--brand2)">20% OFF</div>
-            <div style="font-size:11px;color:var(--text2)">En consumo de cafetería</div>
+          <p style="font-size:12px;color:var(--text3);line-height:1.6;margin-bottom:0;">
+            Base de datos sincronizada con Kuntur Training en tiempo real. Toda modificación de membresía se refleja de forma instantánea.
+          </p>
+          <div class="benefit-mini">
+            <div class="benefit-mini-label">Beneficio activo</div>
+            <div class="benefit-mini-val">20% OFF</div>
+            <div class="benefit-mini-desc">En consumo de cafetería</div>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
   </main>
-</div>
+
+</BaseLayout>
 
 <script is:inline>
-const SOCIOS = {
-  '32456789': { nombre: 'Juan Pérez',       plan: 'Premium',  estado: 'activo',     vence: '15/06/2026' },
-  '35654321': { nombre: 'Ana Giménez',      plan: 'Premium',  estado: 'activo',     vence: '30/08/2026' },
-  '28123456': { nombre: 'María López',      plan: 'Standard', estado: 'activo',     vence: '28/07/2026' },
-  '30987654': { nombre: 'Pablo Torres',     plan: 'Standard', estado: 'por-vencer', vence: '20/06/2026' },
-  '41789012': { nombre: 'Carlos Ruiz',      plan: 'Standard', estado: 'inactivo',   vence: '01/01/2026' },
-  '25334455': { nombre: 'Lucía Fernández',  plan: 'Premium',  estado: 'activo',     vence: '10/09/2026' },
-  '37221100': { nombre: 'Martín Soria',     plan: 'Standard', estado: 'activo',     vence: '05/07/2026' },
-  '44556677': { nombre: 'Valentina Castro', plan: 'Premium',  estado: 'inactivo',   vence: '15/03/2026' },
-};
+  const SOCIOS = {
+    '32456789': { nombre:'Juan Pérez',       plan:'Premium',  estado:'activo',     vence:'15/06/2026' },
+    '35654321': { nombre:'Ana Giménez',      plan:'Premium',  estado:'activo',     vence:'30/08/2026' },
+    '28123456': { nombre:'María López',      plan:'Standard', estado:'activo',     vence:'28/07/2026' },
+    '30987654': { nombre:'Pablo Torres',     plan:'Standard', estado:'por-vencer', vence:'20/06/2026' },
+    '41789012': { nombre:'Carlos Ruiz',      plan:'Standard', estado:'inactivo',   vence:'01/01/2026' },
+    '25334455': { nombre:'Lucía Fernández',  plan:'Premium',  estado:'activo',     vence:'10/09/2026' },
+    '37221100': { nombre:'Martín Soria',     plan:'Standard', estado:'activo',     vence:'05/07/2026' },
+    '44556677': { nombre:'Valentina Castro', plan:'Premium',  estado:'inactivo',   vence:'15/03/2026' },
+  };
 
-const BENEFICIO = { descuento: '20% OFF', descripcion: 'En consumo de cafetería' };
+  const BENEFICIO = { descuento:'20% OFF', descripcion:'En consumo de cafetería' };
 
-const dniInput  = document.getElementById('dniInput');
-const resultDiv = document.getElementById('result-area');
+  const dniInput  = document.getElementById('dniInput');
+  const resultDiv = document.getElementById('result-area');
 
-function fmtDNI(raw) {
-  if (raw.length === 8) return raw.replace(/(\d{2})(\d{3})(\d{3})/, '$1.$2.$3');
-  if (raw.length === 7) return raw.replace(/(\d{1})(\d{3})(\d{3})/, '$1.$2.$3');
-  return raw;
-}
-
-function setResult(html) { resultDiv.innerHTML = html; }
-function clearResult()   { resultDiv.innerHTML = ''; }
-
-function validar() {
-  const raw = dniInput.value.replace(/\D/g, '');
-
-  if (raw.length < 7) {
-    setResult('<div class="r-warn-box"><span>⚠️</span><span>Ingresá un número de DNI válido (mínimo 7 dígitos).</span></div>');
-    return;
+  function fmtDNI(raw) {
+    if (raw.length === 8) return raw.replace(/(\d{2})(\d{3})(\d{3})/, '$1.$2.$3');
+    if (raw.length === 7) return raw.replace(/(\d{1})(\d{3})(\d{3})/, '$1.$2.$3');
+    return raw;
   }
 
-  setResult('<div class="r-loading"><div class="spinner"></div><span style="font-size:13px;color:var(--text2)">Verificando membresía…</span></div>');
+  function setResult(html) { resultDiv.innerHTML = html; }
+  function clearResult()   { resultDiv.innerHTML = ''; }
 
-  setTimeout(function() {
-    var socio = SOCIOS[raw];
+  function validar() {
+    const raw = dniInput.value.replace(/\D/g, '');
 
-    if (!socio) {
-      setResult(
-        '<div class="r-error">' +
-          '<div class="r-error-head">' +
-            '<div class="r-error-icon">❌</div>' +
-            '<div>' +
-              '<div class="r-error-status">DNI no registrado</div>' +
-              '<div class="r-sub">No existe en la base de datos de Kuntur</div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="r-error-body">' +
-            '<p class="r-error-msg">El DNI <strong style="font-family:monospace;color:var(--text)">' + fmtDNI(raw) + '</strong> no se encontró. Verificá que el número esté bien ingresado.</p>' +
-            '<p class="r-error-hint">¿El número está bien escrito? Podés intentarlo nuevamente.</p>' +
-          '</div>' +
-        '</div>'
-      );
+    if (raw.length < 7) {
+      setResult('<div class="r-warn-box"><span>⚠️</span><span>Ingresá un número de DNI válido (mínimo 7 dígitos).</span></div>');
       return;
     }
 
-    if (socio.estado === 'inactivo') {
-      setResult(
-        '<div class="r-error">' +
-          '<div class="r-error-head">' +
-            '<div class="r-error-icon">❌</div>' +
-            '<div>' +
-              '<div class="r-error-status">Socio Inactivo</div>' +
-              '<div class="r-sub">Membresía vencida o suspendida</div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="r-error-body">' +
-            '<p class="r-error-msg"><strong>' + socio.nombre + '</strong> no tiene membresía activa. <strong>No se puede aplicar ningún beneficio.</strong></p>' +
-            '<p class="r-error-hint">Para reactivar la membresía, el socio debe dirigirse a Kuntur Training.</p>' +
-          '</div>' +
-        '</div>'
-      );
-      return;
-    }
+    setResult(`
+      <div class="r-loading">
+        <div class="spinner"></div>
+        <span style="font-size:13px;color:var(--text2)">Verificando membresía…</span>
+      </div>
+    `);
 
-    var warnStrip = socio.estado === 'por-vencer'
-      ? '<div class="r-warn-strip">⚠️ Membresía próxima a vencer el ' + socio.vence + '</div>'
-      : '';
+    setTimeout(function () {
+      const socio = SOCIOS[raw];
 
-    setResult(
-      '<div class="r-success">' +
-        '<div class="r-success-head">' +
-          '<div class="r-success-icon">✅</div>' +
-          '<div>' +
-            '<div class="r-status">Socio Activo</div>' +
-            '<div class="r-sub">Membresía vigente — beneficio habilitado</div>' +
-          '</div>' +
-          '<span class="plan-pill">' + socio.plan + '</span>' +
-        '</div>' +
-        warnStrip +
-        '<div class="r-grid">' +
-          '<div class="r-field"><div class="r-field-label">Nombre</div><div class="r-field-value">' + socio.nombre + '</div></div>' +
-          '<div class="r-field"><div class="r-field-label">Plan</div><div class="r-field-value">' + socio.plan + '</div></div>' +
-          '<div class="r-field"><div class="r-field-label">DNI verificado</div><div class="r-field-value" style="font-family:monospace">' + fmtDNI(raw) + '</div></div>' +
-          '<div class="r-field"><div class="r-field-label">Vencimiento</div><div class="r-field-value">' + socio.vence + '</div></div>' +
-        '</div>' +
-        '<div class="r-benefit">' +
-          '<div>' +
-            '<div class="r-benefit-label">Beneficio habilitado ahora</div>' +
-            '<div class="r-benefit-amount">' + BENEFICIO.descuento + '</div>' +
-            '<div class="r-benefit-desc">' + BENEFICIO.descripcion + '</div>' +
-          '</div>' +
-          '<span style="font-size:32px">☕</span>' +
-        '</div>' +
-      '</div>'
-    );
-  }, 900);
-}
+      /* ── DNI no encontrado ── */
+      if (!socio) {
+        setResult(`
+          <div class="r-error">
+            <div class="r-error-head">
+              <div class="r-error-icon">❌</div>
+              <div>
+                <div class="r-error-status">DNI no registrado</div>
+                <div class="r-sub">No existe en la base de datos de Kuntur</div>
+              </div>
+            </div>
+            <div class="r-error-body">
+              <p class="r-error-msg">El DNI <strong style="font-family:monospace;color:var(--text)">${fmtDNI(raw)}</strong> no se encontró en el sistema.</p>
+              <p class="r-error-hint">¿El número está bien escrito? Podés intentarlo nuevamente.</p>
+            </div>
+          </div>`);
+        return;
+      }
 
-document.getElementById('btnValidar').addEventListener('click', validar);
-document.getElementById('btnClear').addEventListener('click', function() {
-  dniInput.value = '';
-  clearResult();
-  dniInput.focus();
-});
-dniInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') validar(); });
-dniInput.addEventListener('input', function() {
-  clearResult();
-  var v = dniInput.value.replace(/\D/g, '');
-  if (v.length > 8) v = v.slice(0, 8);
-  dniInput.value = v;
-});
-document.querySelectorAll('.quick-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    dniInput.value = btn.dataset.dni;
-    setTimeout(validar, 80);
+      /* ── Inactivo ── */
+      if (socio.estado === 'inactivo') {
+        setResult(`
+          <div class="r-error">
+            <div class="r-error-head">
+              <div class="r-error-icon">❌</div>
+              <div>
+                <div class="r-error-status">Socio Inactivo</div>
+                <div class="r-sub">Membresía vencida o suspendida</div>
+              </div>
+            </div>
+            <div class="r-error-body">
+              <p class="r-error-msg"><strong>${socio.nombre}</strong> no tiene una membresía activa. <strong>No se puede aplicar ningún beneficio.</strong></p>
+              <p class="r-error-hint">Para reactivar la membresía, el socio debe dirigirse a Kuntur Training.</p>
+            </div>
+          </div>`);
+        return;
+      }
+
+      /* ── Activo (con o sin warning de vencimiento) ── */
+      const warnStrip = socio.estado === 'por-vencer'
+        ? `<div class="r-warn-strip">
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+             Membresía próxima a vencer el ${socio.vence} — aplicar beneficio normalmente
+           </div>`
+        : '';
+
+      setResult(`
+        <div class="r-success">
+          <div class="r-success-head">
+            <div class="r-success-icon">✅</div>
+            <div>
+              <div class="r-status">Socio Activo</div>
+              <div class="r-sub">Membresía vigente — beneficio habilitado</div>
+            </div>
+            <span class="plan-pill">${socio.plan}</span>
+          </div>
+
+          ${warnStrip}
+
+          <div class="r-grid">
+            <div class="r-field">
+              <div class="r-field-label">Nombre</div>
+              <div class="r-field-value">${socio.nombre}</div>
+            </div>
+            <div class="r-field">
+              <div class="r-field-label">Plan</div>
+              <div class="r-field-value">${socio.plan}</div>
+            </div>
+            <div class="r-field">
+              <div class="r-field-label">DNI verificado</div>
+              <div class="r-field-value" style="font-family:monospace;">${fmtDNI(raw)}</div>
+            </div>
+            <div class="r-field">
+              <div class="r-field-label">Vencimiento</div>
+              <div class="r-field-value">${socio.vence}</div>
+            </div>
+          </div>
+
+          <div class="r-benefit">
+            <div>
+              <div class="r-benefit-label">Beneficio habilitado ahora</div>
+              <div class="r-benefit-amount">${BENEFICIO.descuento}</div>
+              <div class="r-benefit-desc">${BENEFICIO.descripcion}</div>
+            </div>
+            <span style="font-size:32px;">☕</span>
+          </div>
+        </div>`);
+    }, 900);
+  }
+
+  /* ── Event listeners ── */
+  document.getElementById('btnValidar').addEventListener('click', validar);
+
+  document.getElementById('btnClear').addEventListener('click', function () {
+    dniInput.value = '';
+    clearResult();
+    dniInput.focus();
   });
-});
-</script>
 
-</body>
-</html>
+  dniInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') validar();
+  });
+
+  dniInput.addEventListener('input', function () {
+    clearResult();
+    let v = dniInput.value.replace(/\D/g, '');
+    if (v.length > 8) v = v.slice(0, 8);
+    dniInput.value = v;
+  });
+
+  document.querySelectorAll('.quick-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      dniInput.value = btn.dataset.dni;
+      setTimeout(validar, 80);
+    });
+  });
+</script>

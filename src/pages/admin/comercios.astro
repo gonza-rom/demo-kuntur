@@ -1,0 +1,230 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+---
+
+<BaseLayout title="Comercios — Admin Kuntur Benefits" currentPage="/admin/comercios">
+  <Sidebar role="admin" currentPage="/admin/comercios" />
+
+  <style is:global>
+    :root {
+      --bg:#080a09;--bg2:#0c0f0e;--bg3:#111412;--bg4:#161a18;
+      --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.10);
+      --brand:#1a9f7d;--brand2:#22c9a0;
+      --brand-dim:rgba(26,159,125,0.10);--brand-glow:rgba(26,159,125,0.25);
+      --danger:#e8192c;--danger-dim:rgba(232,25,44,0.10);
+      --amber:#f59e0b;--amber-dim:rgba(245,158,11,0.10);
+      --blue:#3b82f6;--blue-dim:rgba(59,130,246,0.10);
+      --text:#f0f4f2;--text2:#7a8c85;--text3:#4a5c54;
+      --sans:'Syne',sans-serif;--body:'DM Sans',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    a{color:inherit;text-decoration:none}
+    button{cursor:pointer;border:none;background:none;font:inherit;color:inherit}
+
+    .admin-main{margin-left:220px;padding:32px 36px;min-height:calc(100vh - 64px);background:var(--bg);font-family:var(--body);color:var(--text)}
+
+    .demo-banner{display:flex;align-items:center;gap:10px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:10px 14px;margin-bottom:24px;font-size:12px;color:var(--amber)}
+
+    .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+    .page-title{font-family:var(--sans);font-size:22px;font-weight:700;color:white}
+    .page-sub{font-size:13px;color:var(--text2);margin-top:3px}
+
+    .btn-primary{display:flex;align-items:center;gap:6px;padding:8px 15px;border-radius:8px;background:var(--brand);color:white;font-family:var(--sans);font-size:13px;font-weight:600;transition:all .15s}
+    .btn-primary:hover{background:var(--brand2);transform:translateY(-1px)}
+
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+    .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between}
+    .stat-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+    .stat-value{font-family:var(--sans);font-size:26px;font-weight:700;line-height:1}
+    .stat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+
+    .toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+    .toolbar-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .search-wrap{position:relative}
+    .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--text3);pointer-events:none}
+    .search-input{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:8px 14px 8px 32px;color:var(--text);font-size:13px;outline:none;width:240px;font-family:var(--body);transition:border-color .15s}
+    .search-input:focus{border-color:var(--brand)}
+    .search-input::placeholder{color:var(--text3)}
+
+    .filter-btn{display:flex;align-items:center;gap:5px;padding:8px 13px;border-radius:8px;border:1px solid var(--border2);font-size:12px;font-weight:500;color:var(--text2);background:var(--bg3);transition:all .15s}
+    .filter-btn:hover{color:var(--text);border-color:var(--brand)}
+    .filter-btn.active{background:var(--brand-dim);color:var(--brand2);border-color:rgba(26,159,125,.25)}
+
+    /* Cards grid */
+    .comercios-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .com-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .2s;display:flex;flex-direction:column}
+    .com-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+    .com-card-banner{height:80px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .com-card-logo{font-size:32px;position:relative;z-index:1}
+    .com-card-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:10px}
+    .com-card-name{font-family:var(--sans);font-size:15px;font-weight:700;color:white}
+    .com-card-rubro{font-size:12px;color:var(--text2)}
+    .com-card-addr{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:4px}
+    .com-benefit-box{background:var(--bg3);border-radius:9px;padding:10px 13px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .com-benefit-val{font-family:var(--sans);font-size:20px;font-weight:800;color:var(--brand2);line-height:1}
+    .com-benefit-desc{font-size:11px;color:var(--text2);margin-top:2px}
+    .com-card-footer{padding:12px 16px;border-top:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:space-between}
+    .com-card-vals{font-size:12px;color:var(--text3)}
+
+    .badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
+    .b-green{background:rgba(26,159,125,.12);color:var(--brand2);border:1px solid rgba(26,159,125,.25)}
+    .b-red{background:var(--danger-dim);color:#ff8090;border:1px solid rgba(232,25,44,.2)}
+    .b-amber{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+    .b-gray{background:var(--bg4);color:var(--text3);border:1px solid var(--border)}
+    .dot-pulse{width:5px;height:5px;border-radius:50%;background:currentColor;animation:pulse-anim 1.8s infinite;display:inline-block}
+    @keyframes pulse-anim{0%,100%{opacity:1}50%{opacity:.3}}
+
+    .btn-sm{font-size:11px;color:var(--text2);padding:4px 10px;border:1px solid var(--border);border-radius:6px;transition:all .15s;display:inline-flex;align-items:center;gap:4px}
+    .btn-sm:hover{border-color:var(--brand);color:var(--brand2)}
+
+    /* Add card */
+    .com-card-add{background:var(--bg2);border:1px dashed var(--border2);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:32px;cursor:pointer;transition:all .2s;min-height:220px}
+    .com-card-add:hover{border-color:var(--brand);background:var(--brand-dim)}
+    .com-card-add:hover .add-icon{color:var(--brand2)}
+    .add-icon{font-size:28px;color:var(--text3);transition:color .2s}
+
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    .fade-in{animation:fadeIn .3s ease}
+  </style>
+
+  <main class="admin-main">
+
+    <div class="demo-banner">
+      🧪 <div><strong>Modo demo</strong> — Datos ficticios. Sin conexión a backend real.</div>
+    </div>
+
+    <div class="topbar">
+      <div>
+        <div class="page-title">Comercios Adheridos</div>
+        <div class="page-sub">Red de comercios activos en Kuntur Benefits</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn-primary" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);font-weight:500">📥 Exportar</button>
+        <button class="btn-primary">+ Agregar comercio</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div><div class="stat-label">Total comercios</div><div class="stat-value" style="color:var(--brand2)">47</div></div>
+        <div class="stat-icon" style="background:var(--brand-dim);color:var(--brand2)">🏪</div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Activos</div><div class="stat-value" style="color:#4ade80">42</div></div>
+        <div class="stat-icon" style="background:rgba(74,222,128,.1);color:#4ade80">✅</div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Pendientes</div><div class="stat-value" style="color:var(--amber)">3</div></div>
+        <div class="stat-icon" style="background:var(--amber-dim);color:var(--amber)">⏳</div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Categorías</div><div class="stat-value" style="color:#60a5fa">7</div></div>
+        <div class="stat-icon" style="background:var(--blue-dim);color:#60a5fa">🏷️</div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" id="search-com" placeholder="Buscar comercio..." oninput="filterCom()" />
+        </div>
+        <button class="filter-btn active" onclick="setCat('',this)">Todos</button>
+        <button class="filter-btn" onclick="setCat('gastronomia',this)">☕ Gastronomía</button>
+        <button class="filter-btn" onclick="setCat('estetica',this)">✂️ Estética</button>
+        <button class="filter-btn" onclick="setCat('salud',this)">💊 Salud</button>
+        <button class="filter-btn" onclick="setCat('deportes',this)">🏃 Deportes</button>
+        <button class="filter-btn" onclick="setCat('suplementos',this)">💪 Suplementos</button>
+      </div>
+      <div style="font-size:12px;color:var(--text3)">Mostrando <span id="com-count">9</span> comercios</div>
+    </div>
+
+    <!-- Grid -->
+    <div class="comercios-grid" id="com-grid"></div>
+
+  </main>
+</BaseLayout>
+
+<script is:inline>
+const COMERCIOS = [
+  { emoji:'☕', nombre:'Cafetería del Centro',         cat:'gastronomia', rubro:'Gastronomía',        beneficio:'20% OFF',      benefDesc:'En consumo',       direccion:'Av. República 341',   vals:891,  estado:'activo',    color:'#92400e', colorBg:'rgba(146,64,14,.18)' },
+  { emoji:'✂️', nombre:'Barbería Elite',               cat:'estetica',    rubro:'Estética masculina', beneficio:'15% OFF',      benefDesc:'En cortes',        direccion:'Belgrano 128',        vals:654,  estado:'activo',    color:'#1e3a5f', colorBg:'rgba(30,58,95,.2)' },
+  { emoji:'🥗', nombre:'NutriBalance',                 cat:'salud',       rubro:'Nutrición deportiva',beneficio:'1ª gratis',    benefDesc:'Consulta inicial', direccion:'San Martín 55',       vals:422,  estado:'activo',    color:'#14532d', colorBg:'rgba(20,83,45,.2)' },
+  { emoji:'👕', nombre:'SportWear Store',              cat:'deportes',    rubro:'Indumentaria dep.',  beneficio:'10% OFF',      benefDesc:'Ropa y accesorios',direccion:'Pellegrini 204',      vals:380,  estado:'activo',    color:'#1e1b4b', colorBg:'rgba(30,27,75,.2)' },
+  { emoji:'💊', nombre:'Farmacia Vital',               cat:'salud',       rubro:'Farmacia',           beneficio:'8% OFF',       benefDesc:'Medicamentos',     direccion:'Urquiza 440',         vals:245,  estado:'pendiente', color:'#065f46', colorBg:'rgba(6,95,70,.2)' },
+  { emoji:'💪', nombre:'ProSuplementos',               cat:'suplementos', rubro:'Suplementación dep.',beneficio:'18% OFF',      benefDesc:'Toda la línea',    direccion:'25 de Mayo 12',       vals:312,  estado:'activo',    color:'#7c2d12', colorBg:'rgba(124,45,18,.2)' },
+  { emoji:'🍕', nombre:'Pizzería Don Remo',            cat:'gastronomia', rubro:'Gastronomía',        beneficio:'2×1',          benefDesc:'Lunes y martes',   direccion:'Lavalle 789',         vals:198,  estado:'activo',    color:'#7f1d1d', colorBg:'rgba(127,29,29,.2)' },
+  { emoji:'🧘', nombre:'Centro Kinésico Movimiento',   cat:'salud',       rubro:'Kinesiología',       beneficio:'1 sesión gratis',benefDesc:'Evaluación',     direccion:'Salta 88',            vals:156,  estado:'activo',    color:'#312e81', colorBg:'rgba(49,46,129,.2)' },
+  { emoji:'🍦', nombre:'Heladería Glacé',              cat:'gastronomia', rubro:'Gastronomía',        beneficio:'25% OFF',      benefDesc:'Toda la línea',    direccion:'Rivadavia 200',       vals:287,  estado:'activo',    color:'#831843', colorBg:'rgba(131,24,67,.15)' },
+];
+
+let currentCat = '';
+
+function estadoBadge(e) {
+  if (e === 'activo')    return '<span class="badge b-green"><span class="dot-pulse"></span>Activo</span>';
+  if (e === 'pendiente') return '<span class="badge b-amber">⏳ Pendiente</span>';
+  return '<span class="badge b-gray">' + e + '</span>';
+}
+
+function renderGrid(data) {
+  document.getElementById('com-count').textContent = data.length;
+  const grid = document.getElementById('com-grid');
+  grid.innerHTML = data.map(function(c) {
+    return '<div class="com-card fade-in">' +
+      '<div class="com-card-banner" style="background:' + c.colorBg + '">' +
+        '<div class="com-card-logo">' + c.emoji + '</div>' +
+        '<div style="position:absolute;top:8px;right:8px">' + estadoBadge(c.estado) + '</div>' +
+      '</div>' +
+      '<div class="com-card-body">' +
+        '<div>' +
+          '<div class="com-card-name">' + c.nombre + '</div>' +
+          '<div class="com-card-rubro">' + c.emoji + ' ' + c.rubro + '</div>' +
+        '</div>' +
+        '<div class="com-card-addr">📍 ' + c.direccion + '</div>' +
+        '<div class="com-benefit-box">' +
+          '<div>' +
+            '<div class="com-benefit-val">' + c.beneficio + '</div>' +
+            '<div class="com-benefit-desc">' + c.benefDesc + '</div>' +
+          '</div>' +
+          '<span style="font-size:22px">' + c.emoji + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="com-card-footer">' +
+        '<div class="com-card-vals">📊 ' + c.vals.toLocaleString() + ' validaciones</div>' +
+        '<div style="display:flex;gap:5px">' +
+          '<button class="btn-sm">Ver</button>' +
+          '<button class="btn-sm">Editar</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('') +
+  '<div class="com-card-add" onclick="alert(\'Agregar comercio — próximamente\')">' +
+    '<div class="add-icon">➕</div>' +
+    '<div style="font-family:var(--sans);font-weight:600;font-size:14px;color:var(--text2)">Nuevo comercio</div>' +
+    '<div style="font-size:12px;color:var(--text3)">Sumá un comercio a la red</div>' +
+  '</div>';
+}
+
+function getFiltered() {
+  var q = document.getElementById('search-com').value.toLowerCase();
+  return COMERCIOS.filter(function(c) {
+    var matchCat = !currentCat || c.cat === currentCat;
+    var matchQ   = !q || c.nombre.toLowerCase().includes(q) || c.rubro.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+}
+
+function filterCom() { renderGrid(getFiltered()); }
+
+function setCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderGrid(getFiltered());
+}
+
+document.addEventListener('DOMContentLoaded', function() { renderGrid(COMERCIOS); });
+</script>

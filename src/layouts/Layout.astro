@@ -1,0 +1,30 @@
+---
+// src/layouts/Layout.astro
+import Navbar from '../components/Navbar.astro';
+
+export interface Props {
+  currentPage?: string;
+  title?: string;
+}
+
+const { currentPage = '', title = 'Kuntur Benefits' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body>
+
+    <Navbar currentPage={currentPage} />
+
+    <!-- El pt-16 compensa el alto del navbar fixed -->
+    <main class="pt-16">
+      <slot />
+    </main>
+
+  </body>
+</html>

@@ -1,0 +1,305 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+---
+
+<BaseLayout title="Beneficios — Admin Kuntur Benefits" currentPage="/admin/beneficios">
+  <Sidebar role="admin" currentPage="/admin/beneficios" />
+
+  <style is:global>
+    :root {
+      --bg:#080a09;--bg2:#0c0f0e;--bg3:#111412;--bg4:#161a18;
+      --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.10);
+      --brand:#1a9f7d;--brand2:#22c9a0;
+      --brand-dim:rgba(26,159,125,0.10);--brand-glow:rgba(26,159,125,0.25);
+      --danger:#e8192c;--danger-dim:rgba(232,25,44,0.10);
+      --amber:#f59e0b;--amber-dim:rgba(245,158,11,0.10);
+      --blue:#3b82f6;--blue-dim:rgba(59,130,246,0.10);
+      --violet:#8b5cf6;
+      --text:#f0f4f2;--text2:#7a8c85;--text3:#4a5c54;
+      --sans:'Syne',sans-serif;--body:'DM Sans',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    a{color:inherit;text-decoration:none}
+    button{cursor:pointer;border:none;background:none;font:inherit;color:inherit}
+
+    .admin-main{margin-left:220px;padding:32px 36px;min-height:calc(100vh - 64px);background:var(--bg);font-family:var(--body);color:var(--text)}
+
+    .demo-banner{display:flex;align-items:center;gap:10px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:10px 14px;margin-bottom:24px;font-size:12px;color:var(--amber)}
+
+    .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+    .page-title{font-family:var(--sans);font-size:22px;font-weight:700;color:white}
+    .page-sub{font-size:13px;color:var(--text2);margin-top:3px}
+    .btn-primary{display:flex;align-items:center;gap:6px;padding:8px 15px;border-radius:8px;background:var(--brand);color:white;font-family:var(--sans);font-size:13px;font-weight:600;transition:all .15s}
+    .btn-primary:hover{background:var(--brand2);transform:translateY(-1px)}
+
+    /* Stats */
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+    .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between}
+    .stat-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+    .stat-value{font-family:var(--sans);font-size:26px;font-weight:700;line-height:1}
+    .stat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+
+    /* Benefit cards grid */
+    .benefits-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px}
+    .benefit-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .2s}
+    .benefit-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+    .benefit-card-header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+    .benefit-card-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+    .benefit-card-name{font-family:var(--sans);font-size:15px;font-weight:700;color:white;margin-bottom:3px}
+    .benefit-card-rubro{font-size:12px;color:var(--text2)}
+    .benefit-card-body{padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+    .benefit-amount-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:10px;padding:14px 16px}
+    .benefit-amount{font-family:var(--sans);font-size:28px;font-weight:800;color:var(--brand2);line-height:1}
+    .benefit-amount-desc{font-size:12px;color:var(--text2);margin-top:3px}
+    .benefit-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .benefit-meta-item{background:var(--bg3);border-radius:8px;padding:9px 12px}
+    .benefit-meta-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+    .benefit-meta-value{font-size:13px;font-weight:500;color:var(--text)}
+    .benefit-card-footer{padding:13px 20px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .benefit-usage{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)}
+
+    /* Progress */
+    .progress{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-top:6px}
+    .progress-bar{height:100%;border-radius:2px;background:var(--brand)}
+
+    /* Conditions table */
+    .conditions-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+    .conditions-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .conditions-title{font-family:var(--sans);font-size:14px;font-weight:600;color:white}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    thead th{text-align:left;padding:11px 16px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:var(--bg2)}
+    tbody td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+    tbody tr:last-child td{border-bottom:none}
+    tbody tr:hover td{background:rgba(255,255,255,.02)}
+
+    /* Badges */
+    .badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
+    .b-green{background:rgba(26,159,125,.12);color:var(--brand2);border:1px solid rgba(26,159,125,.25)}
+    .b-amber{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+    .b-blue{background:var(--blue-dim);color:#60a5fa;border:1px solid rgba(59,130,246,.2)}
+    .b-violet{background:rgba(139,92,246,.1);color:#a78bfa;border:1px solid rgba(139,92,246,.2)}
+    .b-gray{background:var(--bg4);color:var(--text3);border:1px solid var(--border)}
+    .dot-pulse{width:5px;height:5px;border-radius:50%;background:currentColor;animation:pulse-anim 1.8s infinite;display:inline-block}
+    @keyframes pulse-anim{0%,100%{opacity:1}50%{opacity:.3}}
+
+    .btn-sm{font-size:11px;color:var(--text2);padding:4px 9px;border:1px solid var(--border);border-radius:6px;transition:all .15s;display:inline-flex;align-items:center;gap:4px}
+    .btn-sm:hover{border-color:var(--brand);color:var(--brand2)}
+
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    .fade-in{animation:fadeIn .3s ease}
+  </style>
+
+  <main class="admin-main">
+
+    <div class="demo-banner">
+      🧪 <div><strong>Modo demo</strong> — Datos ficticios. Sin conexión a backend real.</div>
+    </div>
+
+    <div class="topbar">
+      <div>
+        <div class="page-title">Beneficios</div>
+        <div class="page-sub">Gestión de beneficios activos por comercio adherido</div>
+      </div>
+      <button class="btn-primary">+ Nuevo beneficio</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div><div class="stat-label">Beneficios activos</div><div class="stat-value" style="color:var(--brand2)">47</div></div>
+        <div class="stat-icon" style="background:var(--brand-dim);color:var(--brand2)">🎁</div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Usados este mes</div><div class="stat-value" style="color:#60a5fa" id="kpi-usados">0</div></div>
+        <div class="stat-icon" style="background:var(--blue-dim);color:#60a5fa">📊</div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Descuento promedio</div><div class="stat-value" style="color:var(--amber)">14%</div></div>
+        <div class="stat-icon" style="background:var(--amber-dim);color:var(--amber)">🏷️</div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Categorías</div><div class="stat-value" style="color:#a78bfa">7</div></div>
+        <div class="stat-icon" style="background:rgba(139,92,246,.1);color:#a78bfa">📂</div>
+      </div>
+    </div>
+
+    <!-- Benefit cards -->
+    <div class="benefits-grid" id="benefits-grid"></div>
+
+    <!-- Conditions table -->
+    <div class="conditions-card">
+      <div class="conditions-header">
+        <div class="conditions-title">📋 Condiciones y restricciones por beneficio</div>
+        <span style="font-size:12px;color:var(--text3)">9 beneficios configurados</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Comercio</th>
+            <th>Beneficio</th>
+            <th>Aplica a</th>
+            <th>Días</th>
+            <th>Límite</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="conditions-body"></tbody>
+      </table>
+    </div>
+
+  </main>
+</BaseLayout>
+
+<script is:inline>
+const BENEFICIOS = [
+  {
+    emoji:'☕', nombre:'Cafetería del Centro', rubro:'Gastronomía',
+    colorBg:'rgba(146,64,14,.15)', colorIcon:'rgba(146,64,14,.25)',
+    beneficio:'20% OFF', benefDesc:'En todo el consumo',
+    condicion:'No acumulable. Máx 1 uso/día.',
+    planes:'Premium y Standard', horarios:'Lun–Vie 7:00–20:00',
+    usados:891, total:1200, estado:'activo'
+  },
+  {
+    emoji:'✂️', nombre:'Barbería Elite', rubro:'Estética masculina',
+    colorBg:'rgba(30,58,95,.2)', colorIcon:'rgba(30,58,95,.3)',
+    beneficio:'15% OFF', benefDesc:'En cortes y arreglo de barba',
+    condicion:'Válido lunes a sábados.',
+    planes:'Premium y Standard', horarios:'Lun–Sáb 9:00–20:00',
+    usados:654, total:900, estado:'activo'
+  },
+  {
+    emoji:'🥗', nombre:'NutriBalance', rubro:'Nutrición deportiva',
+    colorBg:'rgba(20,83,45,.2)', colorIcon:'rgba(20,83,45,.3)',
+    beneficio:'1ª gratis', benefDesc:'Primera consulta sin costo',
+    condicion:'Un beneficio por socio.',
+    planes:'Todos los planes', horarios:'Lun–Vie 9:00–18:00',
+    usados:422, total:600, estado:'activo'
+  },
+  {
+    emoji:'💪', nombre:'ProSuplementos', rubro:'Suplementación dep.',
+    colorBg:'rgba(124,45,18,.2)', colorIcon:'rgba(124,45,18,.3)',
+    beneficio:'18% OFF', benefDesc:'En toda la línea',
+    condicion:'Máx 2 productos por visita.',
+    planes:'Premium y Standard', horarios:'Lun–Vie 10:00–20:00',
+    usados:312, total:500, estado:'activo'
+  },
+  {
+    emoji:'🍦', nombre:'Heladería Glacé', rubro:'Gastronomía',
+    colorBg:'rgba(131,24,67,.15)', colorIcon:'rgba(131,24,67,.25)',
+    beneficio:'25% OFF', benefDesc:'En línea artesanal',
+    condicion:'No aplica en ediciones especiales.',
+    planes:'Todos los planes', horarios:'Mar–Dom 14:00–22:00',
+    usados:287, total:400, estado:'activo'
+  },
+  {
+    emoji:'💊', nombre:'Farmacia Vital', rubro:'Salud',
+    colorBg:'rgba(6,95,70,.15)', colorIcon:'rgba(6,95,70,.25)',
+    beneficio:'8% OFF', benefDesc:'En medicamentos',
+    condicion:'No aplica con receta magistral.',
+    planes:'Premium y Standard', horarios:'Lun–Dom 8:00–22:00',
+    usados:245, total:400, estado:'pendiente'
+  },
+];
+
+const CONDITIONS = [
+  { comercio:'☕ Cafetería del Centro', beneficio:'20% OFF', aplica:'Premium + Standard', dias:'Lun–Dom', limite:'1/día',   estado:'activo'    },
+  { comercio:'✂️ Barbería Elite',       beneficio:'15% OFF', aplica:'Premium + Standard', dias:'Lun–Sáb', limite:'Sin límite', estado:'activo'  },
+  { comercio:'🥗 NutriBalance',         beneficio:'1ª gratis',aplica:'Todos los planes',  dias:'Lun–Vie', limite:'1 por socio', estado:'activo' },
+  { comercio:'💪 ProSuplementos',       beneficio:'18% OFF', aplica:'Premium + Standard', dias:'Lun–Sáb', limite:'2 prod./visita', estado:'activo' },
+  { comercio:'🍦 Heladería Glacé',      beneficio:'25% OFF', aplica:'Todos los planes',   dias:'Mar–Dom', limite:'Sin límite', estado:'activo'  },
+  { comercio:'💊 Farmacia Vital',       beneficio:'8% OFF',  aplica:'Premium + Standard', dias:'Lun–Dom', limite:'Sin límite', estado:'pendiente' },
+  { comercio:'🍕 Pizzería Don Remo',    beneficio:'2×1',     aplica:'Todos los planes',   dias:'Lun–Mar', limite:'2 pizzas',  estado:'activo'    },
+  { comercio:'🧘 Centro Kinésico',      beneficio:'1 sesión gratis', aplica:'Todos', dias:'Lun–Vie', limite:'1 por año', estado:'activo'       },
+  { comercio:'👟 RunLab Calzado',       beneficio:'12% OFF', aplica:'Premium + Standard', dias:'Lun–Sáb', limite:'Sin límite', estado:'activo'  },
+];
+
+function estadoBadge(e) {
+  if (e === 'activo')    return '<span class="badge b-green"><span class="dot-pulse"></span>Activo</span>';
+  if (e === 'pendiente') return '<span class="badge b-amber">⏳ Pendiente</span>';
+  return '<span class="badge b-gray">' + e + '</span>';
+}
+
+function countUp(id, target, duration) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var start = 0; var step = target / (duration / 16);
+  var t = setInterval(function() {
+    start = Math.min(start + step, target);
+    el.textContent = Math.round(start).toLocaleString();
+    if (start >= target) clearInterval(t);
+  }, 16);
+}
+
+function renderBenefits() {
+  document.getElementById('benefits-grid').innerHTML = BENEFICIOS.map(function(b) {
+    var pct = Math.round((b.usados / b.total) * 100);
+    return '<div class="benefit-card fade-in">' +
+      '<div class="benefit-card-header">' +
+        '<div style="display:flex;align-items:center;gap:12px">' +
+          '<div class="benefit-card-icon" style="background:' + b.colorBg + '">' + b.emoji + '</div>' +
+          '<div>' +
+            '<div class="benefit-card-name">' + b.nombre + '</div>' +
+            '<div class="benefit-card-rubro">' + b.rubro + '</div>' +
+          '</div>' +
+        '</div>' +
+        estadoBadge(b.estado) +
+      '</div>' +
+      '<div class="benefit-card-body">' +
+        '<div class="benefit-amount-row">' +
+          '<div>' +
+            '<div class="benefit-amount">' + b.beneficio + '</div>' +
+            '<div class="benefit-amount-desc">' + b.benefDesc + '</div>' +
+          '</div>' +
+          '<span style="font-size:28px">' + b.emoji + '</span>' +
+        '</div>' +
+        '<div class="benefit-meta">' +
+          '<div class="benefit-meta-item"><div class="benefit-meta-label">Aplica a</div><div class="benefit-meta-value" style="font-size:12px">' + b.planes + '</div></div>' +
+          '<div class="benefit-meta-item"><div class="benefit-meta-label">Horarios</div><div class="benefit-meta-value" style="font-size:12px">' + b.horarios + '</div></div>' +
+        '</div>' +
+        '<div>' +
+          '<div style="display:flex;justify-content:space-between;margin-bottom:4px">' +
+            '<span style="font-size:11px;color:var(--text3)">Usos este mes</span>' +
+            '<span style="font-size:11px;font-weight:600;color:var(--brand2)">' + b.usados + ' / ' + b.total + '</span>' +
+          '</div>' +
+          '<div class="progress"><div class="progress-bar" style="width:' + pct + '%"></div></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="benefit-card-footer">' +
+        '<div class="benefit-usage">📋 ' + b.condicion + '</div>' +
+        '<div style="display:flex;gap:5px">' +
+          '<button class="btn-sm">Ver</button>' +
+          '<button class="btn-sm">Editar</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function renderConditions() {
+  document.getElementById('conditions-body').innerHTML = CONDITIONS.map(function(c) {
+    return '<tr>' +
+      '<td style="font-weight:500;color:white">' + c.comercio + '</td>' +
+      '<td><span class="badge b-green">' + c.beneficio + '</span></td>' +
+      '<td style="color:var(--text2);font-size:12px">' + c.aplica + '</td>' +
+      '<td style="color:var(--text2);font-size:12px">' + c.dias + '</td>' +
+      '<td style="color:var(--text3);font-size:12px">' + c.limite + '</td>' +
+      '<td>' + estadoBadge(c.estado) + '</td>' +
+      '<td>' +
+        '<div style="display:flex;gap:5px">' +
+          '<button class="btn-sm">Editar</button>' +
+          '<button class="btn-sm" style="color:#ff8090;border-color:rgba(232,25,44,.2)">Desactivar</button>' +
+        '</div>' +
+      '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  countUp('kpi-usados', 2673, 1000);
+  renderBenefits();
+  renderConditions();
+});
+</script>

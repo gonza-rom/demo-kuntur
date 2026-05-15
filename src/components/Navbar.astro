@@ -11,15 +11,43 @@ const links = [
   { href: '/comercios', label: 'Comercios' },
   { href: '/seguridad', label: 'Seguridad' },
 ];
+
+const demoPanels = [
+  {
+    group: 'Panel Comercio',
+    color: 'brand',
+    items: [
+      { href: '/dashboard',      label: 'Dashboard',      icon: 'ti-chart-bar',      desc: 'Métricas del comercio' },
+      { href: '/validar',        label: 'Validar Socio',  icon: 'ti-circle-check',   desc: 'Escanear credencial' },
+      { href: '/historial',      label: 'Historial',      icon: 'ti-list',           desc: 'Uso de beneficios' },
+      { href: '/mis-beneficios', label: 'Mis Beneficios', icon: 'ti-gift',           desc: 'Beneficios activos' },
+    ],
+  },
+  {
+    group: 'Panel Admin',
+    color: 'rose',
+    items: [
+      { href: '/admin',                label: 'Analytics',    icon: 'ti-chart-bar',        desc: 'Vista global' },
+      { href: '/admin/comercios',      label: 'Comercios',    icon: 'ti-building-store',   desc: 'Gestión de comercios' },
+      { href: '/admin/socios',         label: 'Socios',       icon: 'ti-users',            desc: '1,284 activos' },
+      { href: '/admin/validaciones',   label: 'Validaciones', icon: 'ti-circle-check',     desc: 'Historial global' },
+      { href: '/admin/beneficios',     label: 'Beneficios',   icon: 'ti-gift',             desc: 'Configuración' },
+    ],
+  },
+];
 ---
 
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"
+/>
+
 <header class="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06] bg-[#080a09]/90 backdrop-blur-xl">
-  
+
   <nav class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
 
     <!-- Logo -->
     <a href="/" class="flex items-center gap-3 shrink-0">
-      
       <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center shadow-lg shadow-brand-500/30">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -29,11 +57,9 @@ const links = [
           <polyline points="10,9 9,9 8,9"/>
         </svg>
       </div>
-
       <span class="font-display font-700 text-[14px] sm:text-[15px] tracking-tight text-white">
         Kuntur <span class="text-brand-400">Benefits</span>
       </span>
-
     </a>
 
     <!-- Desktop Nav -->
@@ -42,10 +68,9 @@ const links = [
         <a
           href={link.href}
           class={`px-4 py-2 rounded-lg text-[13.5px] font-medium transition-all duration-150
-            ${
-              currentPage === link.href
-                ? 'text-brand-300 bg-brand-500/10'
-                : 'text-white/50 hover:text-white/90 hover:bg-white/[0.05]'
+            ${currentPage === link.href
+              ? 'text-brand-300 bg-brand-500/10'
+              : 'text-white/50 hover:text-white/90 hover:bg-white/[0.05]'
             }`}
         >
           {link.label}
@@ -56,17 +81,81 @@ const links = [
     <!-- Right Actions Desktop -->
     <div class="hidden md:flex items-center gap-3">
 
+      <!-- Socios activos -->
       <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-[12px] font-medium">
         <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
         1,284 socios activos
       </div>
 
+      <!-- Demo Dropdown -->
+      <div class="relative" id="demo-dropdown-wrapper">
+        <button
+          id="demo-btn"
+          class="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-400 text-[12.5px] font-bold hover:bg-amber-500/15 transition-all duration-150 uppercase tracking-wider"
+        >
+          <i class="ti ti-eye text-[14px]"></i>
+          Demo
+          <i class="ti ti-chevron-down text-[11px] transition-transform duration-200" id="demo-chevron"></i>
+        </button>
+
+        <!-- Dropdown Panel -->
+        <div
+          id="demo-menu"
+          class="hidden absolute right-0 top-full mt-2 w-[520px] rounded-2xl border border-white/[0.08] bg-[#0c0f0e] shadow-2xl shadow-black/60 overflow-hidden"
+
+        >
+          <!-- Header del dropdown -->
+          <div class="px-4 py-3 border-b border-white/[0.06] flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i class="ti ti-eye text-amber-400 text-[14px]"></i>
+              <span class="text-[12px] font-bold text-amber-400 uppercase tracking-wider">Modo Demo</span>
+            </div>
+            <span class="text-[11px] text-white/30">Acceso directo a todos los paneles</span>
+          </div>
+
+          <!-- Grupos -->
+          <div class="grid grid-cols-2 divide-x divide-white/[0.05]">
+            {demoPanels.map(panel => (
+              <div class="p-3">
+                <!-- Group label -->
+                <p class={`text-[10px] font-bold uppercase tracking-widest px-2 pb-2 pt-1 ${panel.color === 'rose' ? 'text-rose-400/60' : 'text-brand-400/60'}`}>
+                  {panel.group}
+                </p>
+                <div class="space-y-0.5">
+                  {panel.items.map(item => (
+                    <a
+                      href={item.href}
+                      class={`group flex items-center gap-3 px-2 py-2 rounded-xl transition-all duration-150 hover:bg-white/[0.04]`}
+                    >
+                      <div class={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${panel.color === 'rose' ? 'bg-rose-500/10 text-rose-400' : 'bg-brand-500/10 text-brand-400'}`}>
+                        <i class={`ti ${item.icon} text-[13px]`}></i>
+                      </div>
+                      <div class="min-w-0">
+                        <p class="text-[12.5px] font-medium text-white/80 group-hover:text-white leading-none mb-0.5">{item.label}</p>
+                        <p class="text-[11px] text-white/30 truncate">{item.desc}</p>
+                      </div>
+                      <i class="ti ti-arrow-right text-[11px] text-white/20 group-hover:text-white/50 ml-auto shrink-0 transition-all"></i>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <!-- Footer -->
+          <div class="px-4 py-2.5 border-t border-white/[0.06] bg-white/[0.02] flex items-center gap-2">
+            <i class="ti ti-info-circle text-white/25 text-[13px]"></i>
+            <p class="text-[11px] text-white/25">Esta barra es solo visible en modo demo · Devhub para Kuntur Training</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel comercios -->
       <a
         href="/login"
         class="px-4 py-2 rounded-lg border border-white/[0.10] text-white/70 text-[13px] font-medium hover:bg-white/[0.05] hover:text-white transition-all duration-150"
       >
         Panel comercios
-
         <svg class="inline ml-1 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="5" y1="12" x2="19" y2="12"/>
           <polyline points="12 5 19 12 12 19"/>
@@ -80,16 +169,7 @@ const links = [
       id="menu-btn"
       class="md:hidden w-10 h-10 rounded-xl border border-white/[0.08] flex items-center justify-center text-white hover:bg-white/[0.05] transition-all"
     >
-      <svg
-        id="menu-icon"
-        class="w-5 h-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
+      <svg id="menu-icon" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <line x1="3" y1="6" x2="21" y2="6"/>
         <line x1="3" y1="12" x2="21" y2="12"/>
         <line x1="3" y1="18" x2="21" y2="18"/>
@@ -99,28 +179,45 @@ const links = [
   </nav>
 
   <!-- Mobile Menu -->
-  <div
-    id="mobile-menu"
-    class="hidden md:hidden border-t border-white/[0.06] bg-[#080a09]/95 backdrop-blur-xl"
-  >
+  <div id="mobile-menu" class="hidden md:hidden border-t border-white/[0.06] bg-[#080a09]/95 backdrop-blur-xl">
     <div class="px-4 py-5 flex flex-col gap-2">
 
       {links.map(link => (
         <a
           href={link.href}
           class={`px-4 py-3 rounded-xl text-[14px] font-medium transition-all duration-150
-            ${
-              currentPage === link.href
-                ? 'text-brand-300 bg-brand-500/10'
-                : 'text-white/60 hover:text-white hover:bg-white/[0.05]'
+            ${currentPage === link.href
+              ? 'text-brand-300 bg-brand-500/10'
+              : 'text-white/60 hover:text-white hover:bg-white/[0.05]'
             }`}
         >
           {link.label}
         </a>
       ))}
 
+      <!-- Mobile Demo Section -->
+      <div class="mt-3 rounded-xl border border-amber-500/20 bg-amber-500/5 overflow-hidden">
+        <div class="px-4 py-2.5 border-b border-amber-500/15 flex items-center gap-2">
+          <i class="ti ti-eye text-amber-400 text-[13px]"></i>
+          <span class="text-[11px] font-bold text-amber-400 uppercase tracking-wider">Modo Demo</span>
+        </div>
+        <div class="p-2 grid grid-cols-2 gap-1">
+          {demoPanels.flatMap(panel =>
+            panel.items.map(item => (
+              <a
+                href={item.href}
+                class="flex items-center gap-2 px-3 py-2.5 rounded-lg hover:bg-white/[0.05] transition-all"
+              >
+                <i class={`ti ${item.icon} text-[14px] ${panel.color === 'rose' ? 'text-rose-400' : 'text-brand-400'}`}></i>
+                <span class="text-[12.5px] text-white/70 font-medium">{item.label}</span>
+              </a>
+            ))
+          )}
+        </div>
+      </div>
+
       <!-- Mobile Stats -->
-      <div class="mt-4 flex items-center gap-2 px-4 py-3 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 text-[13px] font-medium">
+      <div class="flex items-center gap-2 px-4 py-3 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 text-[13px] font-medium">
         <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
         1,284 socios activos
       </div>
@@ -128,10 +225,8 @@ const links = [
       <!-- Mobile Button -->
       <a
         href="/login"
-        class="mt-3 w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-brand-500 text-white text-[14px] font-medium hover:bg-brand-400 transition-all"
-      >
+        class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-brand-500 text-white text-[14px] font-medium hover:bg-brand-400 transition-all">
         Panel comercios
-
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="5" y1="12" x2="19" y2="12"/>
           <polyline points="12 5 19 12 12 19"/>
@@ -141,12 +236,3 @@ const links = [
     </div>
   </div>
 </header>
-
-<script>
-  const menuBtn = document.getElementById('menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-
-  menuBtn?.addEventListener('click', () => {
-    mobileMenu?.classList.toggle('hidden');
-  });
-</script>

@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Navbar from '../components/Navbar.astro';
 
 const comercios = [
   { id: 1, nombre: "Café Central", rubro: "Gastronomía", cat: "gastronomia", color: "#7c5c3e", beneficio: "20% OFF", beneficioDesc: "En todo el consumo", direccion: "Av. República 341", horarios: "Lun–Vie 7:00–20:00", condiciones: "No acumulable. Válido para socios con plan activo. Máx. 1 uso por día.", usos: 891, destacado: true, nuevo: false },
@@ -30,8 +29,6 @@ const categorias = [
 ---
 
 <BaseLayout title="Beneficios para Socios — Kuntur Benefits">
-  <Navbar currentPage="/beneficios" />
-
   <main class="pt-16">
 
     <!-- HERO -->
