@@ -1,0 +1,326 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+
+const categorias = [
+  { id: 'todos', label: 'Todos' },
+  { id: 'gastronomia', label: 'Gastronomía' },
+  { id: 'salud', label: 'Salud' },
+  { id: 'educacion', label: 'Educación' },
+  { id: 'hogar', label: 'Hogar' },
+  { id: 'moda', label: 'Moda' },
+  { id: 'tecnologia', label: 'Tecnología' },
+  { id: 'servicios', label: 'Servicios' },
+];
+
+const comercios = [
+  {
+    nombre: "La Trattoria del Valle",
+    categoria: "gastronomia",
+    categoriaLabel: "Gastronomía",
+    descuento: "15%",
+    descripcion: "Restaurante de pastas y cocina italiana en el centro de Catamarca.",
+    direccion: "San Martín 320, San Fernando del Valle",
+    emoji: "🍝",
+    destacado: true,
+  },
+  {
+    nombre: "Farmacia del Norte",
+    categoria: "salud",
+    categoriaLabel: "Salud",
+    descuento: "10%",
+    descripcion: "Medicamentos, cosmética y productos de bienestar con atención personalizada.",
+    direccion: "Rivadavia 148, San Fernando del Valle",
+    emoji: "💊",
+    destacado: false,
+  },
+  {
+    nombre: "Librería Caminante",
+    categoria: "educacion",
+    categoriaLabel: "Educación",
+    descuento: "20%",
+    descripcion: "Libros, papelería escolar, artículos de arte y material universitario.",
+    direccion: "Av. Belgrano 512, San Fernando del Valle",
+    emoji: "📚",
+    destacado: false,
+  },
+  {
+    nombre: "Heladería El Cóndor",
+    categoria: "gastronomia",
+    categoriaLabel: "Gastronomía",
+    descuento: "12%",
+    descripcion: "Helados artesanales con sabores regionales: algarrobo, mistol y cayote.",
+    direccion: "Mota Botello 88, San Fernando del Valle",
+    emoji: "🍦",
+    destacado: false,
+  },
+  {
+    nombre: "Centro Óptico Catamarca",
+    categoria: "salud",
+    categoriaLabel: "Salud",
+    descuento: "18%",
+    descripcion: "Anteojos, lentes de contacto y exámenes visuales con los mejores especialistas.",
+    direccion: "Sarmiento 215, San Fernando del Valle",
+    emoji: "👓",
+    destacado: false,
+  },
+  {
+    nombre: "Muebles & Deco Andina",
+    categoria: "hogar",
+    categoriaLabel: "Hogar",
+    descuento: "10%",
+    descripcion: "Muebles y decoración con estética andina, fabricación propia y materiales locales.",
+    direccion: "Av. Virgen del Valle 830, San Fernando del Valle",
+    emoji: "🪑",
+    destacado: true,
+  },
+  {
+    nombre: "Modas Puna",
+    categoria: "moda",
+    categoriaLabel: "Moda",
+    descuento: "15%",
+    descripcion: "Ropa femenina y masculina, accesorios y tejidos artesanales de la región.",
+    direccion: "República 67, San Fernando del Valle",
+    emoji: "👗",
+    destacado: false,
+  },
+  {
+    nombre: "TechRepair Cata",
+    categoria: "tecnologia",
+    categoriaLabel: "Tecnología",
+    descuento: "10%",
+    descripcion: "Reparación de celulares, tablets, computadoras y venta de accesorios.",
+    direccion: "Esquiú 104, San Fernando del Valle",
+    emoji: "📱",
+    destacado: false,
+  },
+  {
+    nombre: "Café La Pirámide",
+    categoria: "gastronomia",
+    categoriaLabel: "Gastronomía",
+    descuento: "10%",
+    descripcion: "Café de especialidad, tortas caseras y brunch los fines de semana.",
+    direccion: "Güemes 45, San Fernando del Valle",
+    emoji: "☕",
+    destacado: false,
+  },
+  {
+    nombre: "Estudio Jurídico Valle",
+    categoria: "servicios",
+    categoriaLabel: "Servicios",
+    descuento: "20%",
+    descripcion: "Asesoramiento legal en civil, laboral y familia. Consultas con descuento para socios.",
+    direccion: "Av. Belgrano 900, San Fernando del Valle",
+    emoji: "⚖️",
+    destacado: false,
+  },
+  {
+    nombre: "GymFit Catamarca",
+    categoria: "salud",
+    categoriaLabel: "Salud",
+    descuento: "25%",
+    descripcion: "Gimnasio completo con pesas, cardio, clases grupales y nutricionista.",
+    direccion: "Chacabuco 220, San Fernando del Valle",
+    emoji: "🏋️",
+    destacado: true,
+  },
+  {
+    nombre: "Ferretería El Tordo",
+    categoria: "hogar",
+    categoriaLabel: "Hogar",
+    descuento: "8%",
+    descripcion: "Herramientas, materiales de construcción, electricidad, plomería y más.",
+    direccion: "Av. Aconquija 340, San Fernando del Valle",
+    emoji: "🔧",
+    destacado: false,
+  },
+];
+---
+
+<BaseLayout title="Comercios adheridos — Kuntur Benefits">
+  <Navbar currentPage="/comercios" />
+  <main class="min-h-screen bg-[#080a09] pt-24 pb-20">
+
+    <!-- Hero section -->
+    <section class="max-w-7xl mx-auto px-6 mb-12">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-[12px] font-medium mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
+        {comercios.length} comercios en San Fernando del Valle
+      </div>
+      <h1 class="font-display font-700 text-4xl md:text-5xl tracking-tight text-white mb-4">
+        Comercios <span class="text-brand-400">adheridos</span>
+      </h1>
+      <p class="text-white/50 text-lg max-w-xl">
+        Presentá tu tarjeta Kuntur Benefits en cualquiera de estos comercios y accedé a descuentos exclusivos para socios.
+      </p>
+    </section>
+
+    <!-- Filtros de categoría -->
+    <section class="max-w-7xl mx-auto px-6 mb-10">
+      <div class="flex flex-wrap gap-2" id="filtros">
+        {categorias.map(cat => (
+          <button
+            data-cat={cat.id}
+            class={`filtro-btn px-4 py-2 rounded-lg text-[13px] font-medium border transition-all duration-150 cursor-pointer
+              ${cat.id === 'todos'
+                ? 'bg-brand-500/15 border-brand-500/30 text-brand-300 active'
+                : 'bg-white/[0.04] border-white/[0.08] text-white/50 hover:text-white/80 hover:bg-white/[0.07]'
+              }`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+    </section>
+
+    <!-- Buscador -->
+    <section class="max-w-7xl mx-auto px-6 mb-10">
+      <div class="relative max-w-md">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input
+          id="buscador"
+          type="text"
+          placeholder="Buscar comercio..."
+          class="w-full pl-9 pr-4 py-2.5 rounded-lg bg-white/[0.05] border border-white/[0.08] text-white/80 placeholder-white/30 text-[13.5px] focus:outline-none focus:border-brand-500/40 focus:bg-white/[0.07] transition-all duration-150"
+        />
+      </div>
+    </section>
+
+    <!-- Grid de comercios -->
+    <section class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="comercios-grid">
+        {comercios.map(c => (
+          <div
+            class="comercio-card group relative rounded-xl border border-white/[0.07] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.12] transition-all duration-200 p-5 flex flex-col gap-3"
+            data-cat={c.categoria}
+            data-nombre={c.nombre.toLowerCase()}
+          >
+            {c.destacado && (
+              <span class="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-brand-500/15 border border-brand-500/25 text-brand-400 text-[11px] font-medium">
+                Destacado
+              </span>
+            )}
+
+            <div class="flex items-start gap-3">
+              <div class="w-11 h-11 rounded-xl bg-white/[0.06] flex items-center justify-center text-2xl shrink-0">
+                {c.emoji}
+              </div>
+              <div class="flex-1 min-w-0 pr-12">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h3 class="font-semibold text-white text-[14.5px] leading-tight">{c.nombre}</h3>
+                </div>
+                <span class="inline-block mt-1 px-2 py-0.5 rounded-md bg-white/[0.06] text-white/40 text-[11px]">
+                  {c.categoriaLabel}
+                </span>
+              </div>
+            </div>
+
+            <p class="text-white/45 text-[13px] leading-relaxed">{c.descripcion}</p>
+
+            <div class="flex items-center justify-between mt-auto pt-1 border-t border-white/[0.06]">
+              <div class="flex items-center gap-1.5 text-white/35 text-[12px]">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span class="truncate">{c.direccion}</span>
+              </div>
+              <div class="shrink-0 ml-3 px-3 py-1 rounded-lg bg-brand-500/15 text-brand-400 text-[13px] font-semibold">
+                -{c.descuento}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Estado vacío -->
+      <div id="empty-state" class="hidden text-center py-20">
+        <div class="text-5xl mb-4">🔍</div>
+        <p class="text-white/40 text-base">No encontramos comercios con ese criterio.</p>
+        <button onclick="resetFiltros()" class="mt-4 px-4 py-2 rounded-lg border border-white/[0.10] text-white/50 text-[13px] hover:bg-white/[0.05] hover:text-white transition-all">
+          Ver todos
+        </button>
+      </div>
+    </section>
+
+    <!-- CTA adherirse -->
+    <section class="max-w-7xl mx-auto px-6 mt-20">
+      <div class="rounded-2xl border border-brand-500/20 bg-brand-500/[0.07] p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <h2 class="font-display font-700 text-xl text-white mb-1">¿Tenés un comercio?</h2>
+          <p class="text-white/45 text-[14px]">Sumá tu negocio a la red Kuntur y llegá a más de 1,200 socios activos en Catamarca.</p>
+        </div>
+        <a href="/login" class="shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-500 text-white text-[14px] font-medium hover:bg-brand-400 transition-all duration-150 shadow-lg shadow-brand-500/25">
+          Adherir mi comercio
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+  </main>
+</BaseLayout>
+
+<script>
+  let catActiva = 'todos';
+  let busqueda = '';
+
+  function filtrar() {
+    const cards = document.querySelectorAll<HTMLElement>('.comercio-card');
+    let visibles = 0;
+    cards.forEach(card => {
+      const cat = card.dataset.cat ?? '';
+      const nombre = card.dataset.nombre ?? '';
+      const matchCat = catActiva === 'todos' || cat === catActiva;
+      const matchBusq = nombre.includes(busqueda.toLowerCase());
+      if (matchCat && matchBusq) {
+        card.style.display = '';
+        visibles++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    const empty = document.getElementById('empty-state');
+    if (empty) empty.classList.toggle('hidden', visibles > 0);
+  }
+
+  // Filtros por categoría
+  document.querySelectorAll<HTMLButtonElement>('.filtro-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      catActiva = btn.dataset.cat ?? 'todos';
+      document.querySelectorAll('.filtro-btn').forEach(b => {
+        b.classList.remove('bg-brand-500/15', 'border-brand-500/30', 'text-brand-300');
+        b.classList.add('bg-white/[0.04]', 'border-white/[0.08]', 'text-white/50');
+      });
+      btn.classList.add('bg-brand-500/15', 'border-brand-500/30', 'text-brand-300');
+      btn.classList.remove('bg-white/[0.04]', 'border-white/[0.08]', 'text-white/50');
+      filtrar();
+    });
+  });
+
+  // Buscador
+  const input = document.getElementById('buscador') as HTMLInputElement | null;
+  input?.addEventListener('input', () => {
+    busqueda = input.value;
+    filtrar();
+  });
+
+  // Reset global
+  (window as any).resetFiltros = () => {
+    catActiva = 'todos';
+    busqueda = '';
+    if (input) input.value = '';
+    document.querySelectorAll('.filtro-btn').forEach((b, i) => {
+      if (i === 0) {
+        b.classList.add('bg-brand-500/15', 'border-brand-500/30', 'text-brand-300');
+        b.classList.remove('bg-white/[0.04]', 'border-white/[0.08]', 'text-white/50');
+      } else {
+        b.classList.remove('bg-brand-500/15', 'border-brand-500/30', 'text-brand-300');
+        b.classList.add('bg-white/[0.04]', 'border-white/[0.08]', 'text-white/50');
+      }
+    });
+    filtrar();
+  };
+</script>
